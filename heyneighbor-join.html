@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor — Join the Village</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:        #6B8F5E;
+    --sage-light:  #E4EDE0;
+    --sage-mid:    #C8D4C0;
+    --sage-dark:   #3D5C34;
+    --forest:      #2D3B2A;
+    --cream:       #F8F6F1;
+    --cream-dark:  #EEE9DF;
+    --warm-white:  #FDFCF9;
+    --rose:        #C9897A;
+    --rose-light:  #F5EAE7;
+    --text:        #2D3B2A;
+    --text-muted:  #6A7A65;
+    --border:      #C8D4C0;
+    --tile-bg:     #EBF0E7;
+    --tile-border: #B8C8B2;
+    --radius:      12px;
+    --font-serif:  'Cormorant Garamond', Georgia, serif;
+    --font-sans:   'Jost', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--forest);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .logo-leaf {
+    width: 18px;
+    height: 18px;
+    background: var(--sage);
+    border-radius: 50% 0 50% 0;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .nav-step-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .progress-wrap {
+    height: 3px;
+    background: var(--sage-mid);
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--sage);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .form-shell {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .step { display: none; animation: fadeUp 0.3s ease; }
+  .step.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+
+  .step-question {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .step-hint {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 28px;
+    margin-bottom: 28px;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .field-group input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--sage-mid);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    color: var(--forest);
+    padding: 8px 0;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field-group input:focus { border-bottom-color: var(--sage); }
+  .field-group input::placeholder { color: #BCC8B8; }
+
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .tile-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .tile-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .tile {
+    background: var(--tile-bg);
+    border: 1.5px solid var(--tile-border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 15px;
+    color: var(--forest);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    line-height: 1.4;
+    user-select: none;
+  }
+
+  .tile:hover { background: #DDE8D8; border-color: #9DB89A; transform: translateY(-1px); }
+  .tile.sel   { background: #D0DEC9; border: 2px solid var(--sage); }
+
+  .tile-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .event-card {
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    user-select: none;
+  }
+
+  .event-card:hover { background: var(--sage-light); border-color: var(--sage-mid); transform: translateY(-1px); }
+  .event-card.sel   { background: var(--sage-light); border: 2px solid var(--sage); }
+
+  .event-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .tag-adults { background: #E8DFF5; color: #5a3d8a; }
+  .tag-moms   { background: var(--rose-light); color: var(--rose); }
+  .tag-free   { background: var(--sage-light); color: var(--sage-dark); }
+  .tag-family { background: #FDF3DE; color: #8A6020; }
+  .tag-invite { background: #E0EAF5; color: #1E4A7A; }
+
+  .event-name { font-family: var(--font-serif); font-size: 17px; font-weight: 600; color: var(--forest); margin-bottom: 6px; line-height: 1.3; }
+  .event-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  .gain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .gain-card {
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    user-select: none;
+  }
+
+  .gain-card:hover { background: var(--sage-light); border-color: var(--sage-mid); transform: translateY(-1px); }
+  .gain-card.sel   { background: var(--sage-light); border: 2px solid var(--sage); }
+
+  .gain-icon  { font-size: 22px; margin-bottom: 10px; }
+  .gain-title { font-size: 14px; font-weight: 500; color: var(--forest); line-height: 1.4; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 20px 0 8px;
+  }
+
+  .section-label:first-of-type { margin-top: 0; }
+
+  .outside-tile {
+    background: var(--cream-dark);
+    border: 1.5px dashed var(--tile-border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-top: 14px;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .outside-tile:hover { background: #E2DDD5; }
+  .outside-tile.sel   { background: #DDD8CF; border: 1.5px dashed var(--sage); color: var(--forest); }
+
+  .reveal-box {
+    display: none;
+    background: var(--cream-dark);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-top: 12px;
+  }
+
+  .reveal-box.show { display: block; animation: fadeUp 0.25s ease; }
+
+  .reveal-box label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .reveal-box input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--sage-mid);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--forest);
+    padding: 6px 0;
+    outline: none;
+  }
+
+  .reveal-box input:focus { border-bottom-color: var(--sage); }
+  .reveal-box input::placeholder { color: #BCC8B8; }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .time-tile {
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    user-select: none;
+  }
+
+  .time-tile:hover { background: var(--sage-light); border-color: var(--sage-mid); transform: translateY(-1px); }
+  .time-tile.sel   { background: var(--sage-light); border: 2px solid var(--sage); }
+
+  .time-icon { font-size: 26px; margin-bottom: 10px; }
+  .time-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 4px; }
+  .time-range { font-size: 12px; color: var(--text-muted); }
+
+  .expanding-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 14px;
+  }
+
+  .nav-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .btn-next {
+    background: var(--sage);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 36px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-next:hover   { background: var(--sage-dark); transform: translateY(-1px); }
+  .btn-next:active  { transform: scale(0.98); }
+  .btn-next:disabled { background: var(--sage-mid); cursor: default; transform: none; }
+
+  .btn-back {
+    background: transparent;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .btn-back:hover { color: var(--forest); }
+
+  .press-hint { font-size: 12px; color: var(--text-muted); }
+
+  .completion {
+    text-align: center;
+    padding: 20px 0 40px;
+  }
+
+  .completion-leaf {
+    width: 52px;
+    height: 52px;
+    background: var(--sage-light);
+    border-radius: 50% 0 50% 0;
+    transform: rotate(45deg);
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .completion-leaf-inner {
+    width: 26px;
+    height: 26px;
+    background: var(--sage);
+    border-radius: 50% 0 50% 0;
+  }
+
+  .completion-title {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+
+  .completion-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .founding-card {
+    background: var(--sage-light);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 0 auto 16px;
+    max-width: 480px;
+    text-align: left;
+  }
+
+  .founding-badge {
+    display: inline-block;
+    background: var(--sage);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .founding-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 8px;
+  }
+
+  .founding-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .founding-price {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    margin-bottom: 4px;
+  }
+
+  .founding-price span {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-weight: 400;
+  }
+
+  .btn-founding {
+    width: 100%;
+    background: var(--sage);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 16px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-founding:hover { background: var(--sage-dark); }
+
+  .btn-not-ready {
+    display: block;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 14px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    max-width: 480px;
+    margin: 0 auto;
+    transition: border-color 0.15s, color 0.15s;
+    width: 100%;
+  }
+
+  .btn-not-ready:hover { border-color: var(--sage-mid); color: var(--forest); }
+
+  .not-ready-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 10px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .confirmation-msg {
+    display: none;
+    background: var(--warm-white);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 480px;
+    margin: 24px auto 0;
+    text-align: center;
+  }
+
+  .confirmation-msg.show { display: block; animation: fadeUp 0.4s ease; }
+
+  .confirmation-msg p {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-style: italic;
+    color: var(--forest);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .time-grid  { grid-template-columns: 1fr; }
+    .step-question { font-size: 28px; }
+    .form-shell { padding: 32px 20px 60px; }
+    nav { padding: 14px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-leaf"></div>
+    Hey Neighbor
+  </a>
+  <span class="nav-step-label" id="stepLabel">Step 1 of 9</span>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="form-shell">
+
+  <!-- STEP 1 — Contact Info -->
+  <div class="step active" id="step-1">
+    <p class="step-eyebrow">Step 1 of 9</p>
+    <h1 class="step-question">First, let's get your details.</h1>
+    <p class="step-hint">We'll use this to send you event details and match you with parents nearby. We promise not to spam you — ever.</p>
+
+    <div class="field-grid">
+      <div class="field-group">
+        <label>First Name *</label>
+        <input type="text" id="firstName" placeholder="Jane" />
+      </div>
+      <div class="field-group">
+        <label>Last Name *</label>
+        <input type="text" id="lastName" placeholder="Smith" />
+      </div>
+      <div class="field-group">
+        <label>Email *</label>
+        <input type="email" id="email" placeholder="jane@example.com" />
+      </div>
+      <div class="field-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="phone" placeholder="(555) 000-0000" />
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(1,2)">Next</button>
+      <span class="press-hint">press Enter ↵</span>
+    </div>
+  </div>
+
+  <!-- STEP 2 — Ages of Kids -->
+  <div class="step" id="step-2">
+    <p class="step-eyebrow">Step 2 of 9</p>
+    <h1 class="step-question">What are the ages of your kids?</h1>
+    <p class="step-hint">Select all that apply — we group families at similar stages.</p>
+
+    <div class="tile-grid cols-2">
+      <div class="tile" onclick="toggleTile(this)">
+        <strong>0–2</strong>
+        <div class="tile-sub">Baby</div>
+      </div>
+      <div class="tile" onclick="toggleTile(this)">
+        <strong>3–5</strong>
+        <div class="tile-sub">Toddler</div>
+      </div>
+      <div class="tile" onclick="toggleTile(this)">
+        <strong>6–10</strong>
+        <div class="tile-sub">Primary school</div>
+      </div>
+      <div class="tile" onclick="toggleTile(this)">
+        <strong>11–13</strong>
+        <div class="tile-sub">Middle school</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(2,3)">Next</button>
+      <button class="btn-back" onclick="goTo(2,1)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — Neighborhood -->
+  <div class="step" id="step-3">
+    <p class="step-eyebrow">Step 3 of 9</p>
+    <h1 class="step-question">Where in NYC are you based?</h1>
+    <p class="step-hint">We'll match you with parents in your exact neighborhood.</p>
+
+    <p class="section-label">Manhattan — East Side</p>
+    <div class="tile-grid cols-3">
+      <div class="tile hood-tile" onclick="selectHood(this)">Upper East Side</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Midtown East</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Downtown East<div class="tile-sub">below 14th</div></div>
+    </div>
+
+    <p class="section-label">Manhattan — West Side</p>
+    <div class="tile-grid cols-3">
+      <div class="tile hood-tile" onclick="selectHood(this)">Upper West Side</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Midtown West</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Downtown West<div class="tile-sub">below 14th</div></div>
+    </div>
+
+    <p class="section-label">Brooklyn</p>
+    <div class="tile-grid cols-3">
+      <div class="tile hood-tile" onclick="selectHood(this)">Williamsburg</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">DUMBO</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Carroll Gardens</div>
+    </div>
+
+    <p class="section-label">Queens</p>
+    <div class="tile-grid cols-3">
+      <div class="tile hood-tile" onclick="selectHood(this)">Astoria</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Sunnyside</div>
+      <div class="tile hood-tile" onclick="selectHood(this)">Forest Hills</div>
+    </div>
+
+    <div class="outside-tile hood-tile" id="outsideTile" onclick="selectOutside()">
+      I'm outside NYC but really interested in what you're building
+    </div>
+    <div class="reveal-box" id="outsideBox">
+      <label>What city are you in? We'll add you to our waitlist!</label>
+      <input type="text" id="outsideCity" placeholder="e.g. Los Angeles, Chicago..." />
+    </div>
+
+    <p class="expanding-note">Currently NYC-only — expanding to new cities soon!</p>
+
+    <div class="nav-row">
+      <button class="btn-next" id="hoodNext" disabled onclick="goTo(3,4)">Next</button>
+      <button class="btn-back" onclick="goTo(3,2)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — How Did You Hear -->
+  <div class="step" id="step-4">
+    <p class="step-eyebrow">Step 4 of 9</p>
+    <h1 class="step-question">How did you hear about us?</h1>
+
+    <div class="tile-grid" style="grid-template-columns: repeat(auto-fill, minmax(170px,1fr));">
+      <div class="tile heard-tile" onclick="selectHeard(this,'Facebook Moms Group')">Facebook<div class="tile-sub">Moms group</div></div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'Instagram Ad')">Instagram<div class="tile-sub">Ad</div></div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'LinkedIn')">LinkedIn</div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'TikTok')">TikTok</div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'Word of mouth')">Word of mouth</div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'School / nursery')">School / nursery</div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'Referral')">Referral<div class="tile-sub">A friend told me</div></div>
+      <div class="tile heard-tile" onclick="selectHeard(this,'Other')">Other</div>
+    </div>
+
+    <div class="reveal-box" id="referralBox">
+      <label>Who referred you? We'd love to thank them!</label>
+      <input type="text" id="referralName" placeholder="Their full name" />
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" id="heardNext" disabled onclick="goTo(4,5)">Next</button>
+      <button class="btn-back" onclick="goTo(4,3)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 — Events -->
+  <div class="step" id="step-5">
+    <p class="step-eyebrow">Step 5 of 9</p>
+    <h1 class="step-question">Which Hey Neighbor events interest you most?</h1>
+    <p class="step-hint">Select all that apply.</p>
+
+    <div class="event-grid">
+      <div class="event-card" onclick="toggleTile(this)">
+        <span class="event-tag tag-adults">Adults only</span>
+        <div class="event-name">Wine Society</div>
+        <div class="event-desc">A relaxed evening, good wine, and actually great conversation.</div>
+      </div>
+      <div class="event-card" onclick="toggleTile(this)">
+        <span class="event-tag tag-moms">Moms only</span>
+        <div class="event-name">After Bedtime Supper Club</div>
+        <div class="event-desc">Dinner for local moms who just need a minute to themselves.</div>
+      </div>
+      <div class="event-card" onclick="toggleTile(this)">
+        <span class="event-tag tag-free">Free · Weekly</span>
+        <div class="event-name">Saturday Park Club</div>
+        <div class="event-desc">Kids run around. Parents actually talk. Every Saturday morning.</div>
+      </div>
+      <div class="event-card" onclick="toggleTile(this)">
+        <span class="event-tag tag-family">Family</span>
+        <div class="event-name">Hey Neighbor Family Brunch</div>
+        <div class="event-desc">Kids entertained, parents chatting. Monthly Sunday brunch.</div>
+      </div>
+      <div class="event-card" onclick="toggleTile(this)">
+        <span class="event-tag tag-invite">Invite only</span>
+        <div class="event-name">Curated Invite Only Events</div>
+        <div class="event-desc">Fun experiences for you and your kids at local shops and venues.</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(5,6)">Next</button>
+      <button class="btn-back" onclick="goTo(5,4)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 6 — How Do You Attend -->
+  <div class="step" id="step-6">
+    <p class="step-eyebrow">Step 6 of 9</p>
+    <h1 class="step-question">How do you like to attend events?</h1>
+    <p class="step-hint">Select all that apply — helps us plan the right mix for our community.</p>
+
+    <div class="tile-grid cols-3">
+      <div class="tile" onclick="toggleTile(this)" style="text-align:center;padding:24px 16px;">
+        <div style="font-size:28px;margin-bottom:10px;">🙋</div>
+        <strong>On my own</strong>
+        <div class="tile-sub">Adult time, meet new people</div>
+      </div>
+      <div class="tile" onclick="toggleTile(this)" style="text-align:center;padding:24px 16px;">
+        <div style="font-size:28px;margin-bottom:10px;">👫</div>
+        <strong>With my partner</strong>
+        <div class="tile-sub">We enjoy going out together</div>
+      </div>
+      <div class="tile" onclick="toggleTile(this)" style="text-align:center;padding:24px 16px;">
+        <div style="font-size:28px;margin-bottom:10px;">👨‍👧</div>
+        <strong>With my kids</strong>
+        <div class="tile-sub">Family-friendly events</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(6,7)">Next</button>
+      <button class="btn-back" onclick="goTo(6,5)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 7 — Availability -->
+  <div class="step" id="step-7">
+    <p class="step-eyebrow">Step 7 of 9</p>
+    <h1 class="step-question">When are you generally free?</h1>
+    <p class="step-hint">We'll plan events around when our members are available. Select all that apply.</p>
+
+    <div class="time-grid">
+      <div class="time-tile" onclick="toggleTile(this)">
+        <div class="time-icon">☀️</div>
+        <div class="time-name">Daytime</div>
+        <div class="time-range">9am – 5pm · Weekdays</div>
+      </div>
+      <div class="time-tile" onclick="toggleTile(this)">
+        <div class="time-icon">🌆</div>
+        <div class="time-name">After work</div>
+        <div class="time-range">5pm – 9pm · Evenings</div>
+      </div>
+      <div class="time-tile" onclick="toggleTile(this)">
+        <div class="time-icon">🌿</div>
+        <div class="time-name">Weekends</div>
+        <div class="time-range">Sat &amp; Sun</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(7,8)">Next</button>
+      <button class="btn-back" onclick="goTo(7,6)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 8 — Hobbies -->
+  <div class="step" id="step-8">
+    <p class="step-eyebrow">Step 8 of 9</p>
+    <h1 class="step-question">What are your hobbies and interests?</h1>
+    <p class="step-hint">Helps us match you with parents who share your vibe.</p>
+
+    <div class="tile-grid">
+      <div class="tile" onclick="toggleTile(this)">Running</div>
+      <div class="tile" onclick="toggleTile(this)">Cooking</div>
+      <div class="tile" onclick="toggleTile(this)">Travel</div>
+      <div class="tile" onclick="toggleTile(this)">Reading</div>
+      <div class="tile" onclick="toggleTile(this)">Fitness</div>
+      <div class="tile" onclick="toggleTile(this)">Music</div>
+      <div class="tile" onclick="toggleTile(this)">Photography</div>
+      <div class="tile" onclick="toggleTile(this)">Yoga</div>
+      <div class="tile" onclick="toggleTile(this)">Movies</div>
+      <div class="tile" onclick="toggleTile(this)">Sports</div>
+      <div class="tile" onclick="toggleTile(this)">Hiking</div>
+      <div class="tile" onclick="toggleTile(this)">Arts &amp; crafts</div>
+      <div class="tile" onclick="toggleTile(this)">Board games</div>
+      <div class="tile" onclick="toggleTile(this)">Dancing</div>
+      <div class="tile" onclick="toggleTile(this)">Wine &amp; dining</div>
+      <div class="tile" onclick="toggleTile(this)">Other</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(8,9)">Next</button>
+      <button class="btn-back" onclick="goTo(8,7)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 9 — What You Hope to Gain -->
+  <div class="step" id="step-9">
+    <p class="step-eyebrow">Step 9 of 9</p>
+    <h1 class="step-question">What are you hoping to get out of Hey Neighbor?</h1>
+    <p class="step-hint">Select all that apply.</p>
+
+    <div class="gain-grid">
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">✨</div>
+        <div class="gain-title">Memorable experiences I'll actually talk about</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">🏙️</div>
+        <div class="gain-title">Getting to know other parents in my neighborhood</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">🧒</div>
+        <div class="gain-title">A fun activity to do with my child</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">🛁</div>
+        <div class="gain-title">Some well-earned me time, kid-free</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">🌳</div>
+        <div class="gain-title">Finding my village in NYC</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">💬</div>
+        <div class="gain-title">Honest parenting advice from people who get it</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">🚪</div>
+        <div class="gain-title">A reason to get out of the house more</div>
+      </div>
+      <div class="gain-card" onclick="toggleTile(this)">
+        <div class="gain-icon">🤝</div>
+        <div class="gain-title">Friendships that go beyond the school gate</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-next" onclick="goTo(9,10)">Submit</button>
+      <button class="btn-back" onclick="goTo(9,8)">Back</button>
+    </div>
+  </div>
+
+  <!-- COMPLETION SCREEN -->
+  <div class="step" id="step-10">
+    <div class="completion">
+
+      <div class="completion-leaf">
+        <div class="completion-leaf-inner"></div>
+      </div>
+
+      <h1 class="completion-title">Your village is awaiting you.</h1>
+      <p class="completion-sub">You're one step away from becoming part of something really special. Lock in your founding membership below.</p>
+
+      <div class="founding-card">
+        <span class="founding-badge">Founding Member Price</span>
+        <div class="founding-title">Join Hey Neighbor</div>
+        <div class="founding-desc">Get matched with parents in your neighborhood, access to all events, and lock in our founding rate — before it goes up.</div>
+        <div class="founding-price">$19.99 <span>/ year</span></div>
+        <div style="font-size:12px;color:var(--sage-dark);margin-top:4px;font-style:italic;">This is our founding price — it won't be available forever.</div>
+        <button class="btn-founding" onclick="showConfirm('member')">
+          Join as a Founding Member →
+        </button>
+      </div>
+
+      <button class="btn-not-ready" onclick="showConfirm('nonmember')">
+        I'm not ready to join yet
+      </button>
+      <p class="not-ready-note">No problem — we'll send you upcoming events at the non-member rate. You can join at any time.</p>
+
+      <div class="confirmation-msg" id="confirmMsg">
+        <p>"Welcome to Hey Neighbor. We'll be in touch soon to match you with parents in your neighborhood. See you at the next event!"</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL = 9;
+
+  function collectFormData() {
+    return {
+      firstName:    document.getElementById('firstName').value,
+      lastName:     document.getElementById('lastName').value,
+      email:        document.getElementById('email').value,
+      phone:        document.getElementById('phone').value,
+      kidsAges:     getSelectedTiles('step-2'),
+      neighborhood: getSelectedTile('step-3'),
+      outsideCity:  document.getElementById('outsideCity').value,
+      howHeard:     getSelectedTile('step-4'),
+      referralName: document.getElementById('referralName').value,
+      events:       getSelectedTiles('step-5'),
+      attendance:   getSelectedTiles('step-6'),
+      availability: getSelectedTiles('step-7'),
+      hobbies:      getSelectedTiles('step-8'),
+      goals:        getSelectedTiles('step-9'),
+    };
+  }
+
+  function getSelectedTiles(stepId) {
+    const step = document.getElementById(stepId);
+    const selected = step.querySelectorAll('.sel');
+    return Array.from(selected).map(el => el.innerText.trim()).join(', ');
+  }
+
+  function getSelectedTile(stepId) {
+    const step = document.getElementById(stepId);
+    const sel = step.querySelector('.sel');
+    return sel ? sel.innerText.trim() : '';
+  }
+
+  function goTo(from, to) {
+    const fromEl = document.getElementById('step-' + from);
+    const toEl   = document.getElementById('step-' + to);
+    if (!fromEl || !toEl) return;
+    fromEl.classList.remove('active');
+    toEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const pct = Math.min((to - 1) / TOTAL * 100, 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    if (to <= TOTAL) {
+      document.getElementById('stepLabel').textContent = 'Step ' + to + ' of ' + TOTAL;
+    } else {
+      document.getElementById('stepLabel').textContent = 'Almost there!';
+    }
+  }
+
+  function toggleTile(el) {
+    el.classList.toggle('sel');
+  }
+
+  function selectHood(el) {
+    document.querySelectorAll('.hood-tile').forEach(t => t.classList.remove('sel'));
+    document.getElementById('outsideBox').classList.remove('show');
+    el.classList.add('sel');
+    document.getElementById('hoodNext').disabled = false;
+  }
+
+  function selectOutside() {
+    document.querySelectorAll('.hood-tile').forEach(t => t.classList.remove('sel'));
+    document.getElementById('outsideTile').classList.add('sel');
+    document.getElementById('outsideBox').classList.add('show');
+    document.getElementById('hoodNext').disabled = false;
+    setTimeout(() => document.getElementById('outsideCity').focus(), 150);
+  }
+
+  function selectHeard(el, val) {
+    document.querySelectorAll('.heard-tile').forEach(t => t.classList.remove('sel'));
+    el.classList.add('sel');
+    const refBox = document.getElementById('referralBox');
+    if (val === 'Referral') refBox.classList.add('show');
+    else refBox.classList.remove('show');
+    document.getElementById('heardNext').disabled = false;
+  }
+
+  // ============================================================
+  // SUBMIT FUNCTION
+  // Replace PASTE_YOUR_MAKE_WEBHOOK_URL_HERE with your actual
+  // Make.com webhook URL — it looks like:
+  // https://hook.eu1.make.com/xxxxxxxxxxxxxxxx
+  // ============================================================
+  async function showConfirm(type) {
+    const data = collectFormData();
+    data.membershipChoice = type;
+
+    const buttons = document.querySelectorAll('.btn-founding, .btn-not-ready');
+    buttons.forEach(b => { b.disabled = true; b.textContent = 'Submitting...'; });
+
+    try {
+      await fetch('https://hook.us2.make.com/w7ai2hjduujs7fsa996wvxt417jxq1an', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) {
+      console.error('Submission error:', err);
+    }
+
+    document.getElementById('confirmMsg').classList.add('show');
+    document.querySelector('.btn-not-ready').style.display = 'none';
+    document.querySelector('.not-ready-note').style.display = 'none';
+
+    if (type === 'member') {
+      document.querySelector('.founding-card').style.opacity = '0.5';
+      document.querySelector('.founding-card .btn-founding').disabled = true;
+    }
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const active = document.querySelector('.step.active');
+    if (!active) return;
+    const nextBtn = active.querySelector('.btn-next:not(:disabled)');
+    if (nextBtn) nextBtn.click();
+  });
+</script>
+
+</body>
+</html>
