@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor · Community Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: #F8F6F1; color: #2D3B2A; }
+  .hn { max-width: 920px; margin: 0 auto; }
+  .hn-nav { background: #F8F6F1; border-bottom: 1px solid #C8D4C0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
+  .hn-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #2D3B2A; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-logo-leaf { width: 10px; height: 10px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-nav-links { display: flex; align-items: center; gap: 6px; }
+  .hn-navl { font-size: 13px; font-weight: 500; color: #4A5E42; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
+  .hn-join-btn { background: #6B8F5E; color: #fff; border: none; padding: 7px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .hn-join-btn:hover { background: #3D5C34; }
+  .hn-board-hero { background: #E8EFE4; padding: 32px 36px; border-bottom: 1px solid #C8D4C0; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .hn-board-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 10px; }
+  .hn-board-h1 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 600; color: #1E2D1B; line-height: 1.15; margin-bottom: 8px; }
+  .hn-board-h1 em { font-style: italic; color: #6B8F5E; }
+  .hn-board-sub { font-size: 14px; color: #4A5E42; line-height: 1.6; max-width: 420px; }
+  .hn-lock-badge { background: #fff; border: 1px solid #C8D4C0; border-radius: 8px; padding: 16px 20px; text-align: center; min-width: 180px; }
+  .hn-lock-icon { width: 36px; height: 36px; background: #E8EFE4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+  .hn-lock-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: #1E2D1B; margin-bottom: 4px; }
+  .hn-lock-text { font-size: 11px; color: #7A9270; line-height: 1.5; margin-bottom: 12px; }
+  .hn-btn-sage { background: #6B8F5E; color: #fff; border: none; padding: 9px 20px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; width: 100%; }
+  .hn-btn-sage:hover { background: #3D5C34; }
+  .hn-board-body { display: grid; grid-template-columns: 200px 1fr; min-height: 500px; }
+  .hn-sidebar { background: #fff; border-right: 1px solid #C8D4C0; padding: 20px 16px; }
+  .hn-sidebar-label { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #A8BFA0; margin-bottom: 10px; }
+  .hn-sidebar-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 6px; cursor: pointer; margin-bottom: 2px; transition: background 0.15s; }
+  .hn-sidebar-item:hover { background: #F4F8F2; }
+  .hn-sidebar-item.on { background: #E4EDE0; }
+  .hn-sidebar-name { font-size: 13px; color: #2D3B2A; font-weight: 500; }
+  .hn-sidebar-count { font-size: 11px; color: #A8BFA0; background: #F4F8F2; padding: 2px 7px; border-radius: 20px; }
+  .hn-sidebar-divider { border: none; border-top: 1px solid #EAF0E6; margin: 14px 0; }
+  .hn-sidebar-hood { font-size: 12px; color: #4A5E42; padding: 6px 10px; border-radius: 6px; cursor: pointer; margin-bottom: 2px; transition: background 0.15s; }
+  .hn-sidebar-hood:hover { background: #F4F8F2; }
+  .hn-sidebar-hood.on { color: #6B8F5E; font-weight: 500; background: #E4EDE0; }
+  .hn-main { background: #F8F6F1; }
+  .hn-compose { background: #fff; border-bottom: 1px solid #C8D4C0; padding: 16px 20px; }
+  .hn-compose-lbl { font-size: 12px; font-weight: 500; color: #6B8F5E; margin-bottom: 8px; }
+  .hn-compose-inp { width: 100%; background: #F4F8F2; border: 1px solid #C8D4C0; border-radius: 4px; padding: 10px 12px; font-family: 'Jost', sans-serif; font-size: 13px; color: #2D3B2A; outline: none; margin-bottom: 10px; }
+  .hn-compose-inp:focus { border-color: #6B8F5E; }
+  .hn-compose-row { display: flex; justify-content: space-between; align-items: center; }
+  .hn-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .hn-tag { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid #C8D4C0; color: #4A5E42; cursor: pointer; transition: background 0.15s; }
+  .hn-tag:hover { background: #E4EDE0; }
+  .hn-tag.on { background: #D8E6D2; border-color: #A8BFA0; }
+  .hn-btn-sm { background: #6B8F5E; color: #fff; border: none; padding: 7px 16px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+  .hn-btn-sm:hover { background: #3D5C34; }
+  .hn-posts-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid #C8D4C0; background: #fff; }
+  .hn-posts-title { font-size: 13px; font-weight: 500; color: #2D3B2A; }
+  .hn-sort { font-size: 12px; color: #7A9270; cursor: pointer; }
+  .hn-post { background: #fff; padding: 14px 20px; border-bottom: 1px solid #EAF0E6; cursor: pointer; display: flex; gap: 12px; transition: background 0.15s; }
+  .hn-post:hover { background: #F4F8F2; }
+  .hn-av { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .hn-post-body { flex: 1; min-width: 0; }
+  .hn-post-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+  .hn-post-author { font-size: 13px; font-weight: 500; color: #2D3B2A; }
+  .hn-post-time { font-size: 11px; color: #A8BFA0; }
+  .hn-post-cat { font-size: 10px; color: #6B8F5E; font-weight: 500; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 4px; }
+  .hn-post-text { font-size: 13px; color: #4A5E42; line-height: 1.55; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+  .hn-post-foot { display: flex; gap: 16px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EAF0E6; }
+  .hn-post-stat { font-size: 11px; color: #7A9270; }
+  .hn-post-new { width: 7px; height: 7px; background: #6B8F5E; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .hn-members-bar { background: #E8EFE4; border-top: 1px solid #C8D4C0; padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+  .hn-members-label { font-size: 11px; color: #6B7D64; font-weight: 500; }
+  .hn-member-av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; border: 2px solid #fff; margin-left: -6px; }
+  .hn-member-av:first-of-type { margin-left: 0; }
+  .hn-members-more { font-size: 12px; color: #6B8F5E; font-weight: 500; margin-left: 6px; }
+
+  /* Modal overlay */
+  .hn-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
+  .hn-modal-overlay.show { display: flex; }
+  .hn-modal { background: #fff; border-radius: 12px; padding: 32px; max-width: 420px; width: 90%; text-align: center; }
+  .hn-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #1E2D1B; margin-bottom: 10px; }
+  .hn-modal-text { font-size: 14px; color: #4A5E42; line-height: 1.6; margin-bottom: 24px; }
+  .hn-modal-btn { background: #6B8F5E; color: #fff; border: none; padding: 12px 32px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; margin-bottom: 10px; }
+  .hn-modal-btn:hover { background: #3D5C34; }
+  .hn-modal-close { font-size: 13px; color: #7A9270; cursor: pointer; text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .hn-board-hero { flex-direction: column; padding: 24px 20px; }
+    .hn-board-body { grid-template-columns: 1fr; }
+    .hn-sidebar { display: none; }
+    .hn-lock-badge { width: 100%; }
+    nav { padding: 14px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="hn">
+
+  <!-- NAV -->
+  <nav class="hn-nav">
+    <a class="hn-logo" href="heyneighbor-join.html">
+      <div class="hn-logo-leaf"></div>Hey Neighbor
+    </a>
+    <div class="hn-nav-links">
+      <div class="hn-navl">Events</div>
+      <div class="hn-navl">Community</div>
+      <div class="hn-navl">About</div>
+      <button class="hn-join-btn" onclick="showModal()">Join free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hn-board-hero">
+    <div>
+      <div class="hn-board-eyebrow">Members only</div>
+      <div class="hn-board-h1">Your <em>community</em><br>board</div>
+      <div class="hn-board-sub">A private space for Hey Neighbor members to ask questions, share recommendations, and connect with parents in their neighborhood.</div>
+    </div>
+    <div class="hn-lock-badge">
+      <div class="hn-lock-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="8" rx="2" stroke="#6B8F5E" stroke-width="1.5"/><path d="M5 7V5a3 3 0 016 0v2" stroke="#6B8F5E" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="hn-lock-title">Members only</div>
+      <div class="hn-lock-text">Join Hey Neighbor to access the community board and connect with local parents.</div>
+      <button class="hn-btn-sage" onclick="showModal()">Join free</button>
+    </div>
+  </div>
+
+  <!-- BOARD BODY -->
+  <div class="hn-board-body">
+    <div class="hn-sidebar">
+      <div class="hn-sidebar-label">Categories</div>
+      <div class="hn-sidebar-item on" onclick="filterCategory(this)"><span class="hn-sidebar-name">All posts</span><span class="hn-sidebar-count">84</span></div>
+      <div class="hn-sidebar-item" onclick="filterCategory(this)"><span class="hn-sidebar-name">Questions</span><span class="hn-sidebar-count">32</span></div>
+      <div class="hn-sidebar-item" onclick="filterCategory(this)"><span class="hn-sidebar-name">Recommendations</span><span class="hn-sidebar-count">28</span></div>
+      <div class="hn-sidebar-item" onclick="filterCategory(this)"><span class="hn-sidebar-name">Event ideas</span><span class="hn-sidebar-count">14</span></div>
+      <div class="hn-sidebar-item" onclick="filterCategory(this)"><span class="hn-sidebar-name">School admissions</span><span class="hn-sidebar-count">10</span></div>
+      <hr class="hn-sidebar-divider">
+      <div class="hn-sidebar-label">Neighborhood</div>
+      <div class="hn-sidebar-hood on" onclick="filterHood(this)">All NYC</div>
+      <div class="hn-sidebar-hood" onclick="filterHood(this)">Upper East Side</div>
+      <div class="hn-sidebar-hood" onclick="filterHood(this)">Upper West Side</div>
+      <div class="hn-sidebar-hood" onclick="filterHood(this)">Forest Hills</div>
+    </div>
+
+    <div class="hn-main">
+      <div class="hn-compose">
+        <div class="hn-compose-lbl">Share something with your neighbors</div>
+        <input class="hn-compose-inp" id="composeInput" placeholder="Ask a question, share a tip, or float an event idea...">
+        <div class="hn-compose-row">
+          <div class="hn-tags">
+            <div class="hn-tag on" onclick="selectTag(this)">Question</div>
+            <div class="hn-tag" onclick="selectTag(this)">Recommendation</div>
+            <div class="hn-tag" onclick="selectTag(this)">Event idea</div>
+          </div>
+          <button class="hn-btn-sm" onclick="handlePost()">Post</button>
+        </div>
+      </div>
+
+      <div class="hn-posts-head">
+        <div class="hn-posts-title">Recent posts</div>
+        <div class="hn-sort">Sort: Most recent</div>
+      </div>
+
+      <div id="postsContainer">
+        <div class="hn-post" data-cat="Recommendation" data-hood="UES">
+          <div class="hn-post-new"></div>
+          <div class="hn-av" style="background:#E8F4E8; color:#2A6B2A;">SL</div>
+          <div class="hn-post-body">
+            <div class="hn-post-row"><div class="hn-post-author">Sarah L. · UES</div><div class="hn-post-time">2h ago</div></div>
+            <div class="hn-post-cat">Recommendation</div>
+            <div class="hn-post-text">Anyone know a great weekend soccer program for a 5 year old? Everything I have found is either booked or way across town.</div>
+            <div class="hn-post-foot"><span class="hn-post-stat">8 replies</span><span class="hn-post-stat">14 found helpful</span></div>
+          </div>
+        </div>
+
+        <div class="hn-post" data-cat="Event idea" data-hood="UWS">
+          <div class="hn-post-new"></div>
+          <div class="hn-av" style="background:#F0EBF8; color:#5B3E8A;">MK</div>
+          <div class="hn-post-body">
+            <div class="hn-post-row"><div class="hn-post-author">Maya K. · UWS</div><div class="hn-post-time">Yesterday</div></div>
+            <div class="hn-post-cat">Event idea</div>
+            <div class="hn-post-text">Would anyone be up for a kid friendly hike in Inwood Hill Park? I could help organize if there is enough interest, thinking early May.</div>
+            <div class="hn-post-foot"><span class="hn-post-stat">22 replies</span><span class="hn-post-stat">41 interested</span></div>
+          </div>
+        </div>
+
+        <div class="hn-post" data-cat="Question" data-hood="Forest Hills">
+          <div class="hn-av" style="background:#FAEEF4; color:#8A3E5E;">TR</div>
+          <div class="hn-post-body">
+            <div class="hn-post-row"><div class="hn-post-author">Tom R. · Forest Hills</div><div class="hn-post-time">2 days ago</div></div>
+            <div class="hn-post-cat">Question</div>
+            <div class="hn-post-text">Any other parents navigating kindergarten admissions right now? The process feels overwhelming and I would love to connect with anyone going through the same thing.</div>
+            <div class="hn-post-foot"><span class="hn-post-stat">5 replies</span><span class="hn-post-stat">9 found helpful</span></div>
+          </div>
+        </div>
+
+        <div class="hn-post" data-cat="Recommendation" data-hood="UES">
+          <div class="hn-av" style="background:#E4EDE0; color:#3A5E30;">JP</div>
+          <div class="hn-post-body">
+            <div class="hn-post-row"><div class="hn-post-author">Jess P. · UES</div><div class="hn-post-time">3 days ago</div></div>
+            <div class="hn-post-cat">Recommendation</div>
+            <div class="hn-post-text">Just discovered the best rainy day spot near the park. A little cafe with a kids corner in the back and actually good coffee. Happy to share details with anyone nearby!</div>
+            <div class="hn-post-foot"><span class="hn-post-stat">11 replies</span><span class="hn-post-stat">33 found helpful</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hn-members-bar">
+        <div class="hn-members-label">Active members this week</div>
+        <div class="hn-member-av" style="background:#E8F4E8; color:#2A6B2A;">SL</div>
+        <div class="hn-member-av" style="background:#F0EBF8; color:#5B3E8A;">MK</div>
+        <div class="hn-member-av" style="background:#FAEEF4; color:#8A3E5E;">TR</div>
+        <div class="hn-member-av" style="background:#E4EDE0; color:#3A5E30;">JP</div>
+        <div class="hn-member-av" style="background:#E8EFE4; color:#3A5E30;">AR</div>
+        <div class="hn-members-more">+47 more</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN MODAL -->
+<div class="hn-modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="hn-modal">
+    <div class="hn-modal-title">Join Hey Neighbor</div>
+    <div class="hn-modal-text">Create your free account to post, reply, and connect with parents in your neighborhood.</div>
+    <button class="hn-modal-btn" onclick="goToJoin()">Create my account →</button>
+    <div class="hn-modal-close" onclick="closeModal()">Maybe later</div>
+  </div>
+</div>
+
+<script>
+  // Join modal
+  function showModal() {
+    document.getElementById('modalOverlay').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function goToJoin() {
+    window.location.href = 'heyneighbor-join.html';
+  }
+
+  // Tag selection
+  function selectTag(el) {
+    document.querySelectorAll('.hn-tag').forEach(t => t.classList.remove('on'));
+    el.classList.add('on');
+  }
+
+  // Category filter
+  function filterCategory(el) {
+    document.querySelectorAll('.hn-sidebar-item').forEach(i => i.classList.remove('on'));
+    el.classList.add('on');
+    const cat = el.querySelector('.hn-sidebar-name').textContent;
+    filterPosts(cat, getActiveHood());
+  }
+
+  // Neighborhood filter
+  function filterHood(el) {
+    document.querySelectorAll('.hn-sidebar-hood').forEach(i => i.classList.remove('on'));
+    el.classList.add('on');
+    filterPosts(getActiveCat(), el.textContent);
+  }
+
+  function getActiveCat() {
+    const el = document.querySelector('.hn-sidebar-item.on .hn-sidebar-name');
+    return el ? el.textContent : 'All posts';
+  }
+
+  function getActiveHood() {
+    const el = document.querySelector('.hn-sidebar-hood.on');
+    return el ? el.textContent : 'All NYC';
+  }
+
+  function filterPosts(cat, hood) {
+    document.querySelectorAll('.hn-post').forEach(post => {
+      const postCat  = post.getAttribute('data-cat');
+      const postHood = post.getAttribute('data-hood');
+      const catMatch  = cat === 'All posts' || postCat === cat;
+      const hoodMatch = hood === 'All NYC' || postHood === hood;
+      post.style.display = (catMatch && hoodMatch) ? 'flex' : 'none';
+    });
+  }
+
+  // Post compose — shows modal since login required
+  function handlePost() {
+    const val = document.getElementById('composeInput').value.trim();
+    if (!val) return;
+    showModal();
+  }
+</script>
+</body>
+</html>
