@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor · Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: #F8F6F1; color: #2D3B2A; }
+  .hn { max-width: 920px; margin: 0 auto; }
+
+  /* NAV */
+  .hn-nav { background: #F8F6F1; border-bottom: 1px solid #C8D4C0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
+  .hn-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #2D3B2A; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-logo-leaf { width: 10px; height: 10px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-nav-links { display: flex; align-items: center; gap: 6px; }
+  .hn-navl { font-size: 13px; font-weight: 500; color: #4A5E42; padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: background .15s; text-decoration: none; }
+  .hn-navl:hover { background: #E4EDE0; }
+  .hn-join-btn { background: #6B8F5E; color: #fff; border: none; padding: 7px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .hn-join-btn:hover { background: #527047; }
+
+  /* HERO */
+  .hn-hero { background: #E8EFE4; padding: 48px 36px; border-bottom: 1px solid #C8D4C0; }
+  .hn-hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 14px; }
+  .hn-hero-h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; line-height: 1.1; font-weight: 600; color: #1E2D1B; margin-bottom: 16px; }
+  .hn-hero-h1 em { font-style: italic; color: #6B8F5E; }
+  .hn-hero-p { font-size: 15px; color: #4A5E42; line-height: 1.7; max-width: 520px; }
+
+  /* FILTER BAR */
+  .hn-filter-bar { background: #2D3B2A; padding: 14px 28px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .hn-filter-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #A8BFA0; font-weight: 500; margin-right: 4px; }
+  .hn-filter-pill { border: 1px solid rgba(168,191,160,0.35); color: #D4E4CE; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .hn-filter-pill:hover { background: rgba(107,143,94,0.3); }
+  .hn-filter-pill.on { background: #6B8F5E; border-color: #6B8F5E; color: #fff; }
+
+  /* EVENTS LIST */
+  .hn-events-wrap { padding: 32px 28px; }
+  .hn-event-row { background: #fff; border: 1px solid #C8D4C0; border-radius: 10px; margin-bottom: 16px; overflow: hidden; transition: box-shadow .15s; }
+  .hn-event-row:hover { box-shadow: 0 4px 16px rgba(45,59,42,0.08); }
+  .hn-event-main { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 20px 24px; align-items: center; }
+  .hn-event-badge { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; display: inline-block; margin-bottom: 8px; }
+  .b-adult { background: #F0EBF8; color: #5B3E8A; }
+  .b-family { background: #E8F4E8; color: #2A6B2A; }
+  .b-free { background: #E4EDE0; color: #3A5E30; }
+  .b-moms { background: #FAEEF4; color: #8A3E5E; }
+  .b-invite { background: #E0EAF5; color: #1E4A7A; }
+  .hn-event-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #1E2D1B; margin-bottom: 6px; }
+  .hn-event-meta { font-size: 13px; color: #7A9270; margin-bottom: 4px; }
+  .hn-event-desc { font-size: 13px; color: #4A5E42; line-height: 1.6; font-family: 'Cormorant Garamond', serif; font-style: italic; margin-top: 8px; max-width: 520px; }
+  .hn-event-right { text-align: right; min-width: 160px; }
+  .hn-event-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: #1E2D1B; }
+  .hn-event-price-sub { font-size: 11px; color: #7A9270; margin-bottom: 12px; margin-top: 2px; }
+  .hn-event-price-member { font-size: 12px; color: #6B8F5E; font-weight: 500; margin-bottom: 12px; }
+  .hn-book-btn { background: #6B8F5E; color: #fff; border: none; padding: 10px 22px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; width: 100%; }
+  .hn-book-btn:hover { background: #527047; }
+  .hn-book-btn.free { background: #E4EDE0; color: #3A5E30; }
+  .hn-book-btn.free:hover { background: #D0DEC9; }
+
+  /* EXPAND PANEL */
+  .hn-event-expand { display: none; border-top: 1px solid #EAF0E6; padding: 20px 24px; background: #F4F8F2; }
+  .hn-event-expand.show { display: block; }
+  .hn-expand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .hn-expand-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #A8BFA0; margin-bottom: 6px; }
+  .hn-expand-val { font-size: 14px; color: #2D3B2A; line-height: 1.6; }
+
+  /* BOOKING MODAL */
+  .hn-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
+  .hn-modal-overlay.show { display: flex; }
+  .hn-modal { background: #fff; border-radius: 12px; padding: 36px; max-width: 460px; width: 90%; max-height: 90vh; overflow-y: auto; }
+  .hn-modal-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 8px; }
+  .hn-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #1E2D1B; margin-bottom: 6px; }
+  .hn-modal-price { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #3D5C34; margin-bottom: 20px; }
+  .hn-modal-field { margin-bottom: 16px; }
+  .hn-modal-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #7A9270; margin-bottom: 6px; }
+  .hn-modal-input { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid #C8D4C0; font-family: 'Jost', sans-serif; font-size: 15px; color: #2D3B2A; padding: 8px 0; outline: none; transition: border-color .2s; }
+  .hn-modal-input:focus { border-bottom-color: #6B8F5E; }
+  .hn-modal-input::placeholder { color: #BCC8B8; }
+  .hn-modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .hn-modal-divider { border: none; border-top: 1px solid #EAF0E6; margin: 20px 0; }
+  .hn-modal-section { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #A8BFA0; margin-bottom: 14px; }
+  .hn-stripe-note { font-size: 12px; color: #A8BFA0; margin-top: 8px; text-align: center; }
+  .hn-modal-submit { width: 100%; background: #6B8F5E; color: #fff; border: none; padding: 14px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background .15s; }
+  .hn-modal-submit:hover { background: #527047; }
+  .hn-modal-close { display: block; text-align: center; font-size: 13px; color: #A8BFA0; cursor: pointer; margin-top: 12px; text-decoration: underline; }
+  .hn-free-confirm { text-align: center; }
+  .hn-free-confirm-icon { font-size: 40px; margin-bottom: 16px; }
+  .hn-free-confirm p { font-size: 14px; color: #4A5E42; line-height: 1.7; margin-bottom: 20px; }
+
+  /* MEMBERSHIP BANNER */
+  .hn-member-banner { background: #2D3B2A; padding: 32px 36px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .hn-member-banner-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: #E8EFE4; margin-bottom: 8px; }
+  .hn-member-banner-text { font-size: 13px; color: #A8BFA0; line-height: 1.6; }
+  .hn-member-banner-btn { background: #6B8F5E; color: #fff; border: none; padding: 12px 28px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background .15s; }
+  .hn-member-banner-btn:hover { background: #527047; }
+
+  /* FOOTER */
+  .hn-footer { background: #1E2D1B; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-footer-text { font-size: 12px; color: #7A9270; }
+  .hn-footer-links { display: flex; gap: 16px; }
+  .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
+  .hn-footer-link:hover { color: #E8EFE4; }
+
+  /* SUCCESS SCREEN */
+  .hn-success { display: none; text-align: center; padding: 20px 0; }
+  .hn-success.show { display: block; }
+  .hn-success-icon { font-size: 48px; margin-bottom: 16px; }
+  .hn-success-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #1E2D1B; margin-bottom: 10px; }
+  .hn-success-text { font-size: 14px; color: #4A5E42; line-height: 1.7; }
+
+  @media (max-width: 600px) {
+    .hn-event-main { grid-template-columns: 1fr; }
+    .hn-event-right { text-align: left; }
+    .hn-book-btn { width: auto; }
+    .hn-expand-grid { grid-template-columns: 1fr; }
+    .hn-modal-row { grid-template-columns: 1fr; }
+    .hn-member-banner { grid-template-columns: 1fr; }
+    .hn-hero { padding: 32px 20px; }
+    .hn-hero-h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="hn">
+
+  <!-- NAV -->
+  <nav class="hn-nav">
+    <a class="hn-logo" href="index.html">
+      <div class="hn-logo-leaf"></div>Hey Neighbor
+    </a>
+    <div class="hn-nav-links">
+      <a class="hn-navl" href="events.html">Events</a>
+      <a class="hn-navl" href="community.html">Community</a>
+      <a class="hn-navl" href="about.html">About</a>
+      <button class="hn-join-btn" onclick="window.location.href='heyneighbor-join.html'">Join free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hn-hero">
+    <div class="hn-hero-eyebrow">New York City · Events</div>
+    <h1 class="hn-hero-h1">Events worth <em>showing up for.</em></h1>
+    <p class="hn-hero-p">From wine evenings to family brunches, every Hey Neighbor event is designed to feel like you're hanging out with friends — not networking.</p>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="hn-filter-bar">
+    <span class="hn-filter-label">Filter</span>
+    <div class="hn-filter-pill on" onclick="filterEvents(this,'all')">All events</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'adults')">Adults only</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'family')">Family</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'free')">Free</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'moms')">Moms only</div>
+  </div>
+
+  <!-- EVENTS LIST -->
+  <div class="hn-events-wrap">
+
+    <!-- Wine Society -->
+    <div class="hn-event-row" data-type="adults">
+      <div class="hn-event-main">
+        <div>
+          <div class="hn-event-badge b-adult">Adults only</div>
+          <div class="hn-event-title">Wine Society</div>
+          <div class="hn-event-meta">📅 2nd Tuesday of the month · 7:30 – 9:30pm</div>
+          <div class="hn-event-meta">📍 Upper East Side · 12–20 parents</div>
+          <div class="hn-event-desc">"A relaxed evening with a good glass of wine and the kind of conversation that actually flows."</div>
+          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
+        </div>
+        <div class="hn-event-right">
+          <div class="hn-event-price">$25</div>
+          <div class="hn-event-price-sub">non-members</div>
+          <div class="hn-event-price-member">$15 for members</div>
+          <button class="hn-book-btn" onclick="openModal('Wine Society','$25','adults')">Book my spot</button>
+        </div>
+      </div>
+      <div class="hn-event-expand">
+        <div class="hn-expand-grid">
+          <div>
+            <div class="hn-expand-label">What to expect</div>
+            <div class="hn-expand-val">A curated wine tasting at a local venue. Small group, great conversation, no awkward networking. Just parents enjoying a proper evening out.</div>
+          </div>
+          <div>
+            <div class="hn-expand-label">Good to know</div>
+            <div class="hn-expand-val">Adults only. Members get priority booking and pay just $15. Non-members welcome at $25. Space limited to 20 people.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supper Club -->
+    <div class="hn-event-row" data-type="moms">
+      <div class="hn-event-main">
+        <div>
+          <div class="hn-event-badge b-moms">Moms only</div>
+          <div class="hn-event-title">After Bedtime Supper Club</div>
+          <div class="hn-event-meta">📅 1st Wed (UES) · 2nd Wed (UWS) · 3rd Wed (FH)</div>
+          <div class="hn-event-meta">📍 Rotating neighborhood restaurants · 4–12 moms</div>
+          <div class="hn-event-desc">"Dinner for local moms who just need a minute. No agenda, just great food and honest conversation."</div>
+          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
+        </div>
+        <div class="hn-event-right">
+          <div class="hn-event-price">$30</div>
+          <div class="hn-event-price-sub">non-members</div>
+          <div class="hn-event-price-member">$20 for members</div>
+          <button class="hn-book-btn" onclick="openModal('After Bedtime Supper Club','$30','moms')">Book my spot</button>
+        </div>
+      </div>
+      <div class="hn-event-expand">
+        <div class="hn-expand-grid">
+          <div>
+            <div class="hn-expand-label">What to expect</div>
+            <div class="hn-expand-val">A proper sit-down dinner at a great local restaurant. Small group of local moms. No agenda, no pressure — just a really good evening.</div>
+          </div>
+          <div>
+            <div class="hn-expand-label">Good to know</div>
+            <div class="hn-expand-val">Moms only. Price includes a set menu and one drink. Members pay $20. Choose your nearest neighborhood when booking.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saturday Park Club -->
+    <div class="hn-event-row" data-type="free">
+      <div class="hn-event-main">
+        <div>
+          <div class="hn-event-badge b-free">Free · Every week</div>
+          <div class="hn-event-title">Saturday Park Club</div>
+          <div class="hn-event-meta">📅 Every Saturday morning · 9:30 – 11:30am</div>
+          <div class="hn-event-meta">📍 Upper East Side & Upper West Side</div>
+          <div class="hn-event-desc">"Kids run around. Parents actually talk. No formal schedule, just familiar faces every week."</div>
+          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
+        </div>
+        <div class="hn-event-right">
+          <div class="hn-event-price">Free</div>
+          <div class="hn-event-price-sub">always free</div>
+          <div class="hn-event-price-member">Open to everyone</div>
+          <button class="hn-book-btn free" onclick="openFreeModal('Saturday Park Club')">Reserve my spot</button>
+        </div>
+      </div>
+      <div class="hn-event-expand">
+        <div class="hn-expand-grid">
+          <div>
+            <div class="hn-expand-label">What to expect</div>
+            <div class="hn-expand-val">A casual weekly park meetup. Kids play, parents chat. No RSVP required but we love knowing you're coming so we can say hi.</div>
+          </div>
+          <div>
+            <div class="hn-expand-label">Good to know</div>
+            <div class="hn-expand-val">Always free. Open to members and non-members. Bring the kids, bring a coffee, bring a friend.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Family Brunch -->
+    <div class="hn-event-row" data-type="family">
+      <div class="hn-event-main">
+        <div>
+          <div class="hn-event-badge b-family">Family</div>
+          <div class="hn-event-title">Hey Neighbor Family Brunch</div>
+          <div class="hn-event-meta">📅 3rd Sunday of the month · 11am – 1pm</div>
+          <div class="hn-event-meta">📍 Neighborhood restaurant · Kids 0–8</div>
+          <div class="hn-event-desc">"Kids entertained, parents chatting. Feels like brunch with friends, not another family outing."</div>
+          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
+        </div>
+        <div class="hn-event-right">
+          <div class="hn-event-price">$25</div>
+          <div class="hn-event-price-sub">per family · non-members</div>
+          <div class="hn-event-price-member">$15 for members</div>
+          <button class="hn-book-btn" onclick="openModal('Hey Neighbor Family Brunch','$25','family')">Book my spot</button>
+        </div>
+      </div>
+      <div class="hn-event-expand">
+        <div class="hn-expand-grid">
+          <div>
+            <div class="hn-expand-label">What to expect</div>
+            <div class="hn-expand-val">A monthly family brunch with entertainment for the kids so parents can actually have a conversation. Set menu, great venue, familiar faces.</div>
+          </div>
+          <div>
+            <div class="hn-expand-label">Good to know</div>
+            <div class="hn-expand-val">Price is per family. Kids entertainment included. Members pay $15. Best for kids aged 0–8.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Curated Invite Only -->
+    <div class="hn-event-row" data-type="adults">
+      <div class="hn-event-main">
+        <div>
+          <div class="hn-event-badge b-invite">Premium members only</div>
+          <div class="hn-event-title">Curated Invite Only Events</div>
+          <div class="hn-event-meta">📅 Monthly · Dates vary</div>
+          <div class="hn-event-meta">📍 Local shops, venues & experiences across NYC</div>
+          <div class="hn-event-desc">"Fun experiences for you and your kids at local shops and venues. Exclusive to Premium members."</div>
+          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
+        </div>
+        <div class="hn-event-right">
+          <div class="hn-event-price">$0</div>
+          <div class="hn-event-price-sub">Premium members only</div>
+          <div class="hn-event-price-member">Upgrade to Premium →</div>
+          <button class="hn-book-btn" onclick="window.location.href='heyneighbor-join.html'">Get Premium</button>
+        </div>
+      </div>
+      <div class="hn-event-expand">
+        <div class="hn-expand-grid">
+          <div>
+            <div class="hn-expand-label">What to expect</div>
+            <div class="hn-expand-val">Exclusive experiences at local NYC venues — think private shopping events, tastings, kids activities and more. Curated monthly for Premium members.</div>
+          </div>
+          <div>
+            <div class="hn-expand-label">Good to know</div>
+            <div class="hn-expand-val">Available to Premium members only ($80/year). Upgrade your membership to get access to these events and more.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MEMBERSHIP BANNER -->
+  <div class="hn-member-banner">
+    <div>
+      <div class="hn-member-banner-title">Members always pay less.</div>
+      <div class="hn-member-banner-text">Basic membership is free. Premium is $80/year and pays for itself after just two events. Join today and save on every booking.</div>
+    </div>
+    <button class="hn-member-banner-btn" onclick="window.location.href='heyneighbor-join.html'">Join Hey Neighbor →</button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="hn-footer">
+    <a class="hn-footer-logo" href="index.html"><div class="hn-footer-leaf"></div>Hey Neighbor</a>
+    <div class="hn-footer-text">Building NYC's village, one neighborhood at a time.</div>
+    <div class="hn-footer-links">
+      <a class="hn-footer-link" href="events.html">Events</a>
+      <a class="hn-footer-link" href="about.html">About</a>
+      <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="hn-modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="hn-modal">
+
+    <!-- Booking Form -->
+    <div id="bookingForm">
+      <div class="hn-modal-eyebrow">Book your spot</div>
+      <div class="hn-modal-title" id="modalTitle">Wine Society</div>
+      <div class="hn-modal-price" id="modalPrice">$25</div>
+
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">First Name *</label>
+        <input class="hn-modal-input" id="bookFirstName" type="text" placeholder="Jane" />
+      </div>
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Last Name *</label>
+        <input class="hn-modal-input" id="bookLastName" type="text" placeholder="Smith" />
+      </div>
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Email *</label>
+        <input class="hn-modal-input" id="bookEmail" type="email" placeholder="jane@example.com" />
+      </div>
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Phone</label>
+        <input class="hn-modal-input" id="bookPhone" type="tel" placeholder="(555) 000-0000" />
+      </div>
+
+      <hr class="hn-modal-divider">
+      <div class="hn-modal-section">Payment</div>
+
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Card Number *</label>
+        <input class="hn-modal-input" id="bookCard" type="text" placeholder="4242 4242 4242 4242" maxlength="19" />
+      </div>
+      <div class="hn-modal-row">
+        <div class="hn-modal-field">
+          <label class="hn-modal-label">Expiry *</label>
+          <input class="hn-modal-input" id="bookExpiry" type="text" placeholder="MM / YY" maxlength="7" />
+        </div>
+        <div class="hn-modal-field">
+          <label class="hn-modal-label">CVC *</label>
+          <input class="hn-modal-input" id="bookCVC" type="text" placeholder="123" maxlength="3" />
+        </div>
+      </div>
+
+      <div class="hn-stripe-note">🔒 Payments processed securely by Stripe</div>
+
+      <button class="hn-modal-submit" onclick="submitBooking()">Complete booking →</button>
+      <span class="hn-modal-close" onclick="closeModal()">Cancel</span>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="hn-success" id="bookingSuccess">
+      <div class="hn-success-icon">🎉</div>
+      <div class="hn-success-title">You're booked!</div>
+      <div class="hn-success-text">We've sent a confirmation to your email. See you at the event!</div>
+      <button class="hn-modal-submit" style="margin-top:24px;" onclick="closeModal()">Done</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- FREE EVENT MODAL -->
+<div class="hn-modal-overlay" id="freeModalOverlay" onclick="closeFreeModalOutside(event)">
+  <div class="hn-modal">
+    <div id="freeForm">
+      <div class="hn-modal-eyebrow">Reserve your spot</div>
+      <div class="hn-modal-title" id="freeModalTitle">Saturday Park Club</div>
+      <div class="hn-modal-price" style="color:#3A5E30;">Free</div>
+
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">First Name *</label>
+        <input class="hn-modal-input" id="freeFirstName" type="text" placeholder="Jane" />
+      </div>
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Last Name *</label>
+        <input class="hn-modal-input" id="freeLastName" type="text" placeholder="Smith" />
+      </div>
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Email *</label>
+        <input class="hn-modal-input" id="freeEmail" type="email" placeholder="jane@example.com" />
+      </div>
+
+      <button class="hn-modal-submit" onclick="submitFreeBooking()">Reserve my spot →</button>
+      <span class="hn-modal-close" onclick="closeFreeModal()">Cancel</span>
+    </div>
+
+    <div class="hn-success" id="freeSuccess">
+      <div class="hn-success-icon">🌿</div>
+      <div class="hn-success-title">See you Saturday!</div>
+      <div class="hn-success-text">We'll send you the details by email. Just show up and say hi!</div>
+      <button class="hn-modal-submit" style="margin-top:24px;" onclick="closeFreeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Filter events
+  function filterEvents(el, type) {
+    document.querySelectorAll('.hn-filter-pill').forEach(p => p.classList.remove('on'));
+    el.classList.add('on');
+    document.querySelectorAll('.hn-event-row').forEach(row => {
+      if (type === 'all' || row.getAttribute('data-type') === type) {
+        row.style.display = 'block';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  // Toggle expand panel
+  function toggleExpand(el) {
+    const row = el.closest('.hn-event-row');
+    const panel = row.querySelector('.hn-event-expand');
+    const isOpen = panel.classList.contains('show');
+    panel.classList.toggle('show');
+    el.textContent = isOpen ? 'See more details ↓' : 'See less ↑';
+  }
+
+  // Paid booking modal
+  function openModal(title, price, type) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalPrice').textContent = price;
+    document.getElementById('bookingForm').style.display = 'block';
+    document.getElementById('bookingSuccess').classList.remove('show');
+    document.getElementById('modalOverlay').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  // Free booking modal
+  function openFreeModal(title) {
+    document.getElementById('freeModalTitle').textContent = title;
+    document.getElementById('freeForm').style.display = 'block';
+    document.getElementById('freeSuccess').classList.remove('show');
+    document.getElementById('freeModalOverlay').classList.add('show');
+  }
+
+  function closeFreeModal() {
+    document.getElementById('freeModalOverlay').classList.remove('show');
+  }
+
+  function closeFreeModalOutside(e) {
+    if (e.target === document.getElementById('freeModalOverlay')) closeFreeModal();
+  }
+
+  // Submit paid booking
+  // DEVELOPER NOTE: Replace this with real Stripe payment processing
+  // You will need a Stripe account and to replace this with
+  // a Stripe Checkout session or Payment Intent
+  function submitBooking() {
+    const firstName = document.getElementById('bookFirstName').value;
+    const email = document.getElementById('bookEmail').value;
+    const card = document.getElementById('bookCard').value;
+
+    if (!firstName || !email || !card) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // TODO: Process payment with Stripe here
+    // For now shows success screen
+    document.getElementById('bookingForm').style.display = 'none';
+    document.getElementById('bookingSuccess').classList.add('show');
+  }
+
+  // Submit free booking
+  function submitFreeBooking() {
+    const firstName = document.getElementById('freeFirstName').value;
+    const email = document.getElementById('freeEmail').value;
+
+    if (!firstName || !email) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // TODO: Send to Make.com webhook
+    document.getElementById('freeForm').style.display = 'none';
+    document.getElementById('freeSuccess').classList.add('show');
+  }
+
+  // Format card number
+  document.getElementById('bookCard').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+  });
+
+  // Format expiry
+  document.getElementById('bookExpiry').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').replace(/^(\d{2})(\d)/, '$1 / $2');
+  });
+</script>
+
+</body>
+</html>
