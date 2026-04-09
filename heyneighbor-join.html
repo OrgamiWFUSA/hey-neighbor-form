@@ -1017,9 +1017,6 @@
     const data = collectFormData();
     data.membershipChoice = type;
 
-    const buttons = document.querySelectorAll('.btn-founding, .btn-not-ready');
-    buttons.forEach(b => { b.disabled = true; b.textContent = 'Submitting...'; });
-
     try {
       await fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
         method: 'POST',
@@ -1030,16 +1027,14 @@
       console.error('Submission error:', err);
     }
 
-    document.getElementById('confirmMsg').classList.add('show');
-    document.querySelector('.btn-not-ready').style.display = 'none';
-    document.querySelector('.not-ready-note').style.display = 'none';
-
     if (type === 'member') {
-      document.querySelector('.founding-card').style.opacity = '0.5';
-      document.querySelector('.founding-card .btn-founding').disabled = true;
+      window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
+    } else {
+      document.getElementById('confirmMsg').classList.add('show');
+      document.querySelector('.btn-not-ready').style.display = 'none';
+      document.querySelector('.not-ready-note').style.display = 'none';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
   document.addEventListener('keydown', e => {
