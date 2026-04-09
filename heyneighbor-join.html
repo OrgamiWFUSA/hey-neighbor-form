@@ -385,7 +385,6 @@
   }
 
   .btn-back:hover { color: var(--forest); }
-
   .press-hint { font-size: 12px; color: var(--text-muted); }
 
   .completion {
@@ -483,6 +482,7 @@
   }
 
   .btn-founding {
+    display: block;
     width: 100%;
     background: var(--sage);
     color: #fff;
@@ -496,6 +496,8 @@
     margin-top: 20px;
     transition: background 0.15s;
     letter-spacing: 0.03em;
+    text-align: center;
+    text-decoration: none;
   }
 
   .btn-founding:hover { background: var(--sage-dark); }
@@ -561,7 +563,7 @@
 <body>
 
 <nav>
-  <a class="logo" href="#">
+  <a class="logo" href="index.html">
     <div class="logo-leaf"></div>
     Hey Neighbor
   </a>
@@ -574,12 +576,11 @@
 
 <div class="form-shell">
 
-  <!-- STEP 1 — Contact Info -->
+  <!-- STEP 1 -->
   <div class="step active" id="step-1">
     <p class="step-eyebrow">Step 1 of 9</p>
     <h1 class="step-question">First, let's get your details.</h1>
     <p class="step-hint">We'll use this to send you event details and match you with parents nearby. We promise not to spam you — ever.</p>
-
     <div class="field-grid">
       <div class="field-group">
         <label>First Name *</label>
@@ -598,78 +599,58 @@
         <input type="tel" id="phone" placeholder="(555) 000-0000" />
       </div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(1,2)">Next</button>
       <span class="press-hint">press Enter ↵</span>
     </div>
   </div>
 
-  <!-- STEP 2 — Ages of Kids -->
+  <!-- STEP 2 -->
   <div class="step" id="step-2">
     <p class="step-eyebrow">Step 2 of 9</p>
     <h1 class="step-question">What are the ages of your kids?</h1>
     <p class="step-hint">Select all that apply — we group families at similar stages.</p>
-
     <div class="tile-grid cols-2">
-      <div class="tile" onclick="toggleTile(this)">
-        <strong>0–2</strong>
-        <div class="tile-sub">Baby</div>
-      </div>
-      <div class="tile" onclick="toggleTile(this)">
-        <strong>3–5</strong>
-        <div class="tile-sub">Toddler</div>
-      </div>
-      <div class="tile" onclick="toggleTile(this)">
-        <strong>6–10</strong>
-        <div class="tile-sub">Primary school</div>
-      </div>
-      <div class="tile" onclick="toggleTile(this)">
-        <strong>11–13</strong>
-        <div class="tile-sub">Middle school</div>
-      </div>
+      <div class="tile" onclick="toggleTile(this)"><strong>0–2</strong><div class="tile-sub">Baby</div></div>
+      <div class="tile" onclick="toggleTile(this)"><strong>3–5</strong><div class="tile-sub">Toddler</div></div>
+      <div class="tile" onclick="toggleTile(this)"><strong>6–10</strong><div class="tile-sub">Primary school</div></div>
+      <div class="tile" onclick="toggleTile(this)"><strong>11–13</strong><div class="tile-sub">Middle school</div></div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(2,3)">Next</button>
       <button class="btn-back" onclick="goTo(2,1)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 3 — Neighborhood -->
+  <!-- STEP 3 -->
   <div class="step" id="step-3">
     <p class="step-eyebrow">Step 3 of 9</p>
     <h1 class="step-question">Where in NYC are you based?</h1>
     <p class="step-hint">We'll match you with parents in your exact neighborhood.</p>
-
     <p class="section-label">Manhattan — East Side</p>
     <div class="tile-grid cols-3">
       <div class="tile hood-tile" onclick="selectHood(this)">Upper East Side</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Midtown East</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Downtown East<div class="tile-sub">below 14th</div></div>
     </div>
-
     <p class="section-label">Manhattan — West Side</p>
     <div class="tile-grid cols-3">
       <div class="tile hood-tile" onclick="selectHood(this)">Upper West Side</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Midtown West</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Downtown West<div class="tile-sub">below 14th</div></div>
     </div>
-
     <p class="section-label">Brooklyn</p>
     <div class="tile-grid cols-3">
       <div class="tile hood-tile" onclick="selectHood(this)">Williamsburg</div>
       <div class="tile hood-tile" onclick="selectHood(this)">DUMBO</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Carroll Gardens</div>
     </div>
-
     <p class="section-label">Queens</p>
     <div class="tile-grid cols-3">
       <div class="tile hood-tile" onclick="selectHood(this)">Astoria</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Sunnyside</div>
       <div class="tile hood-tile" onclick="selectHood(this)">Forest Hills</div>
     </div>
-
     <div class="outside-tile hood-tile" id="outsideTile" onclick="selectOutside()">
       I'm outside NYC but really interested in what you're building
     </div>
@@ -677,20 +658,17 @@
       <label>What city are you in? We'll add you to our waitlist!</label>
       <input type="text" id="outsideCity" placeholder="e.g. Los Angeles, Chicago..." />
     </div>
-
     <p class="expanding-note">Currently NYC-only — expanding to new cities soon!</p>
-
     <div class="nav-row">
       <button class="btn-next" id="hoodNext" disabled onclick="goTo(3,4)">Next</button>
       <button class="btn-back" onclick="goTo(3,2)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 4 — How Did You Hear -->
+  <!-- STEP 4 -->
   <div class="step" id="step-4">
     <p class="step-eyebrow">Step 4 of 9</p>
     <h1 class="step-question">How did you hear about us?</h1>
-
     <div class="tile-grid" style="grid-template-columns: repeat(auto-fill, minmax(170px,1fr));">
       <div class="tile heard-tile" onclick="selectHeard(this,'Facebook Moms Group')">Facebook<div class="tile-sub">Moms group</div></div>
       <div class="tile heard-tile" onclick="selectHeard(this,'Instagram Ad')">Instagram<div class="tile-sub">Ad</div></div>
@@ -701,24 +679,21 @@
       <div class="tile heard-tile" onclick="selectHeard(this,'Referral')">Referral<div class="tile-sub">A friend told me</div></div>
       <div class="tile heard-tile" onclick="selectHeard(this,'Other')">Other</div>
     </div>
-
     <div class="reveal-box" id="referralBox">
       <label>Who referred you? We'd love to thank them!</label>
       <input type="text" id="referralName" placeholder="Their full name" />
     </div>
-
     <div class="nav-row">
       <button class="btn-next" id="heardNext" disabled onclick="goTo(4,5)">Next</button>
       <button class="btn-back" onclick="goTo(4,3)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 5 — Events -->
+  <!-- STEP 5 -->
   <div class="step" id="step-5">
     <p class="step-eyebrow">Step 5 of 9</p>
     <h1 class="step-question">Which Hey Neighbor events interest you most?</h1>
     <p class="step-hint">Select all that apply.</p>
-
     <div class="event-grid">
       <div class="event-card" onclick="toggleTile(this)">
         <span class="event-tag tag-adults">Adults only</span>
@@ -746,19 +721,17 @@
         <div class="event-desc">Fun experiences for you and your kids at local shops and venues.</div>
       </div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(5,6)">Next</button>
       <button class="btn-back" onclick="goTo(5,4)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 6 — How Do You Attend -->
+  <!-- STEP 6 -->
   <div class="step" id="step-6">
     <p class="step-eyebrow">Step 6 of 9</p>
     <h1 class="step-question">How do you like to attend events?</h1>
-    <p class="step-hint">Select all that apply — helps us plan the right mix for our community.</p>
-
+    <p class="step-hint">Select all that apply.</p>
     <div class="tile-grid cols-3">
       <div class="tile" onclick="toggleTile(this)" style="text-align:center;padding:24px 16px;">
         <div style="font-size:28px;margin-bottom:10px;">🙋</div>
@@ -776,19 +749,17 @@
         <div class="tile-sub">Family-friendly events</div>
       </div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(6,7)">Next</button>
       <button class="btn-back" onclick="goTo(6,5)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 7 — Availability -->
+  <!-- STEP 7 -->
   <div class="step" id="step-7">
     <p class="step-eyebrow">Step 7 of 9</p>
     <h1 class="step-question">When are you generally free?</h1>
-    <p class="step-hint">We'll plan events around when our members are available. Select all that apply.</p>
-
+    <p class="step-hint">Select all that apply.</p>
     <div class="time-grid">
       <div class="time-tile" onclick="toggleTile(this)">
         <div class="time-icon">☀️</div>
@@ -806,19 +777,17 @@
         <div class="time-range">Sat &amp; Sun</div>
       </div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(7,8)">Next</button>
       <button class="btn-back" onclick="goTo(7,6)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 8 — Hobbies -->
+  <!-- STEP 8 -->
   <div class="step" id="step-8">
     <p class="step-eyebrow">Step 8 of 9</p>
     <h1 class="step-question">What are your hobbies and interests?</h1>
     <p class="step-hint">Helps us match you with parents who share your vibe.</p>
-
     <div class="tile-grid">
       <div class="tile" onclick="toggleTile(this)">Running</div>
       <div class="tile" onclick="toggleTile(this)">Cooking</div>
@@ -837,19 +806,17 @@
       <div class="tile" onclick="toggleTile(this)">Wine &amp; dining</div>
       <div class="tile" onclick="toggleTile(this)">Other</div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(8,9)">Next</button>
       <button class="btn-back" onclick="goTo(8,7)">Back</button>
     </div>
   </div>
 
-  <!-- STEP 9 — What You Hope to Gain -->
+  <!-- STEP 9 -->
   <div class="step" id="step-9">
     <p class="step-eyebrow">Step 9 of 9</p>
     <h1 class="step-question">What are you hoping to get out of Hey Neighbor?</h1>
     <p class="step-hint">Select all that apply.</p>
-
     <div class="gain-grid">
       <div class="gain-card" onclick="toggleTile(this)">
         <div class="gain-icon">✨</div>
@@ -884,7 +851,6 @@
         <div class="gain-title">Friendships that go beyond the school gate</div>
       </div>
     </div>
-
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(9,10)">Submit</button>
       <button class="btn-back" onclick="goTo(9,8)">Back</button>
@@ -894,34 +860,30 @@
   <!-- COMPLETION SCREEN -->
   <div class="step" id="step-10">
     <div class="completion">
-
       <div class="completion-leaf">
         <div class="completion-leaf-inner"></div>
       </div>
-
       <h1 class="completion-title">Your village is awaiting you.</h1>
-      <p class="completion-sub">You're one step away from becoming part of something really special. Lock in your founding membership below.</p>
+      <p class="completion-sub">You're one step away from becoming part of something really special. Lock in your membership below.</p>
 
+      <!-- Premium Membership -->
       <div class="founding-card">
-        <span class="founding-badge">Founding Member Price</span>
-        <div class="founding-title">Join Hey Neighbor</div>
-        <div class="founding-desc">Get matched with parents in your neighborhood, access to all events, and lock in our founding rate — before it goes up.</div>
-        <div class="founding-price">$19.99 <span>/ year</span></div>
-        <div style="font-size:12px;color:var(--sage-dark);margin-top:4px;font-style:italic;">This is our founding price — it won't be available forever.</div>
-        <button class="btn-founding" onclick="window.location.href='https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06'">
-          Join as a Founding Member →
-        </button>
+        <span class="founding-badge">Premium Member</span>
+        <div class="founding-title">Join Hey Neighbor Premium</div>
+        <div class="founding-desc">Get matched with parents in your neighborhood, access to all events including invite-only experiences, and priority booking.</div>
+        <div class="founding-price">$80 <span>/ year</span></div>
+        <a class="btn-founding" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Join as a Premium Member →</a>
       </div>
 
+      <!-- Basic Membership -->
       <button class="btn-not-ready" onclick="showConfirm('nonmember')">
-        I'm not ready to join yet
+        Join as a Basic Member — Free
       </button>
-      <p class="not-ready-note">No problem — we'll send you upcoming events at the non-member rate. You can join at any time.</p>
+      <p class="not-ready-note">Basic membership is free. Access the community board and join Saturday Park Club. Upgrade anytime.</p>
 
       <div class="confirmation-msg" id="confirmMsg">
         <p>"Welcome to Hey Neighbor. We'll be in touch soon to match you with parents in your neighborhood. See you at the next event!"</p>
       </div>
-
     </div>
   </div>
 
@@ -968,10 +930,8 @@
     fromEl.classList.remove('active');
     toEl.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
     const pct = Math.min((to - 1) / TOTAL * 100, 100);
     document.getElementById('progressBar').style.width = pct + '%';
-
     if (to <= TOTAL) {
       document.getElementById('stepLabel').textContent = 'Step ' + to + ' of ' + TOTAL;
     } else {
@@ -979,9 +939,7 @@
     }
   }
 
-  function toggleTile(el) {
-    el.classList.toggle('sel');
-  }
+  function toggleTile(el) { el.classList.toggle('sel'); }
 
   function selectHood(el) {
     document.querySelectorAll('.hood-tile').forEach(t => t.classList.remove('sel'));
@@ -1007,18 +965,12 @@
     document.getElementById('heardNext').disabled = false;
   }
 
-  // ============================================================
-  // SUBMIT FUNCTION
-  // Replace PASTE_YOUR_MAKE_WEBHOOK_URL_HERE with your actual
-  // Make.com webhook URL — it looks like:
-  // https://hook.eu1.make.com/xxxxxxxxxxxxxxxx
-  // ============================================================
   async function showConfirm(type) {
     const data = collectFormData();
     data.membershipChoice = type;
 
     try {
-      await fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
+      fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -1027,14 +979,10 @@
       console.error('Submission error:', err);
     }
 
-    if (type === 'member') {
-      window.open('https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06', '_blank');
-    } else {
-      document.getElementById('confirmMsg').classList.add('show');
-      document.querySelector('.btn-not-ready').style.display = 'none';
-      document.querySelector('.not-ready-note').style.display = 'none';
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
+    document.getElementById('confirmMsg').classList.add('show');
+    document.querySelector('.btn-not-ready').style.display = 'none';
+    document.querySelector('.not-ready-note').style.display = 'none';
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
   document.addEventListener('keydown', e => {
