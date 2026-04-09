@@ -40,7 +40,7 @@
   .b-family { background: #E8F4E8; color: #2A6B2A; }
   .b-free { background: #E4EDE0; color: #3A5E30; }
   .b-moms { background: #FAEEF4; color: #8A3E5E; }
-  .b-invite { background: #E0EAF5; color: #1E4A7A; }
+  .b-premium { background: #E0EAF5; color: #1E4A7A; }
   .hn-event-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #1E2D1B; margin-bottom: 6px; }
   .hn-event-meta { font-size: 13px; color: #7A9270; margin-bottom: 4px; }
   .hn-event-desc { font-size: 13px; color: #4A5E42; line-height: 1.6; font-family: 'Cormorant Garamond', serif; font-style: italic; margin-top: 8px; max-width: 520px; }
@@ -56,12 +56,6 @@
   .hn-book-btn.free:hover { background: #D0DEC9; }
   .hn-member-note { font-size: 11px; color: #7A9270; text-align: center; }
 
-  .hn-event-expand { display: none; border-top: 1px solid #EAF0E6; padding: 20px 24px; background: #F4F8F2; }
-  .hn-event-expand.show { display: block; }
-  .hn-expand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .hn-expand-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #A8BFA0; margin-bottom: 6px; }
-  .hn-expand-val { font-size: 14px; color: #2D3B2A; line-height: 1.6; }
-
   .hn-member-banner { background: #2D3B2A; padding: 32px 36px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
   .hn-member-banner-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: #E8EFE4; margin-bottom: 8px; }
   .hn-member-banner-text { font-size: 13px; color: #A8BFA0; line-height: 1.6; }
@@ -76,7 +70,6 @@
   .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
   .hn-footer-link:hover { color: #E8EFE4; }
 
-  /* Free event modal */
   .hn-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
   .hn-modal-overlay.show { display: flex; }
   .hn-modal { background: #fff; border-radius: 12px; padding: 36px; max-width: 460px; width: 90%; }
@@ -96,11 +89,11 @@
   .hn-success-icon { font-size: 48px; margin-bottom: 16px; }
   .hn-success-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #1E2D1B; margin-bottom: 10px; }
   .hn-success-text { font-size: 14px; color: #4A5E42; line-height: 1.7; }
+  .hn-loading { padding: 40px 20px; text-align: center; color: #A8BFA0; font-size: 14px; }
 
   @media (max-width: 600px) {
     .hn-event-main { grid-template-columns: 1fr; }
     .hn-event-right { text-align: left; }
-    .hn-expand-grid { grid-template-columns: 1fr; }
     .hn-member-banner { grid-template-columns: 1fr; }
     .hn-hero { padding: 32px 20px; }
     .hn-hero-h1 { font-size: 32px; }
@@ -110,7 +103,6 @@
 <body>
 <div class="hn">
 
-  <!-- NAV -->
   <nav class="hn-nav">
     <a class="hn-logo" href="index.html">
       <div class="hn-logo-leaf"></div>Hey Neighbor
@@ -123,195 +115,25 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <div class="hn-hero">
     <div class="hn-hero-eyebrow">New York City · Events</div>
     <h1 class="hn-hero-h1">Events worth <em>showing up for.</em></h1>
     <p class="hn-hero-p">From wine evenings to family brunches, every Hey Neighbor event is designed to feel like you're hanging out with friends — not networking.</p>
   </div>
 
-  <!-- FILTER BAR -->
   <div class="hn-filter-bar">
     <span class="hn-filter-label">Filter</span>
     <div class="hn-filter-pill on" onclick="filterEvents(this,'all')">All events</div>
-    <div class="hn-filter-pill" onclick="filterEvents(this,'adults')">Adults only</div>
-    <div class="hn-filter-pill" onclick="filterEvents(this,'family')">Family</div>
-    <div class="hn-filter-pill" onclick="filterEvents(this,'free')">Free</div>
-    <div class="hn-filter-pill" onclick="filterEvents(this,'moms')">Moms only</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'Adults only')">Adults only</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'Family')">Family</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'Free')">Free</div>
+    <div class="hn-filter-pill" onclick="filterEvents(this,'Moms only')">Moms only</div>
   </div>
 
-  <!-- EVENTS LIST -->
-  <div class="hn-events-wrap">
-
-    <!-- Wine Society -->
-    <div class="hn-event-row" data-type="adults">
-      <div class="hn-event-main">
-        <div>
-          <div class="hn-event-badge b-adult">Adults only</div>
-          <div class="hn-event-title">Wine Society</div>
-          <div class="hn-event-meta">📅 2nd Tuesday of the month · 7:30 – 9:30pm</div>
-          <div class="hn-event-meta">📍 Upper East Side · 12–20 parents</div>
-          <div class="hn-event-desc">"A relaxed evening with a good glass of wine and the kind of conversation that actually flows."</div>
-          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
-        </div>
-        <div class="hn-event-right">
-          <div class="hn-event-price">$25</div>
-          <div class="hn-event-price-sub">non-members</div>
-          <div class="hn-event-price-member">$15 for members</div>
-          <a class="hn-book-btn" href="https://buy.stripe.com/bJe8wPbuYbmTeppfUK7bW00" target="_blank">Book my spot — $25</a>
-          <a class="hn-book-btn member" href="https://buy.stripe.com/7sY7sL7eIcqXftt9wm7bW01" target="_blank">Member price — $15</a>
-          <div class="hn-member-note">Not a member? <a href="heyneighbor-join.html" style="color:#6B8F5E;">Join free →</a></div>
-        </div>
-      </div>
-      <div class="hn-event-expand">
-        <div class="hn-expand-grid">
-          <div>
-            <div class="hn-expand-label">What to expect</div>
-            <div class="hn-expand-val">A curated wine tasting at a local venue. Small group, great conversation, no awkward networking. Just parents enjoying a proper evening out.</div>
-          </div>
-          <div>
-            <div class="hn-expand-label">Good to know</div>
-            <div class="hn-expand-val">Adults only. Members get priority booking and pay just $15. Non-members welcome at $25. Space limited to 20 people.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Supper Club -->
-    <div class="hn-event-row" data-type="moms">
-      <div class="hn-event-main">
-        <div>
-          <div class="hn-event-badge b-moms">Moms only</div>
-          <div class="hn-event-title">After Bedtime Supper Club</div>
-          <div class="hn-event-meta">📅 1st Wed (UES) · 2nd Wed (UWS) · 3rd Wed (FH)</div>
-          <div class="hn-event-meta">📍 Rotating neighborhood restaurants · 4–12 moms</div>
-          <div class="hn-event-desc">"Dinner for local moms who just need a minute. No agenda, just great food and honest conversation."</div>
-          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
-        </div>
-        <div class="hn-event-right">
-          <div class="hn-event-price">$30</div>
-          <div class="hn-event-price-sub">non-members</div>
-          <div class="hn-event-price-member">$20 for members</div>
-          <a class="hn-book-btn" href="https://buy.stripe.com/dRmfZh2YscqX5ST7oe7bW02" target="_blank">Book my spot — $30</a>
-          <a class="hn-book-btn member" href="https://buy.stripe.com/aFa3cvgPidv11CDgYO7bW03" target="_blank">Member price — $20</a>
-          <div class="hn-member-note">Not a member? <a href="heyneighbor-join.html" style="color:#6B8F5E;">Join free →</a></div>
-        </div>
-      </div>
-      <div class="hn-event-expand">
-        <div class="hn-expand-grid">
-          <div>
-            <div class="hn-expand-label">What to expect</div>
-            <div class="hn-expand-val">A proper sit-down dinner at a great local restaurant. Small group of local moms. No agenda, no pressure — just a really good evening.</div>
-          </div>
-          <div>
-            <div class="hn-expand-label">Good to know</div>
-            <div class="hn-expand-val">Moms only. Price includes a set menu and one drink. Members pay $20. Choose your nearest neighborhood when booking.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Saturday Park Club -->
-    <div class="hn-event-row" data-type="free">
-      <div class="hn-event-main">
-        <div>
-          <div class="hn-event-badge b-free">Free · Every week</div>
-          <div class="hn-event-title">Saturday Park Club</div>
-          <div class="hn-event-meta">📅 Every Saturday morning · 9:30 – 11:30am</div>
-          <div class="hn-event-meta">📍 Upper East Side & Upper West Side</div>
-          <div class="hn-event-desc">"Kids run around. Parents actually talk. No formal schedule, just familiar faces every week."</div>
-          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
-        </div>
-        <div class="hn-event-right">
-          <div class="hn-event-price">Free</div>
-          <div class="hn-event-price-sub">always free</div>
-          <div class="hn-event-price-member">Open to everyone</div>
-          <button class="hn-book-btn free" onclick="openFreeModal('Saturday Park Club')">Reserve my spot</button>
-        </div>
-      </div>
-      <div class="hn-event-expand">
-        <div class="hn-expand-grid">
-          <div>
-            <div class="hn-expand-label">What to expect</div>
-            <div class="hn-expand-val">A casual weekly park meetup. Kids play, parents chat. No RSVP required but we love knowing you're coming so we can say hi.</div>
-          </div>
-          <div>
-            <div class="hn-expand-label">Good to know</div>
-            <div class="hn-expand-val">Always free. Open to members and non-members. Bring the kids, bring a coffee, bring a friend.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Family Brunch -->
-    <div class="hn-event-row" data-type="family">
-      <div class="hn-event-main">
-        <div>
-          <div class="hn-event-badge b-family">Family</div>
-          <div class="hn-event-title">Hey Neighbor Family Brunch</div>
-          <div class="hn-event-meta">📅 3rd Sunday of the month · 11am – 1pm</div>
-          <div class="hn-event-meta">📍 Neighborhood restaurant · Kids 0–8</div>
-          <div class="hn-event-desc">"Kids entertained, parents chatting. Feels like brunch with friends, not another family outing."</div>
-          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
-        </div>
-        <div class="hn-event-right">
-          <div class="hn-event-price">$25</div>
-          <div class="hn-event-price-sub">per family · non-members</div>
-          <div class="hn-event-price-member">$15 for members</div>
-          <a class="hn-book-btn" href="https://buy.stripe.com/7sYaEXaqUfD95ST0ZQ7bW04" target="_blank">Book my spot — $25</a>
-          <a class="hn-book-btn member" href="https://buy.stripe.com/14A7sL56A3Ur81123U7bW05" target="_blank">Member price — $15</a>
-          <div class="hn-member-note">Not a member? <a href="heyneighbor-join.html" style="color:#6B8F5E;">Join free →</a></div>
-        </div>
-      </div>
-      <div class="hn-event-expand">
-        <div class="hn-expand-grid">
-          <div>
-            <div class="hn-expand-label">What to expect</div>
-            <div class="hn-expand-val">A monthly family brunch with entertainment for the kids so parents can actually have a conversation. Set menu, great venue, familiar faces.</div>
-          </div>
-          <div>
-            <div class="hn-expand-label">Good to know</div>
-            <div class="hn-expand-val">Price is per family. Kids entertainment included. Members pay $15. Best for kids aged 0–8.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Curated Invite Only -->
-    <div class="hn-event-row" data-type="adults">
-      <div class="hn-event-main">
-        <div>
-          <div class="hn-event-badge b-invite">Premium members only</div>
-          <div class="hn-event-title">Curated Invite Only Events</div>
-          <div class="hn-event-meta">📅 Monthly · Dates vary</div>
-          <div class="hn-event-meta">📍 Local shops, venues & experiences across NYC</div>
-          <div class="hn-event-desc">"Fun experiences for you and your kids at local shops and venues. Exclusive to Premium members."</div>
-          <div style="margin-top:10px;font-size:12px;color:#6B8F5E;cursor:pointer;" onclick="toggleExpand(this)">See more details ↓</div>
-        </div>
-        <div class="hn-event-right">
-          <div class="hn-event-price">$80</div>
-          <div class="hn-event-price-sub">Premium membership / year</div>
-          <div class="hn-event-price-member">Includes all invite only events</div>
-          <a class="hn-book-btn" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Get Premium — $80/yr</a>
-        </div>
-      </div>
-      <div class="hn-event-expand">
-        <div class="hn-expand-grid">
-          <div>
-            <div class="hn-expand-label">What to expect</div>
-            <div class="hn-expand-val">Exclusive experiences at local NYC venues — think private shopping events, tastings, kids activities and more. Curated monthly for Premium members.</div>
-          </div>
-          <div>
-            <div class="hn-expand-label">Good to know</div>
-            <div class="hn-expand-val">Available to Premium members only ($80/year). Upgrade your membership to get access to these events and more.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <div class="hn-events-wrap" id="eventsContainer">
+    <div class="hn-loading">Loading events...</div>
   </div>
 
-  <!-- MEMBERSHIP BANNER -->
   <div class="hn-member-banner">
     <div>
       <div class="hn-member-banner-title">Members always pay less.</div>
@@ -320,7 +142,6 @@
     <a class="hn-member-banner-btn" href="heyneighbor-join.html">Join Hey Neighbor →</a>
   </div>
 
-  <!-- FOOTER -->
   <div class="hn-footer">
     <a class="hn-footer-logo" href="index.html"><div class="hn-footer-leaf"></div>Hey Neighbor</a>
     <div class="hn-footer-text">Building NYC's village, one neighborhood at a time.</div>
@@ -333,12 +154,11 @@
 
 </div>
 
-<!-- FREE EVENT MODAL -->
 <div class="hn-modal-overlay" id="freeModalOverlay" onclick="closeFreeModalOutside(event)">
   <div class="hn-modal">
     <div id="freeForm">
       <div class="hn-modal-eyebrow">Reserve your spot</div>
-      <div class="hn-modal-title">Saturday Park Club</div>
+      <div class="hn-modal-title" id="freeEventName">Saturday Park Club</div>
       <div class="hn-modal-price">Free</div>
       <div class="hn-modal-field">
         <label class="hn-modal-label">First Name *</label>
@@ -357,31 +177,166 @@
     </div>
     <div class="hn-success" id="freeSuccess">
       <div class="hn-success-icon">🌿</div>
-      <div class="hn-success-title">See you Saturday!</div>
-      <div class="hn-success-text">We'll send you the details by email. Just show up and say hi!</div>
+      <div class="hn-success-title">You're in!</div>
+      <div class="hn-success-text">We'll send you the details by email. See you there!</div>
       <button class="hn-modal-submit" style="margin-top:24px;" onclick="closeFreeModal()">Done</button>
     </div>
   </div>
 </div>
 
 <script>
-  function filterEvents(el, type) {
+  const EVENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
+  const RSVP_WEBHOOK = 'https://hook.us2.make.com/uh1ajddmq2chqp3bbdcxy5w05ugkqevf';
+
+  let allEvents = [];
+  let activeFilter = 'all';
+  let currentEventName = '';
+
+  async function loadEvents() {
+    try {
+      const res = await fetch(EVENTS_CSV_URL);
+      const text = await res.text();
+      const rows = text.trim().split('\n').slice(1);
+      allEvents = rows.filter(r => r.trim()).map(row => {
+        const cols = parseCSVRow(row);
+        return {
+          name: cols[0] || '',
+          category: cols[1] || '',
+          datetime: cols[2] || '',
+          location: cols[3] || '',
+          description: cols[4] || '',
+          priceMember: cols[5] || '',
+          priceNonMember: cols[6] || '',
+          stripeMember: cols[7] || '',
+          stripeNonMember: cols[8] || '',
+          type: cols[9] || 'paid'
+        };
+      });
+      renderEvents();
+    } catch(e) {
+      document.getElementById('eventsContainer').innerHTML = '<div class="hn-loading">Unable to load events. Please refresh.</div>';
+    }
+  }
+
+  function parseCSVRow(row) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < row.length; i++) {
+      const char = row[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  function getBadgeClass(category) {
+    if (category.includes('Adults')) return 'b-adult';
+    if (category.includes('Moms')) return 'b-moms';
+    if (category.includes('Family')) return 'b-family';
+    if (category.includes('Free')) return 'b-free';
+    if (category.includes('Premium')) return 'b-premium';
+    return 'b-adult';
+  }
+
+  function renderEvents() {
+    const container = document.getElementById('eventsContainer');
+    const filtered = allEvents.filter(e => {
+      if (activeFilter === 'all') return true;
+      return e.category.includes(activeFilter);
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="hn-loading">No events match this filter.</div>';
+      return;
+    }
+
+    container.innerHTML = filtered.map(event => {
+      const badgeClass = getBadgeClass(event.category);
+      
+      if (event.type === 'free') {
+        return `
+          <div class="hn-event-row">
+            <div class="hn-event-main">
+              <div>
+                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+                <div class="hn-event-title">${event.name}</div>
+                <div class="hn-event-meta">📅 ${event.datetime}</div>
+                <div class="hn-event-meta">📍 ${event.location}</div>
+                <div class="hn-event-desc">${event.description}</div>
+              </div>
+              <div class="hn-event-right">
+                <div class="hn-event-price">Free</div>
+                <div class="hn-event-price-sub">always free</div>
+                <div class="hn-event-price-member">Open to everyone</div>
+                <button class="hn-book-btn free" onclick="openFreeModal('${event.name}')">Reserve my spot</button>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (event.type === 'premium') {
+        return `
+          <div class="hn-event-row">
+            <div class="hn-event-main">
+              <div>
+                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+                <div class="hn-event-title">${event.name}</div>
+                <div class="hn-event-meta">📅 ${event.datetime}</div>
+                <div class="hn-event-meta">📍 ${event.location}</div>
+                <div class="hn-event-desc">${event.description}</div>
+              </div>
+              <div class="hn-event-right">
+                <div class="hn-event-price">${event.priceNonMember}</div>
+                <div class="hn-event-price-sub">Premium membership</div>
+                <div class="hn-event-price-member">${event.priceMember}</div>
+                <a class="hn-book-btn" href="${event.stripeMember}" target="_blank">Get Premium — $80/yr</a>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="hn-event-row">
+            <div class="hn-event-main">
+              <div>
+                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+                <div class="hn-event-title">${event.name}</div>
+                <div class="hn-event-meta">📅 ${event.datetime}</div>
+                <div class="hn-event-meta">📍 ${event.location}</div>
+                <div class="hn-event-desc">${event.description}</div>
+              </div>
+              <div class="hn-event-right">
+                <div class="hn-event-price">${event.priceNonMember}</div>
+                <div class="hn-event-price-sub">non-members</div>
+                <div class="hn-event-price-member">${event.priceMember} for members</div>
+                <a class="hn-book-btn" href="${event.stripeNonMember}" target="_blank">Book my spot — ${event.priceNonMember}</a>
+                <a class="hn-book-btn member" href="${event.stripeMember}" target="_blank">Member price — ${event.priceMember}</a>
+                <div class="hn-member-note">Not a member? <a href="heyneighbor-join.html" style="color:#6B8F5E;">Join free →</a></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }).join('');
+  }
+
+  function filterEvents(el, filter) {
     document.querySelectorAll('.hn-filter-pill').forEach(p => p.classList.remove('on'));
     el.classList.add('on');
-    document.querySelectorAll('.hn-event-row').forEach(row => {
-      row.style.display = (type === 'all' || row.getAttribute('data-type') === type) ? 'block' : 'none';
-    });
+    activeFilter = filter;
+    renderEvents();
   }
 
-  function toggleExpand(el) {
-    const row = el.closest('.hn-event-row');
-    const panel = row.querySelector('.hn-event-expand');
-    const isOpen = panel.classList.contains('show');
-    panel.classList.toggle('show');
-    el.textContent = isOpen ? 'See more details ↓' : 'See less ↑';
-  }
-
-  function openFreeModal() {
+  function openFreeModal(eventName) {
+    currentEventName = eventName;
+    document.getElementById('freeEventName').textContent = eventName;
     document.getElementById('freeForm').style.display = 'block';
     document.getElementById('freeSuccess').classList.remove('show');
     document.getElementById('freeModalOverlay').classList.add('show');
@@ -395,13 +350,41 @@
     if (e.target === document.getElementById('freeModalOverlay')) closeFreeModal();
   }
 
-  function submitFreeBooking() {
-    const firstName = document.getElementById('freeFirstName').value;
-    const email = document.getElementById('freeEmail').value;
-    if (!firstName || !email) { alert('Please fill in all required fields.'); return; }
-    document.getElementById('freeForm').style.display = 'none';
-    document.getElementById('freeSuccess').classList.add('show');
+  async function submitFreeBooking() {
+    const firstName = document.getElementById('freeFirstName').value.trim();
+    const lastName = document.getElementById('freeLastName').value.trim();
+    const email = document.getElementById('freeEmail').value.trim();
+
+    if (!firstName || !lastName || !email) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const data = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      eventName: currentEventName,
+      date: new Date().toLocaleDateString()
+    };
+
+    try {
+      await fetch(RSVP_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      document.getElementById('freeForm').style.display = 'none';
+      document.getElementById('freeSuccess').classList.add('show');
+      document.getElementById('freeFirstName').value = '';
+      document.getElementById('freeLastName').value = '';
+      document.getElementById('freeEmail').value = '';
+    } catch(e) {
+      alert('Something went wrong. Please try again.');
+    }
   }
+
+  loadEvents();
 </script>
 
 </body>
