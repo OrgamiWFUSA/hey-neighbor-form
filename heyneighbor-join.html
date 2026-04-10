@@ -993,6 +993,15 @@
     if (nextBtn) nextBtn.click();
   });
 </script>
+<script type="module" src="firebase-init.js"></script>
+<script type="module">
+  import { auth, db } from './firebase-init.js';
+  import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // We will plug the logic here in a second!
+  console.log("Firebase is ready to use!");
+</script>
 
 </body>
 </html>
