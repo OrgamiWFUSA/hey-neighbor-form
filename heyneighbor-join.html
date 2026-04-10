@@ -866,16 +866,14 @@
       <h1 class="completion-title">Your village is awaiting you.</h1>
       <p class="completion-sub">You're one step away from becoming part of something really special. Lock in your membership below.</p>
 
-      <!-- Premium Membership -->
       <div class="founding-card">
         <span class="founding-badge">Premium Member</span>
         <div class="founding-title">Join Hey Neighbor Premium</div>
         <div class="founding-desc">Get matched with parents in your neighborhood, access to all events including invite-only experiences, and priority booking.</div>
         <div class="founding-price">$80 <span>/ year</span></div>
-        <a class="btn-founding" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Join as a Premium Member →</a>
+        <button class="btn-founding" onclick="showConfirm('member')">Join as a Premium Member →</button>
       </div>
 
-      <!-- Basic Membership -->
       <button class="btn-not-ready" onclick="showConfirm('nonmember')">
         Join as a Basic Member — Free
       </button>
@@ -965,26 +963,6 @@
     document.getElementById('heardNext').disabled = false;
   }
 
-  async function showConfirm(type) {
-    const data = collectFormData();
-    data.membershipChoice = type;
-
-    try {
-      fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) {
-      console.error('Submission error:', err);
-    }
-
-    document.getElementById('confirmMsg').classList.add('show');
-    document.querySelector('.btn-not-ready').style.display = 'none';
-    document.querySelector('.not-ready-note').style.display = 'none';
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }
-
   document.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
     const active = document.querySelector('.step.active');
@@ -993,14 +971,44 @@
     if (nextBtn) nextBtn.click();
   });
 </script>
-<script type="module" src="firebase-init.js"></script>
+
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // We will plug the logic here in a second!
   console.log("Firebase is ready to use!");
+
+  window.showConfirm = async function(type) {
+    const data = collectFormData();
+    data.membershipChoice = type;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, "HeyNeighbor2026!");
+      await setDoc(doc(db, "members", userCredential.user.uid), {
+        ...data,
+        dateJoined: new Date().toISOString()
+      });
+      await fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (err) {
+      console.error('Signup error:', err);
+      alert('Oops! ' + err.message);
+      return;
+    }
+
+    if (type === 'member') {
+      window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
+    } else {
+      document.getElementById('confirmMsg').classList.add('show');
+      document.querySelector('.btn-not-ready').style.display = 'none';
+      document.querySelector('.not-ready-note').style.display = 'none';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  }
 </script>
 
 </body>
