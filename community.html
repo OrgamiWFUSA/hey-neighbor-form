@@ -7,20 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sage:       #6B8F5E;
-    --sage-light: #E4EDE0;
-    --sage-mid:   #C8D4C0;
-    --sage-dark:  #3D5C34;
-    --forest:     #2D3B2A;
-    --cream:      #F8F6F1;
-    --warm-white: #FDFCF9;
-    --text:       #2D3B2A;
-    --text-muted: #6A7A65;
-    --border:     #C8D4C0;
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans:  'Jost', sans-serif;
+    --sage: #6B8F5E; --sage-light: #E4EDE0; --sage-mid: #C8D4C0;
+    --sage-dark: #3D5C34; --forest: #2D3B2A; --cream: #F8F6F1;
+    --warm-white: #FDFCF9; --text: #2D3B2A; --text-muted: #6A7A65;
+    --border: #C8D4C0; --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Jost', sans-serif;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans); background: var(--cream); color: var(--text); min-height: 100vh; }
 
@@ -47,64 +39,60 @@
   .gate-text { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
   .gate-btns { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto; }
   .gate-divider { width: 48px; height: 2px; background: var(--sage-mid); margin: 24px auto; border-radius: 2px; }
-  .btn-primary { background: var(--sage); color: #fff; border: none; border-radius: 50px; padding: 16px 32px; font-family: var(--font-sans); font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: block; text-align: center; transition: background 0.15s; }
+  .btn-primary { background: var(--sage); color: #fff; border: none; border-radius: 50px; padding: 16px 32px; font-family: var(--font-sans); font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: block; text-align: center; }
   .btn-primary:hover { background: var(--sage-dark); }
-  .btn-secondary { background: transparent; color: var(--text-muted); border: 1.5px solid var(--border); border-radius: 50px; padding: 14px 32px; font-family: var(--font-sans); font-size: 14px; cursor: pointer; text-decoration: none; display: block; text-align: center; transition: border-color 0.15s; }
+  .btn-secondary { background: transparent; color: var(--text-muted); border: 1.5px solid var(--border); border-radius: 50px; padding: 14px 32px; font-family: var(--font-sans); font-size: 14px; cursor: pointer; text-decoration: none; display: block; text-align: center; }
   .btn-secondary:hover { border-color: var(--sage-mid); color: var(--forest); }
 
   /* MAIN BOARD LAYOUT */
-  .board-layout { display: none; max-width: 1100px; margin: 0 auto; padding: 32px 28px; gap: 28px; grid-template-columns: 240px 1fr; }
+  .board-layout { display: none; grid-template-columns: 260px 1fr; gap: 28px; max-width: 1100px; margin: 0 auto; padding: 36px 28px 80px; }
   .board-layout.show { display: grid; }
 
   /* LEFT SIDEBAR */
   .sidebar { display: flex; flex-direction: column; gap: 20px; }
-
   .sidebar-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .sidebar-title { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--forest); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .sidebar-member { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .sidebar-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
+  .sidebar-name { font-size: 14px; font-weight: 500; color: var(--forest); }
+  .sidebar-hood { font-size: 12px; color: var(--text-muted); }
+  .sidebar-badge { display: inline-block; background: var(--sage); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-top: 6px; }
 
-  .sidebar-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+  /* NEIGHBORHOOD FILTER */
+  .hood-list { display: flex; flex-direction: column; gap: 6px; }
+  .hood-item { padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-muted); cursor: pointer; transition: background 0.15s; }
+  .hood-item:hover { background: var(--sage-light); color: var(--forest); }
+  .hood-item.on { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
 
-  .neighborhood-list { display: flex; flex-direction: column; gap: 6px; }
+  /* CATEGORY FILTER */
+  .cat-list { display: flex; flex-direction: column; gap: 6px; }
+  .cat-item { padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-muted); cursor: pointer; transition: background 0.15s; }
+  .cat-item:hover { background: var(--sage-light); color: var(--forest); }
+  .cat-item.on { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
 
-  .hood-pill { padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-muted); cursor: pointer; transition: background 0.15s; }
-  .hood-pill:hover { background: var(--sage-light); color: var(--forest); }
-  .hood-pill.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
-
-  .category-list { display: flex; flex-direction: column; gap: 6px; }
-
-  .cat-pill { padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-muted); cursor: pointer; transition: background 0.15s; display: flex; align-items: center; gap: 8px; }
-  .cat-pill:hover { background: var(--sage-light); color: var(--forest); }
-  .cat-pill.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
-
-  .member-card { background: var(--sage-light); border: 1px solid var(--sage-mid); border-radius: 12px; padding: 20px; text-align: center; }
-  .member-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: #fff; margin: 0 auto 12px; }
-  .member-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 4px; }
-  .member-hood { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-  .member-badge { display: inline-block; background: var(--sage); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
-
-  /* RIGHT BOARD CONTENT */
-  .board-content { display: flex; flex-direction: column; gap: 20px; }
-
-  .board-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-  .board-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--forest); }
-  .board-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  /* MAIN FEED */
+  .feed { display: flex; flex-direction: column; gap: 0; }
+  .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .feed-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--forest); }
+  .feed-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
   .premium-badge { background: var(--sage); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; }
 
   /* COMPOSER */
-  .composer { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .composer { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
   .composer-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
   .composer-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
-  .composer-input { width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 14px; color: var(--forest); padding: 12px 16px; outline: none; resize: none; min-height: 80px; transition: border-color 0.2s; }
+  .composer-input { width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 14px; color: var(--forest); padding: 12px 16px; outline: none; resize: none; min-height: 80px; }
   .composer-input:focus { border-color: var(--sage); }
   .composer-input::placeholder { color: #BCC8B8; }
   .composer-bottom { display: flex; justify-content: space-between; align-items: center; }
   .composer-category { background: var(--cream); border: 1.5px solid var(--border); border-radius: 20px; padding: 6px 14px; font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); outline: none; cursor: pointer; }
-  .btn-post { background: var(--sage); color: #fff; border: none; border-radius: 20px; padding: 8px 24px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+  .btn-post { background: var(--sage); color: #fff; border: none; border-radius: 20px; padding: 8px 24px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; }
   .btn-post:hover { background: var(--sage-dark); }
   .btn-post:disabled { background: var(--sage-mid); cursor: default; }
 
   /* POSTS */
   .posts-list { display: flex; flex-direction: column; gap: 14px; }
-  .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: box-shadow 0.15s; }
+  .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
   .post-card:hover { box-shadow: 0 2px 12px rgba(45,59,42,0.07); }
   .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .post-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
@@ -121,10 +109,10 @@
   /* REPLY COMPOSER */
   .reply-composer { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EAF0E6; }
   .reply-composer.show { display: flex; gap: 10px; }
-  .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; transition: border-color 0.2s; }
+  .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; }
   .reply-input:focus { border-color: var(--sage); }
   .reply-input::placeholder { color: #BCC8B8; }
-  .btn-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+  .btn-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .btn-reply-submit:hover { background: var(--sage-dark); }
 
   /* REPLIES */
@@ -142,7 +130,6 @@
   @media (max-width: 768px) {
     .board-layout { grid-template-columns: 1fr; }
     .sidebar { display: none; }
-    .gate-card { padding: 36px 24px; }
     nav { padding: 14px 20px; }
   }
 </style>
@@ -185,7 +172,7 @@
     <div class="gate-eyebrow">Premium Only</div>
     <div class="gate-title">Unlock the community board.</div>
     <div class="gate-divider"></div>
-    <div class="gate-text">The community board is exclusively for Hey Neighbor Premium members. Upgrade for $80/year to join the conversation, get member pricing on all events, and access invite-only experiences.</div>
+    <div class="gate-text">The community board is exclusively for Hey Neighbor Premium members. Upgrade for $80/year to join the conversation.</div>
     <div class="gate-btns">
       <a class="btn-primary" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Upgrade to Premium — $80/yr →</a>
       <a class="btn-secondary" href="dashboard.html">Back to my dashboard</a>
@@ -193,63 +180,68 @@
   </div>
 </div>
 
-<!-- FULL COMMUNITY BOARD -->
+<!-- FULL BOARD (Premium only) -->
 <div class="board-layout" id="boardLayout">
 
   <!-- LEFT SIDEBAR -->
   <div class="sidebar">
 
-    <!-- Member Card -->
-    <div class="member-card">
-      <div class="member-avatar" id="sidebarAvatar">?</div>
-      <div class="member-name" id="sidebarName">Member</div>
-      <div class="member-hood" id="sidebarHood">Hey Neighbor</div>
-      <div class="member-badge">✦ Premium</div>
+    <!-- Member Profile Card -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">My Profile</div>
+      <div class="sidebar-member">
+        <div class="sidebar-avatar" id="sidebarAvatar">?</div>
+        <div>
+          <div class="sidebar-name" id="sidebarName">Loading...</div>
+          <div class="sidebar-hood" id="sidebarHood">—</div>
+          <div class="sidebar-badge">Premium</div>
+        </div>
+      </div>
     </div>
 
     <!-- Neighborhood Filter -->
     <div class="sidebar-card">
-      <div class="sidebar-label">Filter by neighborhood</div>
-      <div class="neighborhood-list">
-        <div class="hood-pill active" onclick="filterNeighborhood(this, 'all')">🗽 All NYC</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Upper East Side')">Upper East Side</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Upper West Side')">Upper West Side</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Midtown East')">Midtown East</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Midtown West')">Midtown West</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Downtown East')">Downtown East</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Downtown West')">Downtown West</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Williamsburg')">Williamsburg</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'DUMBO')">DUMBO</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Carroll Gardens')">Carroll Gardens</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Astoria')">Astoria</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Sunnyside')">Sunnyside</div>
-        <div class="hood-pill" onclick="filterNeighborhood(this, 'Forest Hills')">Forest Hills</div>
+      <div class="sidebar-title">Neighborhood</div>
+      <div class="hood-list">
+        <div class="hood-item on" onclick="filterHood(this,'all')">🗺️ All NYC</div>
+        <div class="hood-item" onclick="filterHood(this,'Upper East Side')">Upper East Side</div>
+        <div class="hood-item" onclick="filterHood(this,'Upper West Side')">Upper West Side</div>
+        <div class="hood-item" onclick="filterHood(this,'Midtown East')">Midtown East</div>
+        <div class="hood-item" onclick="filterHood(this,'Midtown West')">Midtown West</div>
+        <div class="hood-item" onclick="filterHood(this,'Downtown East')">Downtown East</div>
+        <div class="hood-item" onclick="filterHood(this,'Downtown West')">Downtown West</div>
+        <div class="hood-item" onclick="filterHood(this,'Williamsburg')">Williamsburg</div>
+        <div class="hood-item" onclick="filterHood(this,'DUMBO')">DUMBO</div>
+        <div class="hood-item" onclick="filterHood(this,'Carroll Gardens')">Carroll Gardens</div>
+        <div class="hood-item" onclick="filterHood(this,'Astoria')">Astoria</div>
+        <div class="hood-item" onclick="filterHood(this,'Sunnyside')">Sunnyside</div>
+        <div class="hood-item" onclick="filterHood(this,'Forest Hills')">Forest Hills</div>
       </div>
     </div>
 
     <!-- Category Filter -->
     <div class="sidebar-card">
-      <div class="sidebar-label">Filter by category</div>
-      <div class="category-list">
-        <div class="cat-pill active" onclick="filterCategory(this, 'all')">💬 All posts</div>
-        <div class="cat-pill" onclick="filterCategory(this, 'General')">💬 General</div>
-        <div class="cat-pill" onclick="filterCategory(this, 'Recommendations')">⭐ Recommendations</div>
-        <div class="cat-pill" onclick="filterCategory(this, 'Events')">📅 Events</div>
-        <div class="cat-pill" onclick="filterCategory(this, 'Parenting')">👶 Parenting</div>
-        <div class="cat-pill" onclick="filterCategory(this, 'Resources')">📚 Resources</div>
-        <div class="cat-pill" onclick="filterCategory(this, 'Introductions')">👋 Introductions</div>
+      <div class="sidebar-title">Category</div>
+      <div class="cat-list">
+        <div class="cat-item on" onclick="filterCat(this,'all')">💬 All posts</div>
+        <div class="cat-item" onclick="filterCat(this,'General')">💬 General</div>
+        <div class="cat-item" onclick="filterCat(this,'Recommendations')">⭐ Recommendations</div>
+        <div class="cat-item" onclick="filterCat(this,'Events')">📅 Events</div>
+        <div class="cat-item" onclick="filterCat(this,'Parenting')">👶 Parenting</div>
+        <div class="cat-item" onclick="filterCat(this,'Resources')">📚 Resources</div>
+        <div class="cat-item" onclick="filterCat(this,'Introductions')">👋 Introductions</div>
       </div>
     </div>
 
   </div>
 
-  <!-- RIGHT BOARD CONTENT -->
-  <div class="board-content">
+  <!-- MAIN FEED -->
+  <div class="feed">
 
-    <div class="board-header">
+    <div class="feed-header">
       <div>
-        <div class="board-title">Community Board</div>
-        <div class="board-subtitle" id="boardSubtitle">Welcome to your neighborhood feed.</div>
+        <div class="feed-title">Community Board</div>
+        <div class="feed-subtitle" id="feedSubtitle">Welcome to your neighborhood feed.</div>
       </div>
       <span class="premium-badge">✦ Premium</span>
     </div>
@@ -285,28 +277,26 @@
 </div>
 
 <script>
-  let currentFilter = { neighborhood: 'all', category: 'all' };
+  let currentFilter = 'all';
+  let currentHood = 'all';
   let allPosts = [];
 
-  function filterNeighborhood(el, hood) {
-    document.querySelectorAll('.hood-pill').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    currentFilter.neighborhood = hood;
-    renderPosts();
-  }
-
-  function filterCategory(el, cat) {
-    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    currentFilter.category = cat;
-    renderPosts();
-  }
-
   function handlePost() {
-    const text = document.getElementById('postInput').value.trim();
-    const category = document.getElementById('postCategory').value;
-    if (!text) return;
-    document.dispatchEvent(new CustomEvent('hn-post', { detail: { text, category } }));
+    document.dispatchEvent(new CustomEvent('hn-post'));
+  }
+
+  function filterCat(el, cat) {
+    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('on'));
+    el.classList.add('on');
+    currentFilter = cat;
+    renderPosts();
+  }
+
+  function filterHood(el, hood) {
+    document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('on'));
+    el.classList.add('on');
+    currentHood = hood;
+    renderPosts();
   }
 
   function toggleReply(postId) {
@@ -323,18 +313,13 @@
     input.value = '';
   }
 
-  function handleLogout() {
-    document.dispatchEvent(new CustomEvent('hn-logout'));
-  }
-
   function getInitials(first, last) {
     return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
   }
 
   function timeAgo(dateStr) {
     if (!dateStr) return '';
-    const date = dateStr.toDate ? dateStr.toDate() : new Date(dateStr);
-    const diff = Math.floor((Date.now() - date) / 1000);
+    const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
     if (diff < 60) return 'just now';
     if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
     if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
@@ -345,11 +330,11 @@
     const list = document.getElementById('postsList');
     let filtered = allPosts;
 
-    if (currentFilter.neighborhood !== 'all') {
-      filtered = filtered.filter(p => p.neighborhood === currentFilter.neighborhood);
+    if (currentFilter !== 'all') {
+      filtered = filtered.filter(p => p.category === currentFilter);
     }
-    if (currentFilter.category !== 'all') {
-      filtered = filtered.filter(p => p.category === currentFilter.category);
+    if (currentHood !== 'all') {
+      filtered = filtered.filter(p => p.neighborhood === currentHood);
     }
 
     if (filtered.length === 0) {
@@ -368,7 +353,7 @@
           <div class="post-header">
             <div class="post-avatar">${getInitials(post.authorFirstName, post.authorLastName)}</div>
             <div>
-              <div class="post-author">${post.authorFirstName || 'Member'} ${post.authorLastName?.[0] || ''}.</div>
+              <div class="post-author">${post.authorFirstName || 'Member'} ${(post.authorLastName || '')[0] || ''}.</div>
               <div class="post-hood">${post.neighborhood || 'Hey Neighbor member'}</div>
             </div>
             <div class="post-time">${timeAgo(post.createdAt)}</div>
@@ -381,7 +366,7 @@
                 <div class="reply-item">
                   <div class="reply-header">
                     <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
-                    <div class="reply-author">${r.authorFirstName || 'Member'} ${r.authorLastName?.[0] || ''}.</div>
+                    <div class="reply-author">${r.authorFirstName || 'Member'} ${(r.authorLastName || '')[0] || ''}.</div>
                     <div class="reply-time">${timeAgo(r.createdAt)}</div>
                   </div>
                   <div class="reply-text">${r.text}</div>
@@ -395,7 +380,7 @@
           </div>
           <div class="reply-composer" id="reply-composer-${post.id}">
             <textarea class="reply-input" id="reply-input-${post.id}" placeholder="Write a reply..."></textarea>
-            <button class="btn-reply-submit" onclick="submitReply('${post.id}')">Reply →</button>
+            <button class="btn-reply-submit" onclick="submitReply('${post.id}')">Reply</button>
           </div>
         </div>
       `;
@@ -427,111 +412,113 @@
     try {
       const docSnap = await getDoc(doc(db, "members", user.uid));
       if (docSnap.exists()) currentProfile = docSnap.data();
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) { console.error(err); }
 
     const isPremium = currentProfile && currentProfile.membershipChoice === 'member';
 
     if (!isPremium) {
       document.getElementById('gateBasicMember').classList.add('show');
+      document.getElementById('navRight').innerHTML = `
+        <span style="font-size:13px;color:var(--text-muted)">Hi, ${currentProfile?.firstName || 'there'} 👋</span>
+        <a href="dashboard.html" style="font-size:13px;color:var(--text-muted);text-decoration:none;">Dashboard</a>
+      `;
       return;
     }
 
-    // Premium member — show the full board
+    // Premium — show the board
     const firstName = currentProfile?.firstName || user.displayName || 'there';
     const lastName = currentProfile?.lastName || '';
-    const neighborhood = currentProfile?.neighborhood || 'Hey Neighbor';
+    const initials = getInitials(firstName, lastName);
 
-    // Show board
     document.getElementById('boardLayout').classList.add('show');
+    document.getElementById('feedSubtitle').textContent = `Welcome back, ${firstName}!`;
+    document.getElementById('composerAvatar').textContent = initials;
+    document.getElementById('sidebarAvatar').textContent = initials;
+    document.getElementById('sidebarName').textContent = `${firstName} ${lastName}`.trim();
+    document.getElementById('sidebarHood').textContent = currentProfile?.neighborhood || 'NYC';
 
-    // Update nav
     document.getElementById('navRight').innerHTML = `
       <span style="font-size:13px;color:var(--text-muted)">Hi, ${firstName} 👋</span>
-      <a href="dashboard.html" class="nav-link">Dashboard</a>
-      <button class="btn-logout" onclick="handleLogout()">Log out</button>
+      <a href="dashboard.html" style="font-size:13px;color:var(--text-muted);text-decoration:none;">Dashboard</a>
+      <button class="btn-logout" onclick="document.dispatchEvent(new CustomEvent('hn-logout'))">Log out</button>
     `;
 
-    // Update sidebar
-    document.getElementById('sidebarAvatar').textContent = getInitials(firstName, lastName);
-    document.getElementById('sidebarName').textContent = firstName + ' ' + lastName;
-    document.getElementById('sidebarHood').textContent = neighborhood;
-    document.getElementById('composerAvatar').textContent = getInitials(firstName, lastName);
-    document.getElementById('boardSubtitle').textContent = `Welcome back, ${firstName}! What's happening in ${neighborhood}?`;
-
-    // Load posts in real time
+    // Load posts in real time from Firestore
     const postsQuery = query(collection(db, "community_posts"), orderBy("createdAt", "desc"));
     onSnapshot(postsQuery, (snapshot) => {
       allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       renderPosts();
     });
+  });
 
-    // New post
-    document.addEventListener('hn-post', async (e) => {
-      const { text, category } = e.detail;
-      const btn = document.getElementById('postBtn');
-      btn.disabled = true;
-      btn.textContent = 'Posting...';
-      try {
-        await addDoc(collection(db, "community_posts"), {
-          text,
+  // New post
+  document.addEventListener('hn-post', async () => {
+    const text = document.getElementById('postInput').value.trim();
+    const category = document.getElementById('postCategory').value;
+    if (!text) return;
+
+    const btn = document.getElementById('postBtn');
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
+
+    try {
+      await addDoc(collection(db, "community_posts"), {
+        text,
+        category,
+        authorFirstName: currentProfile?.firstName || 'Member',
+        authorLastName: currentProfile?.lastName || '',
+        neighborhood: currentProfile?.neighborhood || '',
+        authorUid: currentUser.uid,
+        createdAt: new Date().toISOString(),
+        replies: []
+      });
+
+      // Also save to Google Sheets via Make.com
+      fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `${currentProfile?.firstName} ${currentProfile?.lastName}`,
+          neighborhood: currentProfile?.neighborhood || '',
           category,
+          message: text,
+          date: new Date().toISOString()
+        })
+      });
+
+      document.getElementById('postInput').value = '';
+    } catch (err) {
+      console.error(err);
+      alert('Could not post. Please try again.');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Post →';
+  });
+
+  // Reply
+  document.addEventListener('hn-reply', async (e) => {
+    const { postId, text } = e.detail;
+    try {
+      await updateDoc(doc(db, "community_posts", postId), {
+        replies: arrayUnion({
+          text,
           authorFirstName: currentProfile?.firstName || 'Member',
           authorLastName: currentProfile?.lastName || '',
-          neighborhood: currentProfile?.neighborhood || '',
           authorUid: currentUser.uid,
-          createdAt: serverTimestamp(),
-          replies: []
-        });
-        document.getElementById('postInput').value = '';
+          createdAt: new Date().toISOString()
+        })
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Could not post reply. Please try again.');
+    }
+  });
 
-        // Also save to Google Sheets
-        fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: (currentProfile?.firstName || '') + ' ' + (currentProfile?.lastName || ''),
-            neighborhood: currentProfile?.neighborhood || '',
-            category,
-            message: text,
-            date: new Date().toISOString()
-          })
-        });
-      } catch (err) {
-        console.error(err);
-        alert('Could not post. Try again.');
-      }
-      btn.disabled = false;
-      btn.textContent = 'Post →';
-    });
-
-    // Reply
-    document.addEventListener('hn-reply', async (e) => {
-      const { postId, text } = e.detail;
-      try {
-        await updateDoc(doc(db, "community_posts", postId), {
-          replies: arrayUnion({
-            text,
-            authorFirstName: currentProfile?.firstName || 'Member',
-            authorLastName: currentProfile?.lastName || '',
-            authorUid: currentUser.uid,
-            createdAt: new Date().toISOString()
-          })
-        });
-        const composer = document.getElementById('reply-composer-' + postId);
-        if (composer) composer.classList.remove('show');
-      } catch (err) {
-        console.error(err);
-        alert('Could not post reply. Try again.');
-      }
-    });
-
-    // Logout
-    document.addEventListener('hn-logout', async () => {
-      await signOut(auth);
-      window.location.href = 'index.html';
-    });
+  // Logout
+  document.addEventListener('hn-logout', async () => {
+    await signOut(auth);
+    window.location.href = 'index.html';
   });
 </script>
 
