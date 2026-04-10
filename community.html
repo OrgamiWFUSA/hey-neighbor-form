@@ -24,512 +24,98 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans); background: var(--cream); color: var(--text); min-height: 100vh; }
 
-  nav {
-    background: var(--warm-white);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: var(--font-serif);
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--forest);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-  }
-
-  .logo-leaf {
-    width: 18px;
-    height: 18px;
-    background: var(--sage);
-    border-radius: 50% 0 50% 0;
-    transform: rotate(45deg);
-    flex-shrink: 0;
-  }
-
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .nav-link {
-    font-size: 13px;
-    color: var(--text-muted);
-    text-decoration: none;
-  }
-
+  nav { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--forest); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .logo-leaf { width: 18px; height: 18px; background: var(--sage); border-radius: 50% 0 50% 0; transform: rotate(45deg); flex-shrink: 0; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-link { font-size: 13px; color: var(--text-muted); text-decoration: none; }
   .nav-link:hover { color: var(--forest); }
-
-  .btn-logout {
-    background: transparent;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
-  }
-
+  .btn-logout { background: transparent; border: 1.5px solid var(--border); border-radius: 20px; padding: 6px 16px; font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
   .btn-logout:hover { border-color: var(--sage-mid); color: var(--forest); }
 
-  .loading {
-    text-align: center;
-    padding: 80px 20px;
-    font-size: 14px;
-    color: var(--text-muted);
-  }
+  .loading { text-align: center; padding: 80px 20px; font-size: 14px; color: var(--text-muted); }
 
   /* GATE SCREENS */
-  .gate {
-    display: none;
-    min-height: 80vh;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 24px;
-  }
-
+  .gate { display: none; min-height: 80vh; align-items: center; justify-content: center; padding: 48px 24px; }
   .gate.show { display: flex; }
-
-  .gate-card {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 56px 48px;
-    max-width: 520px;
-    width: 100%;
-    text-align: center;
-  }
-
+  .gate-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 20px; padding: 56px 48px; max-width: 520px; width: 100%; text-align: center; }
   .gate-icon { font-size: 48px; margin-bottom: 24px; }
-
-  .gate-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 10px;
-  }
-
-  .gate-title {
-    font-family: var(--font-serif);
-    font-size: 38px;
-    font-weight: 600;
-    color: var(--forest);
-    line-height: 1.2;
-    margin-bottom: 14px;
-  }
-
-  .gate-text {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 32px;
-  }
-
-  .gate-btns {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .btn-primary {
-    background: var(--sage);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    padding: 16px 32px;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-  }
-
+  .gate-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+  .gate-title { font-family: var(--font-serif); font-size: 38px; font-weight: 600; color: var(--forest); line-height: 1.2; margin-bottom: 14px; }
+  .gate-text { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+  .gate-btns { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto; }
+  .gate-divider { width: 48px; height: 2px; background: var(--sage-mid); margin: 24px auto; border-radius: 2px; }
+  .btn-primary { background: var(--sage); color: #fff; border: none; border-radius: 50px; padding: 16px 32px; font-family: var(--font-sans); font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.15s; text-decoration: none; display: block; text-align: center; }
   .btn-primary:hover { background: var(--sage-dark); }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text-muted);
-    border: 1.5px solid var(--border);
-    border-radius: 50px;
-    padding: 14px 32px;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-  }
-
+  .btn-secondary { background: transparent; color: var(--text-muted); border: 1.5px solid var(--border); border-radius: 50px; padding: 14px 32px; font-family: var(--font-sans); font-size: 14px; cursor: pointer; transition: border-color 0.15s, color 0.15s; text-decoration: none; display: block; text-align: center; }
   .btn-secondary:hover { border-color: var(--sage-mid); color: var(--forest); }
 
-  .gate-divider {
-    width: 48px;
-    height: 2px;
-    background: var(--sage-mid);
-    margin: 24px auto;
-    border-radius: 2px;
-  }
-
-  /* UPGRADE GATE */
-  .upgrade-gate-perks {
-    text-align: left;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 28px;
-  }
-
-  .perk-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    color: var(--forest);
-    padding: 6px 0;
-  }
-
-  .perk-icon { color: var(--sage); font-size: 16px; }
-
   /* BOARD */
-  .board-wrap {
-    display: none;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 40px 32px 80px;
-  }
-
+  .board-wrap { display: none; max-width: 860px; margin: 0 auto; padding: 40px 32px 80px; }
   .board-wrap.show { display: block; }
-
-  .board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .board-title {
-    font-family: var(--font-serif);
-    font-size: 32px;
-    font-weight: 600;
-    color: var(--forest);
-  }
-
-  .board-subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-
-  .premium-badge {
-    background: var(--sage);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 20px;
-  }
+  .board-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .board-title { font-family: var(--font-serif); font-size: 32px; font-weight: 600; color: var(--forest); }
+  .board-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .premium-badge { background: var(--sage); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; }
 
   /* COMPOSER */
-  .composer {
-    background: var(--warm-white);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 24px;
-  }
-
-  .composer-top {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    margin-bottom: 14px;
-  }
-
-  .composer-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--sage-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--sage-dark);
-    flex-shrink: 0;
-  }
-
-  .composer-input {
-    width: 100%;
-    background: var(--cream);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    color: var(--forest);
-    padding: 12px 16px;
-    outline: none;
-    resize: none;
-    min-height: 80px;
-    transition: border-color 0.2s;
-  }
-
+  .composer { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .composer-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+  .composer-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
+  .composer-input { width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 14px; color: var(--forest); padding: 12px 16px; outline: none; resize: none; min-height: 80px; transition: border-color 0.2s; }
   .composer-input:focus { border-color: var(--sage); }
   .composer-input::placeholder { color: #BCC8B8; }
-
-  .composer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .composer-category {
-    background: var(--cream);
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    color: var(--text-muted);
-    outline: none;
-    cursor: pointer;
-  }
-
-  .btn-post {
-    background: var(--sage);
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 24px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
+  .composer-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .composer-category { background: var(--cream); border: 1.5px solid var(--border); border-radius: 20px; padding: 6px 14px; font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); outline: none; cursor: pointer; }
+  .btn-post { background: var(--sage); color: #fff; border: none; border-radius: 20px; padding: 8px 24px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
   .btn-post:hover { background: var(--sage-dark); }
   .btn-post:disabled { background: var(--sage-mid); cursor: default; }
 
-  /* FILTER BAR */
-  .filter-bar {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
-
-  .filter-pill {
-    border: 1.5px solid var(--border);
-    color: var(--text-muted);
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    background: var(--warm-white);
-  }
-
+  /* FILTER */
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .filter-pill { border: 1.5px solid var(--border); color: var(--text-muted); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.15s, border-color 0.15s; background: var(--warm-white); }
   .filter-pill:hover { background: var(--sage-light); border-color: var(--sage-mid); }
   .filter-pill.on { background: var(--sage); border-color: var(--sage); color: #fff; }
 
   /* POSTS */
   .posts-list { display: flex; flex-direction: column; gap: 14px; }
-
-  .post-card {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    transition: box-shadow 0.15s;
-  }
-
+  .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: box-shadow 0.15s; }
   .post-card:hover { box-shadow: 0 2px 12px rgba(45,59,42,0.07); }
-
-  .post-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
-  .post-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--sage-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--sage-dark);
-    flex-shrink: 0;
-  }
-
+  .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .post-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
   .post-author { font-size: 13px; font-weight: 500; color: var(--forest); }
   .post-hood { font-size: 11px; color: var(--text-muted); }
   .post-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
-
-  .post-category {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: var(--sage-light);
-    color: var(--sage-dark);
-    margin-bottom: 8px;
-  }
-
-  .post-text {
-    font-size: 14px;
-    color: var(--forest);
-    line-height: 1.65;
-  }
-
-  .post-footer {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid #EAF0E6;
-  }
-
-  .post-reply-btn {
-    font-size: 12px;
-    color: var(--text-muted);
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: var(--font-sans);
-    padding: 0;
-  }
-
+  .post-category { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: var(--sage-light); color: var(--sage-dark); margin-bottom: 8px; }
+  .post-text { font-size: 14px; color: var(--forest); line-height: 1.65; }
+  .post-footer { display: flex; align-items: center; gap: 16px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #EAF0E6; }
+  .post-reply-btn { font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 0; }
   .post-reply-btn:hover { color: var(--sage); }
   .reply-count { font-size: 12px; color: var(--text-muted); }
 
   /* REPLY COMPOSER */
-  .reply-composer {
-    display: none;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid #EAF0E6;
-    gap: 10px;
-  }
-
-  .reply-composer.show { display: flex; }
-
-  .reply-input {
-    flex: 1;
-    background: var(--cream);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    color: var(--forest);
-    padding: 10px 14px;
-    outline: none;
-    resize: none;
-    transition: border-color 0.2s;
-  }
-
+  .reply-composer { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EAF0E6; }
+  .reply-composer.show { display: flex; gap: 10px; }
+  .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; transition: border-color 0.2s; }
   .reply-input:focus { border-color: var(--sage); }
   .reply-input::placeholder { color: #BCC8B8; }
-
-  .btn-reply-submit {
-    background: var(--sage);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 18px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-    white-space: nowrap;
-  }
-
+  .btn-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
   .btn-reply-submit:hover { background: var(--sage-dark); }
 
   /* REPLIES */
-  .replies-list {
-    margin-top: 12px;
-    padding-left: 16px;
-    border-left: 2px solid var(--sage-light);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .replies-list { margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--sage-light); display: flex; flex-direction: column; gap: 10px; }
+  .reply-item { background: var(--cream); border-radius: 8px; padding: 12px 16px; }
+  .reply-author { font-size: 12px; font-weight: 500; color: var(--forest); margin-bottom: 4px; }
+  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
+  .reply-time { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
-  .reply-item {
-    background: var(--cream);
-    border-radius: 8px;
-    padding: 12px 16px;
-  }
-
-  .reply-author {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--forest);
-    margin-bottom: 4px;
-  }
-
-  .reply-text {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  .reply-time {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
-    color: var(--text-muted);
-    font-size: 14px;
-    font-style: italic;
-  }
+  .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 14px; font-style: italic; }
 
   @media (max-width: 600px) {
     .gate-card { padding: 36px 24px; }
-    .board-wrap { padding: 28px 20px 60px; }
+    .board-wrap { padding: 24px 16px 60px; }
     nav { padding: 14px 20px; }
-    .board-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .composer-bottom { flex-direction: column; gap: 10px; align-items: flex-start; }
   }
 </style>
 </head>
@@ -541,42 +127,38 @@
     Hey Neighbor
   </a>
   <div class="nav-right" id="navRight">
-    <a class="nav-link" href="login.html">Log in</a>
-    <a class="btn-primary" href="heyneighbor-join.html" style="padding:7px 18px;font-size:13px;border-radius:20px;">Join free</a>
+    <a class="nav-link" href="events.html">Events</a>
+    <a class="nav-link" href="dashboard.html">My Dashboard</a>
+    <button class="btn-logout" id="logoutBtn" style="display:none" onclick="handleLogout()">Log out</button>
   </div>
 </nav>
 
 <!-- LOADING -->
 <div class="loading" id="loadingMsg">Loading...</div>
 
-<!-- GATE 1: NOT LOGGED IN -->
+<!-- GATE 1: Not logged in -->
 <div class="gate" id="gateNotLoggedIn">
   <div class="gate-card">
     <div class="gate-icon">🌿</div>
     <div class="gate-eyebrow">Members Only</div>
     <div class="gate-title">This is a private space.</div>
-    <div class="gate-text">The Hey Neighbor community board is exclusively for Premium members. Log in or join to get access.</div>
+    <div class="gate-text">The Hey Neighbor community board is for members only. It's where parents in your neighborhood ask questions, share recommendations, and actually connect.</div>
     <div class="gate-divider"></div>
     <div class="gate-btns">
-      <a class="btn-primary" href="login.html">Log in to my account</a>
-      <a class="btn-secondary" href="heyneighbor-join.html">Join Hey Neighbor free →</a>
+      <a class="btn-primary" href="heyneighbor-join.html">Join Hey Neighbor — Free</a>
+      <a class="btn-secondary" href="login.html">Already a member? Log in →</a>
     </div>
   </div>
 </div>
 
-<!-- GATE 2: LOGGED IN BUT BASIC -->
+<!-- GATE 2: Logged in but Basic member -->
 <div class="gate" id="gateBasicMember">
   <div class="gate-card">
-    <div class="gate-icon">🔒</div>
-    <div class="gate-eyebrow">Premium Members Only</div>
+    <div class="gate-icon">⭐</div>
+    <div class="gate-eyebrow">Premium Feature</div>
     <div class="gate-title">Upgrade to join the conversation.</div>
-    <div class="gate-text">The community board is available to Premium members. Upgrade today for $80/year and unlock everything Hey Neighbor has to offer.</div>
-    <div class="upgrade-gate-perks">
-      <div class="perk-item"><span class="perk-icon">✅</span> Access to the community board</div>
-      <div class="perk-item"><span class="perk-icon">✅</span> Member pricing on all events</div>
-      <div class="perk-item"><span class="perk-icon">✅</span> Exclusive invite-only experiences</div>
-      <div class="perk-item"><span class="perk-icon">✅</span> Priority event booking</div>
-    </div>
+    <div class="gate-text">The community board is exclusive to Hey Neighbor Premium members. Upgrade today to connect with parents in your neighborhood, ask questions, and share recommendations.</div>
+    <div class="gate-divider"></div>
     <div class="gate-btns">
       <a class="btn-primary" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Upgrade to Premium — $80/yr</a>
       <a class="btn-secondary" href="dashboard.html">Back to my dashboard</a>
@@ -584,141 +166,22 @@
   </div>
 </div>
 
-<!-- COMMUNITY BOARD (Premium only) -->
-<div class="board-wrap" id="boardWrap">
-  <div class="board-header">
-    <div>
-      <div class="board-title">Community Board</div>
-      <div class="board-subtitle" id="boardSubtitle">Welcome back!</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <span class="premium-badge">Premium</span>
-      <button class="btn-logout" onclick="handleLogout()">Log out</button>
-    </div>
-  </div>
-
-  <!-- COMPOSER -->
-  <div class="composer">
-    <div class="composer-top">
-      <div class="composer-avatar" id="composerAvatar">?</div>
-      <textarea class="composer-input" id="postInput" placeholder="Share something with the neighborhood..."></textarea>
-    </div>
-    <div class="composer-bottom">
-      <select class="composer-category" id="postCategory">
-        <option value="General">💬 General</option>
-        <option value="Recommendations">⭐ Recommendations</option>
-        <option value="Events">📅 Events</option>
-        <option value="Advice">🙋 Advice</option>
-        <option value="Classifieds">🛍️ Classifieds</option>
-      </select>
-      <button class="btn-post" id="postBtn" onclick="handlePost()">Post</button>
-    </div>
-  </div>
-
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
-    <div class="filter-pill on" onclick="filterPosts(this,'all')">All posts</div>
-    <div class="filter-pill" onclick="filterPosts(this,'General')">💬 General</div>
-    <div class="filter-pill" onclick="filterPosts(this,'Recommendations')">⭐ Recommendations</div>
-    <div class="filter-pill" onclick="filterPosts(this,'Events')">📅 Events</div>
-    <div class="filter-pill" onclick="filterPosts(this,'Advice')">🙋 Advice</div>
-    <div class="filter-pill" onclick="filterPosts(this,'Classifieds')">🛍️ Classifieds</div>
-  </div>
-
-  <!-- POSTS LIST -->
-  <div class="posts-list" id="postsList">
-    <div class="empty-state">No posts yet. Be the first to say something! 👋</div>
-  </div>
-</div>
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-
-  .reply-author { font-size: 12px; font-weight: 500; color: var(--forest); }
-  .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
-  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
-
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.7;
-  }
-
-  .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
-
-  @media (max-width: 600px) {
-    .gate-card { padding: 36px 24px; }
-    .board-wrap { padding: 28px 20px 60px; }
-    nav { padding: 14px 20px; }
-    .board-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-  }
-</style>
-</head>
-<body>
-
-<nav>
-  <a class="logo" href="index.html">
-    <div class="logo-leaf"></div>
-    Hey Neighbor
-  </a>
-  <div class="nav-right" id="navRight">
-    <a class="nav-link" href="login.html">Log in</a>
-    <a class="nav-link" href="heyneighbor-join.html" style="background:var(--sage);color:#fff;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;text-decoration:none;">Join free</a>
-  </div>
-</nav>
-
-<!-- LOADING -->
-<div class="loading" id="loadingMsg">Loading...</div>
-
-<!-- GATE: NOT LOGGED IN -->
-<div class="gate" id="gateNotLoggedIn">
-  <div class="gate-card">
-    <div class="gate-icon">🌿</div>
-    <div class="gate-eyebrow">Members Only</div>
-    <div class="gate-title">This is a private space.</div>
-    <div class="gate-text">The Hey Neighbor community board is for members only. Join free or log in to get access.</div>
-    <div class="gate-divider"></div>
-    <div class="gate-btns">
-      <a class="btn-primary" href="heyneighbor-join.html">Join Hey Neighbor — Free →</a>
-      <a class="btn-secondary" href="login.html">Already a member? Log in</a>
-    </div>
-  </div>
-</div>
-
-<!-- GATE: BASIC MEMBER -->
-<div class="gate" id="gateBasicMember">
-  <div class="gate-card">
-    <div class="gate-icon">🔒</div>
-    <div class="gate-eyebrow">Premium Only</div>
-    <div class="gate-title">Upgrade to join the conversation.</div>
-    <div class="gate-text">The community board is available to Premium members. Upgrade for $80/year and get access to the board, member pricing on all events, and exclusive invite-only experiences.</div>
-    <div class="gate-divider"></div>
-    <div class="gate-btns">
-      <a class="btn-primary" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Upgrade to Premium — $80/yr →</a>
-      <a class="btn-secondary" href="dashboard.html">Back to my dashboard</a>
-    </div>
-  </div>
-</div>
-
-<!-- COMMUNITY BOARD (Premium members only) -->
+<!-- ACTUAL COMMUNITY BOARD (Premium members only) -->
 <div class="board-wrap" id="boardWrap">
 
   <div class="board-header">
     <div>
       <div class="board-title">Community Board</div>
-      <div class="board-subtitle" id="boardSubtitle">Welcome to the Hey Neighbor community.</div>
+      <div class="board-subtitle">A private space for Hey Neighbor Premium members.</div>
     </div>
     <span class="premium-badge">Premium</span>
   </div>
 
-  <!-- COMPOSER -->
+  <!-- POST COMPOSER -->
   <div class="composer">
     <div class="composer-top">
       <div class="composer-avatar" id="composerAvatar">?</div>
-      <textarea class="composer-input" id="postInput" placeholder="Share something with your neighbors..."></textarea>
+      <textarea class="composer-input" id="postInput" placeholder="Share something with your neighborhood..."></textarea>
     </div>
     <div class="composer-bottom">
       <select class="composer-category" id="postCategory">
@@ -726,8 +189,8 @@
         <option value="Recommendations">⭐ Recommendations</option>
         <option value="Events">📅 Events</option>
         <option value="Parenting">👶 Parenting</option>
-        <option value="Buy & Sell">🛍️ Buy & Sell</option>
-        <option value="Help Needed">🙋 Help Needed</option>
+        <option value="Classifieds">🏷️ Classifieds</option>
+        <option value="Questions">❓ Questions</option>
       </select>
       <button class="btn-post" id="postBtn" onclick="handlePost()">Post →</button>
     </div>
@@ -740,25 +203,22 @@
     <div class="filter-pill" onclick="filterPosts(this,'Recommendations')">⭐ Recommendations</div>
     <div class="filter-pill" onclick="filterPosts(this,'Events')">📅 Events</div>
     <div class="filter-pill" onclick="filterPosts(this,'Parenting')">👶 Parenting</div>
-    <div class="filter-pill" onclick="filterPosts(this,'Buy & Sell')">🛍️ Buy & Sell</div>
-    <div class="filter-pill" onclick="filterPosts(this,'Help Needed')">🙋 Help Needed</div>
+    <div class="filter-pill" onclick="filterPosts(this,'Classifieds')">🏷️ Classifieds</div>
+    <div class="filter-pill" onclick="filterPosts(this,'Questions')">❓ Questions</div>
   </div>
 
-  <!-- POSTS -->
+  <!-- POSTS LIST -->
   <div class="posts-list" id="postsList">
-    <div class="empty-state" id="emptyState">
-      <div class="empty-state-icon">🌱</div>
-      <div>No posts yet. Be the first to say something!</div>
-    </div>
+    <div class="empty-state" id="emptyState">No posts yet. Be the first to say something! 🌿</div>
   </div>
 
 </div>
 
 <script>
   let currentFilter = 'all';
+  let allPosts = [];
   let currentUser = null;
   let currentProfile = null;
-  let allPosts = [];
 
   function filterPosts(el, category) {
     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('on'));
@@ -767,101 +227,115 @@
     renderPosts();
   }
 
+  function handlePost() {
+    document.dispatchEvent(new CustomEvent('hn-post'));
+  }
+
+  function handleLogout() {
+    document.dispatchEvent(new CustomEvent('hn-logout'));
+  }
+
+  function toggleReply(postId) {
+    const el = document.getElementById('reply-composer-' + postId);
+    if (el) el.classList.toggle('show');
+  }
+
+  function submitReply(postId) {
+    const input = document.getElementById('reply-input-' + postId);
+    if (!input || !input.value.trim()) return;
+    document.dispatchEvent(new CustomEvent('hn-reply', {
+      detail: { postId, text: input.value.trim() }
+    }));
+    input.value = '';
+  }
+
+  function timeAgo(dateStr) {
+    const now = new Date();
+    const then = new Date(dateStr);
+    const diff = Math.floor((now - then) / 1000);
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
+  }
+
+  function getInitials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(' ');
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : parts[0][0].toUpperCase();
+  }
+
   function renderPosts() {
     const list = document.getElementById('postsList');
+    const empty = document.getElementById('emptyState');
     const filtered = currentFilter === 'all'
       ? allPosts
       : allPosts.filter(p => p.category === currentFilter);
 
     if (filtered.length === 0) {
-      list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🌱</div><div>No posts yet in this category.</div></div>';
+      list.innerHTML = '';
+      list.appendChild(empty);
+      empty.style.display = 'block';
       return;
     }
 
-    list.innerHTML = filtered.map(post => `
-      <div class="post-card" id="post-${post.id}">
-        <div class="post-header">
-          <div class="post-avatar">${post.initials || '?'}</div>
-          <div>
-            <div class="post-author">${post.name || 'Hey Neighbor'}</div>
-            <div class="post-hood">${post.neighborhood || 'NYC'}</div>
-          </div>
-          <div class="post-time">${formatTime(post.timestamp)}</div>
+    empty.style.display = 'none';
+    list.innerHTML = '';
+
+    filtered.forEach(post => {
+      const initials = getInitials(post.name);
+      const repliesHtml = (post.replies || []).map(r => `
+        <div class="reply-item">
+          <div class="reply-author">${r.name} · <span style="color:var(--text-muted);font-weight:400">${r.neighborhood || ''}</span></div>
+          <div class="reply-text">${r.text}</div>
+          <div class="reply-time">${timeAgo(r.date)}</div>
         </div>
-        <div class="post-category">${post.category || 'General'}</div>
-        <div class="post-text">${escapeHtml(post.message)}</div>
+      `).join('');
+
+      const repliesListHtml = repliesHtml
+        ? `<div class="replies-list">${repliesHtml}</div>`
+        : '';
+
+      const card = document.createElement('div');
+      card.className = 'post-card';
+      card.setAttribute('data-category', post.category);
+      card.innerHTML = `
+        <div class="post-header">
+          <div class="post-avatar">${initials}</div>
+          <div>
+            <div class="post-author">${post.name}</div>
+            <div class="post-hood">${post.neighborhood || ''}</div>
+          </div>
+          <div class="post-time">${timeAgo(post.date)}</div>
+        </div>
+        <div class="post-category">${post.category}</div>
+        <div class="post-text">${post.text}</div>
+        ${repliesListHtml}
         <div class="post-footer">
           <button class="post-reply-btn" onclick="toggleReply('${post.id}')">💬 Reply</button>
-          <span class="reply-count">${post.replies ? post.replies.length : 0} replies</span>
+          <span class="reply-count">${(post.replies || []).length} ${(post.replies || []).length === 1 ? 'reply' : 'replies'}</span>
         </div>
-        ${post.replies && post.replies.length > 0 ? `
-          <div class="replies-list">
-            ${post.replies.map(r => `
-              <div class="reply-item">
-                <div class="reply-header">
-                  <div class="post-avatar" style="width:24px;height:24px;font-size:9px;">${r.initials || '?'}</div>
-                  <span class="reply-author">${r.name || 'Member'}</span>
-                  <span class="reply-time">${formatTime(r.timestamp)}</span>
-                </div>
-                <div class="reply-text">${escapeHtml(r.message)}</div>
-              </div>
-            `).join('')}
-          </div>
-        ` : ''}
-        <div class="reply-composer" id="reply-${post.id}">
-          <textarea class="reply-input" id="replyInput-${post.id}" placeholder="Write a reply..."></textarea>
+        <div class="reply-composer" id="reply-composer-${post.id}">
+          <textarea class="reply-input" id="reply-input-${post.id}" placeholder="Write a reply..."></textarea>
           <button class="btn-reply-submit" onclick="submitReply('${post.id}')">Reply</button>
         </div>
-      </div>
-    `).join('');
-  }
-
-  function toggleReply(postId) {
-    const composer = document.getElementById('reply-' + postId);
-    composer.classList.toggle('show');
-    if (composer.classList.contains('show')) {
-      document.getElementById('replyInput-' + postId).focus();
-    }
-  }
-
-  function formatTime(timestamp) {
-    if (!timestamp) return '';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    const now = new Date();
-    const diff = Math.floor((now - date) / 1000);
-    if (diff < 60) return 'just now';
-    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  }
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function handlePost() {
-    const message = document.getElementById('postInput').value.trim();
-    const category = document.getElementById('postCategory').value;
-    if (!message) return;
-    document.dispatchEvent(new CustomEvent('hn-post', { detail: { message, category } }));
-  }
-
-  function submitReply(postId) {
-    const message = document.getElementById('replyInput-' + postId).value.trim();
-    if (!message) return;
-    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, message } }));
-  }
-
-  function handleLogout() {
-    document.dispatchEvent(new CustomEvent('hn-logout'));
+      `;
+      list.appendChild(card);
+    });
   }
 </script>
 
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { doc, getDoc, collection, addDoc, onSnapshot, updateDoc, arrayUnion, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { 
+    doc, getDoc, collection, addDoc, onSnapshot, 
+    orderBy, query, updateDoc, arrayUnion, serverTimestamp 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  console.log("Community board Firebase ready!");
 
   onAuthStateChanged(auth, async (user) => {
     document.getElementById('loadingMsg').style.display = 'none';
@@ -878,7 +352,7 @@
       const docSnap = await getDoc(doc(db, "members", user.uid));
       if (docSnap.exists()) profile = docSnap.data();
     } catch (err) {
-      console.error(err);
+      console.error("Profile load error:", err);
     }
 
     currentUser = user;
@@ -892,91 +366,86 @@
       return;
     }
 
-    // PREMIUM MEMBER — show the board
-    const firstName = profile.firstName || user.displayName || 'Member';
-    const lastName = profile.lastName || '';
-    const initials = (firstName[0] + (lastName[0] || '')).toUpperCase();
-
-    // Update nav
-    document.getElementById('navRight').innerHTML = `
-      <span style="font-size:13px;color:var(--text-muted)">Hi, ${firstName} 👋</span>
-      <button class="btn-logout" onclick="handleLogout()">Log out</button>
-    `;
-
-    document.getElementById('boardSubtitle').textContent =
-      'Welcome, ' + firstName + '. You have full Premium access.';
-    document.getElementById('composerAvatar').textContent = initials;
+    // PREMIUM MEMBER — show the board!
     document.getElementById('boardWrap').classList.add('show');
+    document.getElementById('logoutBtn').style.display = 'block';
 
-    // Load posts in real time
-    const postsQuery = query(collection(db, "communityPosts"), orderBy("timestamp", "desc"));
+    const firstName = profile.firstName || user.displayName || 'Member';
+    const fullName = profile.firstName && profile.lastName
+      ? profile.firstName + ' ' + profile.lastName
+      : user.displayName || 'Member';
+
+    document.getElementById('composerAvatar').textContent = getInitials(fullName);
+
+    // Load posts in real time from Firestore
+    const postsQuery = query(
+      collection(db, "communityPosts"),
+      orderBy("date", "desc")
+    );
+
     onSnapshot(postsQuery, (snapshot) => {
       allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       renderPosts();
     });
+  });
 
-    // Submit post
-    document.addEventListener('hn-post', async (e) => {
-      const { message, category } = e.detail;
-      const btn = document.getElementById('postBtn');
-      btn.disabled = true;
-      btn.textContent = 'Posting...';
+  // Post a new message
+  document.addEventListener('hn-post', async () => {
+    const text = document.getElementById('postInput').value.trim();
+    const category = document.getElementById('postCategory').value;
+    if (!text) return;
 
-      try {
-        await addDoc(collection(db, "communityPosts"), {
-          message,
-          category,
-          name: firstName + (lastName ? ' ' + lastName : ''),
-          initials,
-          neighborhood: profile.neighborhood || 'NYC',
-          userId: user.uid,
-          timestamp: serverTimestamp(),
-          replies: []
-        });
+    const btn = document.getElementById('postBtn');
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
 
-        // Also save to Google Sheets via Make.com
-        fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: firstName + ' ' + lastName,
-            neighborhood: profile.neighborhood || 'NYC',
-            category,
-            message,
-            date: new Date().toISOString()
-          })
-        });
+    const fullName = currentProfile?.firstName && currentProfile?.lastName
+      ? currentProfile.firstName + ' ' + currentProfile.lastName
+      : currentUser?.displayName || 'Member';
 
-        document.getElementById('postInput').value = '';
-      } catch (err) {
-        console.error(err);
-        alert('Could not post. Please try again.');
-      }
+    try {
+      await addDoc(collection(db, "communityPosts"), {
+        text,
+        category,
+        name: fullName,
+        neighborhood: currentProfile?.neighborhood || '',
+        userId: currentUser.uid,
+        date: new Date().toISOString(),
+        replies: []
+      });
+      document.getElementById('postInput').value = '';
+    } catch (err) {
+      console.error("Post error:", err);
+      alert("Could not post. Please try again.");
+    }
 
-      btn.disabled = false;
-      btn.textContent = 'Post →';
-    });
+    btn.disabled = false;
+    btn.textContent = 'Post →';
+  });
 
-    // Submit reply
-    document.addEventListener('hn-reply', async (e) => {
-      const { postId, message } = e.detail;
-      try {
-        await updateDoc(doc(db, "communityPosts", postId), {
-          replies: arrayUnion({
-            message,
-            name: firstName + (lastName ? ' ' + lastName : ''),
-            initials,
-            userId: user.uid,
-            timestamp: new Date().toISOString()
-          })
-        });
-        document.getElementById('replyInput-' + postId).value = '';
-        document.getElementById('reply-' + postId).classList.remove('show');
-      } catch (err) {
-        console.error(err);
-        alert('Could not post reply. Please try again.');
-      }
-    });
+  // Reply to a post
+  document.addEventListener('hn-reply', async (e) => {
+    const { postId, text } = e.detail;
+    if (!text) return;
+
+    const fullName = currentProfile?.firstName && currentProfile?.lastName
+      ? currentProfile.firstName + ' ' + currentProfile.lastName
+      : currentUser?.displayName || 'Member';
+
+    try {
+      await updateDoc(doc(db, "communityPosts", postId), {
+        replies: arrayUnion({
+          text,
+          name: fullName,
+          neighborhood: currentProfile?.neighborhood || '',
+          userId: currentUser.uid,
+          date: new Date().toISOString()
+        })
+      });
+    } catch (err) {
+      console.error("Reply error:", err);
+      alert("Could not reply. Please try again.");
+    }
   });
 
   // Logout
