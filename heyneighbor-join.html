@@ -1011,8 +1011,11 @@
     }
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('basicBtn').addEventListener('click', () => showConfirm('nonmember'));
   document.getElementById('premiumBtn').addEventListener('click', () => showConfirm('member'));
+});
+
 </script>
 
 </body>
