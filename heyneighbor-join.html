@@ -871,13 +871,10 @@
         <div class="founding-title">Join Hey Neighbor Premium</div>
         <div class="founding-desc">Get matched with parents in your neighborhood, access to all events including invite-only experiences, and priority booking.</div>
         <div class="founding-price">$80 <span>/ year</span></div>
-        <button class="btn-founding" onclick="showConfirm('member')">Join as a Premium Member →</button>
+        <button class="btn-founding" id="premiumBtn">Join as a Premium Member →</button>
       </div>
 
       <button class="btn-not-ready" id="basicBtn">
-  Join as a Basic Member — Free
-</button>
-
         Join as a Basic Member — Free
       </button>
       <p class="not-ready-note">Basic membership is free. Access the community board and join Saturday Park Club. Upgrade anytime.</p>
@@ -982,7 +979,7 @@
 
   console.log("Firebase is ready to use!");
 
-  window.showConfirm = async function(type) {
+  async function showConfirm(type) {
     console.log("showConfirm fired! Type:", type);
     const data = collectFormData();
     data.membershipChoice = type;
@@ -1008,11 +1005,14 @@
       window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
     } else {
       document.getElementById('confirmMsg').classList.add('show');
-      document.querySelector('.btn-not-ready').style.display = 'none';
+      document.getElementById('basicBtn').style.display = 'none';
       document.querySelector('.not-ready-note').style.display = 'none';
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   }
+
+  document.getElementById('basicBtn').addEventListener('click', () => showConfirm('nonmember'));
+  document.getElementById('premiumBtn').addEventListener('click', () => showConfirm('member'));
 </script>
 
 </body>
