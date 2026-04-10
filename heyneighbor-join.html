@@ -980,6 +980,7 @@
   console.log("Firebase is ready to use!");
 
   window.showConfirm = async function(type) {
+    console.log("showConfirm fired! Type:", type);
     const data = collectFormData();
     data.membershipChoice = type;
 
