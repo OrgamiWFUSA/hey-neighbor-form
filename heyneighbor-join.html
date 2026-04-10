@@ -29,6 +29,7 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans); background: var(--cream); color: var(--text); min-height: 100vh; }
+
   nav { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
   .logo { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--forest); display: flex; align-items: center; gap: 8px; text-decoration: none; }
   .logo-leaf { width: 18px; height: 18px; background: var(--sage); border-radius: 50% 0 50% 0; transform: rotate(45deg); flex-shrink: 0; }
@@ -118,7 +119,13 @@
   .confirmation-msg { display: none; background: var(--warm-white); border: 1.5px solid var(--sage-mid); border-radius: 16px; padding: 28px 32px; max-width: 480px; margin: 24px auto 0; text-align: center; }
   .confirmation-msg.show { display: block; animation: fadeUp 0.4s ease; }
   .confirmation-msg p { font-family: var(--font-serif); font-size: 20px; font-style: italic; color: var(--forest); line-height: 1.5; }
-  @media (max-width: 600px) { .field-grid { grid-template-columns: 1fr; } .time-grid { grid-template-columns: 1fr; } .step-question { font-size: 28px; } .form-shell { padding: 32px 20px 60px; } nav { padding: 14px 20px; } }
+  @media (max-width: 600px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .time-grid { grid-template-columns: 1fr; }
+    .step-question { font-size: 28px; }
+    .form-shell { padding: 32px 20px 60px; }
+    nav { padding: 14px 20px; }
+  }
 </style>
 </head>
 <body>
@@ -143,13 +150,30 @@
     <h1 class="step-question">First, let's get your details.</h1>
     <p class="step-hint">We'll use this to send you event details and match you with parents nearby. We promise not to spam you — ever.</p>
     <div class="field-grid">
-      <div class="field-group"><label>First Name *</label><input type="text" id="firstName" placeholder="Jane" /></div>
-      <div class="field-group"><label>Last Name *</label><input type="text" id="lastName" placeholder="Smith" /></div>
-      <div class="field-group"><label>Email *</label><input type="email" id="email" placeholder="jane@example.com" /></div>
-      <div class="field-group"> <label>Create Password *</label><input type="password" id="password" placeholder="••••••••" />
+      <div class="field-group">
+        <label>First Name *</label>
+        <input type="text" id="firstName" placeholder="Jane" />
       </div>
-
-      <div class="field-group"><label>Phone Number *</label><input type="tel" id="phone" placeholder="(555) 000-0000" /></div>
+      <div class="field-group">
+        <label>Last Name *</label>
+        <input type="text" id="lastName" placeholder="Smith" />
+      </div>
+      <div class="field-group">
+        <label>Email *</label>
+        <input type="email" id="email" placeholder="jane@example.com" />
+      </div>
+      <div class="field-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="phone" placeholder="(555) 000-0000" />
+      </div>
+      <div class="field-group">
+        <label>Create Password *</label>
+        <input type="password" id="password" placeholder="••••••••" />
+      </div>
+      <div class="field-group">
+        <label>Confirm Password *</label>
+        <input type="password" id="passwordConfirm" placeholder="••••••••" />
+      </div>
     </div>
     <div class="nav-row">
       <button class="btn-next" onclick="goTo(1,2)">Next</button>
@@ -396,9 +420,9 @@
         <div class="founding-title">Join Hey Neighbor Premium</div>
         <div class="founding-desc">Get matched with parents in your neighborhood, access to all events including invite-only experiences, and priority booking.</div>
         <div class="founding-price">$80 <span>/ year</span></div>
-        <button class="btn-founding" onclick="handleMember()">Join as a Premium Member →</button>
+        <button class="btn-founding" onclick="window._showConfirm('member')">Join as a Premium Member →</button>
       </div>
-      <button class="btn-not-ready" onclick="handleBasic()">
+      <button class="btn-not-ready" onclick="window._showConfirm('nonmember')">
         Join as a Basic Member — Free
       </button>
       <p class="not-ready-note">Basic membership is free. Access the community board and join Saturday Park Club. Upgrade anytime.</p>
@@ -445,6 +469,19 @@
   }
 
   function goTo(from, to) {
+    // Password validation on step 1
+    if (from === 1 && to === 2) {
+      const password = document.getElementById('password').value;
+      const confirm  = document.getElementById('passwordConfirm').value;
+      if (!password || password.length < 6) {
+        alert('Please create a password with at least 6 characters.');
+        return;
+      }
+      if (password !== confirm) {
+        alert('Passwords do not match. Please try again.');
+        return;
+      }
+    }
     const fromEl = document.getElementById('step-' + from);
     const toEl   = document.getElementById('step-' + to);
     if (!fromEl || !toEl) return;
@@ -486,18 +523,6 @@
     document.getElementById('heardNext').disabled = false;
   }
 
-  // These are called by the buttons directly
-  // They pass to the Firebase module function via a custom event
-  function handleBasic() {
-    console.log("handleBasic clicked!");
-    document.dispatchEvent(new CustomEvent('hn-signup', { detail: { type: 'nonmember' } }));
-  }
-
-  function handleMember() {
-    console.log("handleMember clicked!");
-    document.dispatchEvent(new CustomEvent('hn-signup', { detail: { type: 'member' } }));
-  }
-
   document.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
     const active = document.querySelector('.step.active');
@@ -512,24 +537,21 @@
   import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  console.log("Firebase is ready to use!");
+  console.log("Firebase is ready!");
 
-  document.addEventListener('hn-signup', async (e) => {
-    const type = e.detail.type;
-    console.log("hn-signup fired! Type:", type);
-
+  window._showConfirm = async function(type) {
     const data = collectFormData();
+    const password = document.getElementById('password').value;
+
+    if (!password || password.length < 6) {
+      alert('Please create a password with at least 6 characters.');
+      return;
+    }
+
     data.membershipChoice = type;
 
     try {
-      const password = document.getElementById('password').value;
-    
-if (!password || password.length < 6) {
-  alert("Please enter a password with at least 6 characters.");
-  return;
-}
-
-const userCredential = await createUserWithEmailAndPassword(auth, data.email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, password);
       await setDoc(doc(db, "members", userCredential.user.uid), {
         ...data,
         dateJoined: new Date().toISOString()
@@ -550,13 +572,12 @@ const userCredential = await createUserWithEmailAndPassword(auth, data.email, pa
     } else {
       document.getElementById('confirmMsg').classList.add('show');
       const basicBtn = document.querySelector('.btn-not-ready');
-const notReadyNote = document.querySelector('.not-ready-note');
-if (basicBtn) basicBtn.style.display = 'none';
-if (notReadyNote) notReadyNote.style.display = 'none';
-
+      const notReadyNote = document.querySelector('.not-ready-note');
+      if (basicBtn) basicBtn.style.display = 'none';
+      if (notReadyNote) notReadyNote.style.display = 'none';
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-  });
+  };
 </script>
 
 </body>
