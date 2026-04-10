@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:       #6B8F5E;
+    --sage-light: #E4EDE0;
+    --sage-mid:   #C8D4C0;
+    --sage-dark:  #3D5C34;
+    --forest:     #2D3B2A;
+    --cream:      #F8F6F1;
+    --warm-white: #FDFCF9;
+    --text:       #2D3B2A;
+    --text-muted: #6A7A65;
+    --border:     #C8D4C0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'Jost', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--forest);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .logo-leaf {
+    width: 18px;
+    height: 18px;
+    background: var(--sage);
+    border-radius: 50% 0 50% 0;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nav-name {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .btn-logout {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-logout:hover { border-color: var(--sage-mid); color: var(--forest); }
+
+  .dashboard-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .dashboard-content { display: none; }
+  .dashboard-content.show { display: block; }
+
+  /* WELCOME BANNER */
+  .welcome-banner {
+    background: #E8EFE4;
+    border: 1px solid var(--sage-mid);
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .welcome-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+  }
+
+  .welcome-title {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .welcome-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .membership-badge {
+    text-align: center;
+    background: var(--warm-white);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 12px;
+    padding: 20px 24px;
+    min-width: 140px;
+  }
+
+  .badge-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .badge-type {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    margin-bottom: 4px;
+  }
+
+  .badge-type.premium { color: #8B6914; }
+
+  .badge-status {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* UPGRADE BANNER */
+  .upgrade-banner {
+    display: none;
+    background: linear-gradient(135deg, #2D3B2A 0%, #3D5C34 100%);
+    border-radius: 16px;
+    padding: 28px 36px;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .upgrade-banner.hidden { display: none !important; }
+
+  .upgrade-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 600;
+    color: #E8EFE4;
+    margin-bottom: 6px;
+  }
+
+  .upgrade-text {
+    font-size: 13px;
+    color: #A8BFA0;
+    line-height: 1.6;
+  }
+
+  .btn-upgrade {
+    background: var(--sage);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-upgrade:hover { background: #527047; }
+
+  /* GRID */
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .dash-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+
+  .dash-card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* PROFILE */
+  .profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid #EAF0E6;
+    font-size: 14px;
+  }
+
+  .profile-row:last-child { border-bottom: none; }
+  .profile-key { color: var(--text-muted); font-size: 12px; }
+  .profile-val { color: var(--forest); font-weight: 500; text-align: right; max-width: 60%; }
+
+  /* EVENTS */
+  .event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #EAF0E6;
+  }
+
+  .event-item:last-child { border-bottom: none; }
+  .event-item-name { font-size: 14px; font-weight: 500; color: var(--forest); }
+  .event-item-date { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .event-item-price { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--sage-dark); }
+  .event-item-price .was { font-size: 12px; color: var(--text-muted); text-decoration: line-through; font-family: var(--font-sans); font-weight: 400; margin-right: 4px; }
+
+  /* COMMUNITY BOARD CARD */
+  .community-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .community-card.locked {
+    background: #F4F4F4;
+    border-color: #E0E0E0;
+  }
+
+  .community-card-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 6px;
+  }
+
+  .community-card.locked .community-card-title { color: #999; }
+
+  .community-card-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .btn-community {
+    background: var(--sage);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-community:hover { background: var(--sage-dark); }
+
+  .btn-community.locked {
+    background: #CCC;
+    cursor: default;
+  }
+
+  .btn-community.locked:hover { background: #CCC; }
+
+  .lock-icon {
+    font-size: 18px;
+    margin-right: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .dash-grid { grid-template-columns: 1fr; }
+    .welcome-banner { grid-template-columns: 1fr; }
+    .upgrade-banner { grid-template-columns: 1fr; }
+    .community-card { flex-direction: column; align-items: flex-start; }
+    .dashboard-wrap { padding: 32px 20px 60px; }
+    nav { padding: 14px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-leaf"></div>
+    Hey Neighbor
+  </a>
+  <div class="nav-right">
+    <span class="nav-name" id="navName"></span>
+    <button class="btn-logout" onclick="handleLogout()">Log out</button>
+  </div>
+</nav>
+
+<div class="dashboard-wrap">
+
+  <div class="loading" id="loadingMsg">Loading your dashboard...</div>
+
+  <div class="dashboard-content" id="dashboardContent">
+
+    <!-- WELCOME BANNER -->
+    <div class="welcome-banner">
+      <div>
+        <div class="welcome-eyebrow">Member Dashboard</div>
+        <div class="welcome-title" id="welcomeTitle">Welcome back!</div>
+        <div class="welcome-sub" id="welcomeSub">Here's everything in your Hey Neighbor account.</div>
+      </div>
+      <div class="membership-badge">
+        <div class="badge-label">Membership</div>
+        <div class="badge-type" id="badgeType">Basic</div>
+        <div class="badge-status" id="badgeStatus">Free member</div>
+      </div>
+    </div>
+
+    <!-- UPGRADE BANNER (only shown for basic members) -->
+    <div class="upgrade-banner hidden" id="upgradeBanner">
+      <div>
+        <div class="upgrade-title">Unlock the full village. 🌿</div>
+        <div class="upgrade-text">Upgrade to Premium for member pricing on all events, access to the community board, and exclusive invite-only experiences.</div>
+      </div>
+      <a class="btn-upgrade" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Upgrade to Premium — $80/yr</a>
+    </div>
+
+    <!-- COMMUNITY BOARD -->
+    <div class="community-card" id="communityCard">
+      <div>
+        <div class="community-card-title" id="communityTitle">Community Board</div>
+        <div class="community-card-text" id="communityText">Connect with parents in your neighborhood, ask questions, and share recommendations.</div>
+      </div>
+      <a class="btn-community" id="communityBtn" href="community.html">Go to board →</a>
+    </div>
+
+    <!-- PROFILE + EVENTS GRID -->
+    <div class="dash-grid">
+
+      <!-- PROFILE CARD -->
+      <div class="dash-card">
+        <div class="dash-card-label">Your profile</div>
+        <div id="profileRows">
+          <div class="profile-row"><span class="profile-key">Name</span><span class="profile-val" id="profileName">—</span></div>
+          <div class="profile-row"><span class="profile-key">Email</span><span class="profile-val" id="profileEmail">—</span></div>
+          <div class="profile-row"><span class="profile-key">Neighborhood</span><span class="profile-val" id="profileHood">—</span></div>
+          <div class="profile-row"><span class="profile-key">Kids ages</span><span class="profile-val" id="profileKids">—</span></div>
+          <div class="profile-row"><span class="profile-key">Availability</span><span class="profile-val" id="profileAvail">—</span></div>
+          <div class="profile-row"><span class="profile-key">Member since</span><span class="profile-val" id="profileDate">—</span></div>
+        </div>
+      </div>
+
+      <!-- EVENTS CARD -->
+      <div class="dash-card">
+        <div class="dash-card-label">Upcoming events — your prices</div>
+        <div id="eventsList">
+          <div class="event-item">
+            <div>
+              <div class="event-item-name">Wine Society</div>
+              <div class="event-item-date">2nd Tuesday · UES</div>
+            </div>
+            <div class="event-item-price member-price" data-basic="$25" data-premium="$15">$25</div>
+          </div>
+          <div class="event-item">
+            <div>
+              <div class="event-item-name">After Bedtime Supper Club</div>
+              <div class="event-item-date">Wednesdays · Rotating</div>
+            </div>
+            <div class="event-item-price member-price" data-basic="$30" data-premium="$20">$30</div>
+          </div>
+          <div class="event-item">
+            <div>
+              <div class="event-item-name">Saturday Park Club</div>
+              <div class="event-item-date">Every Saturday morning</div>
+            </div>
+            <div class="event-item-price" style="color:var(--sage-dark)">Free</div>
+          </div>
+          <div class="event-item">
+            <div>
+              <div class="event-item-name">Family Brunch</div>
+              <div class="event-item-date">3rd Sunday · Restaurant</div>
+            </div>
+            <div class="event-item-price member-price" data-basic="$25" data-premium="$15">$25</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function handleLogout() {
+    document.dispatchEvent(new CustomEvent('hn-logout'));
+  }
+</script>
+
+<script type="module">
+  import { auth, db } from './firebase-init.js';
+  import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // Check if user is logged in
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // Not logged in — redirect to login
+      window.location.href = 'login.html';
+      return;
+    }
+
+    // Get their profile from Firestore
+    let profile = {};
+    try {
+      const docSnap = await getDoc(doc(db, "members", user.uid));
+      if (docSnap.exists()) {
+        profile = docSnap.data();
+      }
+    } catch (err) {
+      console.error("Error loading profile:", err);
+    }
+
+    const isPremium = profile.membershipChoice === 'member';
+    const firstName = profile.firstName || user.displayName || 'there';
+    const fullName = profile.firstName && profile.lastName
+      ? profile.firstName + ' ' + profile.lastName
+      : user.displayName || '—';
+
+    // Show dashboard
+    document.getElementById('loadingMsg').style.display = 'none';
+    document.getElementById('dashboardContent').classList.add('show');
+
+    // Nav name
+    document.getElementById('navName').textContent = 'Hi, ' + firstName + ' 👋';
+
+    // Welcome
+    document.getElementById('welcomeTitle').textContent = 'Welcome back, ' + firstName + '.';
+    document.getElementById('welcomeSub').textContent = isPremium
+      ? 'You have full Premium access. Enjoy the village!'
+      : 'You are a Basic member. Upgrade to Premium to unlock everything.';
+
+    // Badge
+    document.getElementById('badgeType').textContent = isPremium ? 'Premium' : 'Basic';
+    document.getElementById('badgeType').className = 'badge-type' + (isPremium ? ' premium' : '');
+    document.getElementById('badgeStatus').textContent = isPremium ? '$80/year member' : 'Free member';
+
+    // Upgrade banner
+    if (!isPremium) {
+      document.getElementById('upgradeBanner').classList.remove('hidden');
+    }
+
+    // Community board
+    if (!isPremium) {
+      document.getElementById('communityCard').classList.add('locked');
+      document.getElementById('communityTitle').textContent = '🔒 Community Board';
+      document.getElementById('communityText').textContent = 'The community board is for Premium members only. Upgrade to join the conversation.';
+      const btn = document.getElementById('communityBtn');
+      btn.textContent = 'Premium only';
+      btn.classList.add('locked');
+      btn.removeAttribute('href');
+    }
+
+    // Profile
+    document.getElementById('profileName').textContent = fullName;
+    document.getElementById('profileEmail').textContent = user.email || '—';
+    document.getElementById('profileHood').textContent = profile.neighborhood || '—';
+    document.getElementById('profileKids').textContent = profile.kidsAges || '—';
+    document.getElementById('profileAvail').textContent = profile.availability || '—';
+    document.getElementById('profileDate').textContent = profile.dateJoined
+      ? new Date(profile.dateJoined).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+      : '—';
+
+    // Event prices
+    document.querySelectorAll('.member-price').forEach(el => {
+      el.textContent = isPremium ? el.dataset.premium : el.dataset.basic;
+    });
+  });
+
+  // Logout
+  document.addEventListener('hn-logout', async () => {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
