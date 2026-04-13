@@ -485,6 +485,16 @@
           </div>
         </a>
       `).join('');
+      // Also populate hero card
+      const heroList = document.getElementById('heroEventsList');
+      if (heroList) {
+        heroList.innerHTML = events.map(event => `
+          <div class="hn-hc-stat">
+            <span class="hn-hc-name">${event.name}</span>
+            <span class="hn-hc-detail">${event.datetime}</span>
+          </div>
+        `).join('');
+      }
 
     } catch(e) {
       console.error('Home events error:', e);
