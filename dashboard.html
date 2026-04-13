@@ -606,49 +606,6 @@
         '<div style="color:var(--text-muted);font-size:13px;">Unable to load events.</div>';
     }
   }
-    async function loadMemberBookings(email) {
-    const attendingCard = document.getElementById('attendingCard');
-    const attendingList = document.getElementById('attendingList');
-    
-    try {
-      // Replace THIS_URL with your bookings sheet published CSV URL
-      const BOOKINGS_URL = 'YOUR_BOOKINGS_SHEET_CSV_URL_HERE';
-      const res = await fetch(BOOKINGS_URL);
-      const text = await res.text();
-      const rows = text.trim().split('\n').slice(1);
-      
-      const myBookings = rows
-        .filter(r => r.trim())
-        .map(row => parseCSVRow(row))
-        .filter(cols => cols[0].toLowerCase() === email.toLowerCase());
-
-      if (myBookings.length === 0) {
-        attendingList.innerHTML = `
-          <div style="color:var(--text-muted);font-size:13px;">
-            No upcoming bookings yet. 
-            <a href="events.html" style="color:var(--sage);">Browse events →</a>
-          </div>`;
-        return;
-      }
-
-      attendingList.innerHTML = myBookings.map(cols => `
-        <div class="event-item" style="padding:12px 0;">
-          <div>
-            <div class="event-item-name">${cols[1] || '—'}</div>
-            <div class="event-item-date" style="margin-top:3px;">${cols[2] || '—'}</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="event-item-price" style="color:var(--sage-dark);">${cols[3] || '—'}</div>
-            <div style="font-size:11px;color:var(--text-muted);">Booked ✓</div>
-          </div>
-        </div>
-      `).join('');
-
-    } catch(e) {
-      console.error('Bookings error:', e);
-      attendingList.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Unable to load bookings.</div>';
-    }
-  }
 </script>
 
 </body>
