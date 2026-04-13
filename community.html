@@ -119,16 +119,21 @@
   .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
   .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
 
-  /* NESTED REPLY COMPOSER */
-  .nested-reply-composer { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid #EAF0E6; gap: 8px; }
+  /* REPLY TO REPLY */
+  .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 0 0 0; display: block; }
+  .reply-reply-btn:hover { color: var(--sage); }
+  .nested-reply-composer { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EAF0E6; gap: 8px; align-items: flex-start; }
   .nested-reply-composer.show { display: flex; }
-  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; }
+  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; min-height: 50px; transition: border-color 0.2s; }
   .nested-reply-input:focus { border-color: var(--sage); }
   .nested-reply-input::placeholder { color: #BCC8B8; }
-  .btn-nested-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; cursor: pointer; white-space: nowrap; }
-  .btn-nested-reply-submit:hover { background: var(--sage-dark); }
-  .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 0; margin-top: 6px; display: inline-block; }
-  .reply-reply-btn:hover { color: var(--sage); text-decoration: underline; }
+  .btn-nested-submit { background: var(--sage); color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .btn-nested-submit:hover { background: var(--sage-dark); }
+  .nested-replies { margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--sage-mid); display: flex; flex-direction: column; gap: 6px; }
+  .nested-reply-item { background: var(--warm-white); border-radius: 6px; padding: 8px 12px; }
+  .nested-reply-author { font-size: 11px; font-weight: 600; color: var(--forest); margin-bottom: 3px; }
+  .nested-reply-text { font-size: 12px; color: var(--forest); line-height: 1.5; }
+  .nested-reply-text .mention { color: var(--sage); font-weight: 600; }
 
   .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px; }
   .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
@@ -163,7 +168,7 @@
     <div class="gate-eyebrow">Members Only</div>
     <div class="gate-title">This is your village.</div>
     <div class="gate-divider"></div>
-    <div class="gate-text">The Hey Neighbor community board is a private space for members to connect, share recommendations, and support each other.</div>
+    <div class="gate-text">The Hey Neighbor community board is a private space for Premium members to connect, share recommendations, and support each other.</div>
     <div class="gate-btns">
       <a class="btn-primary" href="heyneighbor-join.html">Join Hey Neighbor free →</a>
       <a class="btn-secondary" href="login.html">Already a member? Log in</a>
@@ -186,7 +191,7 @@
   </div>
 </div>
 
-<!-- FULL BOARD -->
+<!-- FULL COMMUNITY BOARD -->
 <div class="board-layout" id="boardLayout">
 
   <!-- LEFT SIDEBAR -->
@@ -317,25 +322,23 @@
   }
 
   function toggleNestedReply(postId, replyIndex) {
-    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (composer) {
-      composer.classList.toggle('show');
-      if (composer.classList.contains('show')) {
-        document.getElementById('nested-reply-input-' + postId + '-' + replyIndex).focus();
+    const box = document.getElementById('nested-composer-' + postId + '-' + replyIndex);
+    if (box) {
+      box.classList.toggle('show');
+      if (box.classList.contains('show')) {
+        document.getElementById('nested-input-' + postId + '-' + replyIndex).focus();
       }
     }
   }
 
   function submitNestedReply(postId, replyIndex, replyingToName) {
-    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+    const input = document.getElementById('nested-input-' + postId + '-' + replyIndex);
     if (!input || !input.value.trim()) return;
     const text = '@' + replyingToName + ' ' + input.value.trim();
-    document.dispatchEvent(new CustomEvent('hn-reply', {
-      detail: { postId, text }
-    }));
+    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text } }));
     input.value = '';
-    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (composer) composer.classList.remove('show');
+    const box = document.getElementById('nested-composer-' + postId + '-' + replyIndex);
+    if (box) box.classList.remove('show');
   }
 
   function filterByHood(el, hood) {
@@ -368,6 +371,10 @@
     if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
     if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
     return Math.floor(seconds / 86400) + 'd ago';
+  }
+
+  function formatReplyText(text) {
+    return text.replace(/@(\w+)/g, '<span class="mention">@$1</span>');
   }
 
   function updateCounts() {
@@ -409,22 +416,21 @@
 
     list.innerHTML = filtered.map(post => {
       const replies = post.replies || [];
-      const createdAt = post.createdAt?.toDate ? post.createdAt.toDate().toISOString() : post.createdAt;
 
       const repliesHTML = replies.length > 0 ? `
         <div class="replies-list">
           ${replies.map((r, rIndex) => `
-            <div class="reply-item" id="reply-${post.id}-${rIndex}">
+            <div class="reply-item">
               <div class="reply-header">
                 <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
                 <div class="reply-author">${r.authorFirstName || 'Member'} ${r.authorLastName?.[0] || ''}.</div>
                 <div class="reply-time">${timeAgo(r.createdAt)}</div>
               </div>
-              <div class="reply-text">${r.text}</div>
-              <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
-              <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
-                <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
-                <button class="btn-nested-reply-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
+              <div class="reply-text">${formatReplyText(r.text)}</div>
+              <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'Member'}</button>
+              <div class="nested-reply-composer" id="nested-composer-${post.id}-${rIndex}">
+                <textarea class="nested-reply-input" id="nested-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'Member'}..." rows="2"></textarea>
+                <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
               </div>
             </div>
           `).join('')}
@@ -439,7 +445,7 @@
               <div class="post-author">${post.authorFirstName || 'Member'} ${post.authorLastName?.[0] || ''}.</div>
               <div class="post-hood">${post.neighborhood || 'Hey Neighbor member'}</div>
             </div>
-            <div class="post-time">${timeAgo(createdAt)}</div>
+            <div class="post-time">${timeAgo(post.createdAt)}</div>
           </div>
           <div class="post-category">${post.category || 'General'}</div>
           <div class="post-text">${post.text}</div>
@@ -494,7 +500,7 @@
 
     const firstName = currentProfile?.firstName || 'Member';
     const lastName = currentProfile?.lastName || '';
-    const fullName = (firstName + ' ' + lastName).trim();
+    const fullName = `${firstName} ${lastName}`.trim();
     const neighborhood = currentProfile?.neighborhood || 'NYC';
 
     document.getElementById('navRight').innerHTML = `
@@ -508,7 +514,6 @@
     document.getElementById('sidebarHood').textContent = neighborhood;
     document.getElementById('composerAvatar').textContent = getInitials(firstName, lastName);
     document.getElementById('feedSubtitle').textContent = `Welcome back, ${firstName}! What's happening in ${neighborhood}?`;
-
     document.getElementById('boardLayout').classList.add('show');
 
     const postsQuery = query(collection(db, "community_posts"), orderBy("createdAt", "desc"));
@@ -523,6 +528,7 @@
       const btn = document.getElementById('postBtn');
       btn.disabled = true;
       btn.textContent = 'Posting...';
+
       try {
         await addDoc(collection(db, "community_posts"), {
           text,
@@ -534,16 +540,25 @@
           createdAt: new Date().toISOString(),
           replies: []
         });
+
         fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: fullName, neighborhood, category, message: text, date: new Date().toISOString() })
+          body: JSON.stringify({
+            name: fullName,
+            neighborhood,
+            category,
+            message: text,
+            date: new Date().toISOString()
+          })
         });
+
         document.getElementById('postInput').value = '';
       } catch (err) {
         console.error(err);
         alert('Could not post. Please try again.');
       }
+
       btn.disabled = false;
       btn.textContent = 'Post';
     });
