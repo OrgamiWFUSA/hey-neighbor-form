@@ -290,27 +290,26 @@
   }
 
   function toggleNestedReply(postId, replyIndex) {
-  const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-  if (composer) {
-    composer.classList.toggle('show');
-    if (composer.classList.contains('show')) {
-      const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-      if (input) input.focus();
+    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (box) {
+      box.classList.toggle('show');
+      if (box.classList.contains('show')) {
+        const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+        if (input) input.focus();
+      }
     }
   }
-}
 
-function submitNestedReply(postId, replyIndex, replyingToName) {
-  const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-  if (!input || !input.value.trim()) return;
-  const text = '@' + replyingToName + ' ' + input.value.trim();
-  document.dispatchEvent(new CustomEvent('hn-reply', {
-    detail: { postId, text }
-  }));
-  input.value = '';
-  const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-  if (composer) composer.classList.remove('show');
-}
+  function submitNestedReply(postId, replyIndex) {
+    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+    if (!input || !input.value.trim()) return;
+    document.dispatchEvent(new CustomEvent('hn-nested-reply', {
+      detail: { postId, replyIndex, text: input.value.trim() }
+    }));
+    input.value = '';
+    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (box) box.classList.remove('show');
+  }
 
   function filterByHood(el, hood) {
     document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('active'));
