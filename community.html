@@ -119,21 +119,16 @@
   .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
   .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
 
-  /* REPLY TO REPLY */
-  .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 0 0 0; display: block; }
+  /* NESTED REPLY TO REPLY */
+  .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 0 0 0; margin-top: 4px; display: block; }
   .reply-reply-btn:hover { color: var(--sage); }
-  .nested-reply-composer { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EAF0E6; gap: 8px; align-items: flex-start; }
+  .nested-reply-composer { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid #EAF0E6; gap: 8px; }
   .nested-reply-composer.show { display: flex; }
-  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; min-height: 50px; transition: border-color 0.2s; }
+  .nested-reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; }
   .nested-reply-input:focus { border-color: var(--sage); }
   .nested-reply-input::placeholder { color: #BCC8B8; }
-  .btn-nested-submit { background: var(--sage); color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-  .btn-nested-submit:hover { background: var(--sage-dark); }
-  .nested-replies { margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--sage-mid); display: flex; flex-direction: column; gap: 6px; }
-  .nested-reply-item { background: var(--warm-white); border-radius: 6px; padding: 8px 12px; }
-  .nested-reply-author { font-size: 11px; font-weight: 600; color: var(--forest); margin-bottom: 3px; }
-  .nested-reply-text { font-size: 12px; color: var(--forest); line-height: 1.5; }
-  .nested-reply-text .mention { color: var(--sage); font-weight: 600; }
+  .btn-nested-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; cursor: pointer; white-space: nowrap; align-self: flex-start; }
+  .btn-nested-reply-submit:hover { background: var(--sage-dark); }
 
   .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px; }
   .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
@@ -168,7 +163,7 @@
     <div class="gate-eyebrow">Members Only</div>
     <div class="gate-title">This is your village.</div>
     <div class="gate-divider"></div>
-    <div class="gate-text">The Hey Neighbor community board is a private space for Premium members to connect, share recommendations, and support each other.</div>
+    <div class="gate-text">The Hey Neighbor community board is a private space for members to connect, share recommendations, and support each other.</div>
     <div class="gate-btns">
       <a class="btn-primary" href="heyneighbor-join.html">Join Hey Neighbor free →</a>
       <a class="btn-secondary" href="login.html">Already a member? Log in</a>
@@ -191,12 +186,10 @@
   </div>
 </div>
 
-<!-- FULL COMMUNITY BOARD -->
+<!-- FULL BOARD -->
 <div class="board-layout" id="boardLayout">
 
-  <!-- LEFT SIDEBAR -->
   <div class="sidebar">
-
     <div class="sidebar-card">
       <div class="member-profile">
         <div class="member-avatar" id="sidebarAvatar">?</div>
@@ -209,30 +202,12 @@
     <div class="sidebar-card">
       <div class="sidebar-title">📍 Neighborhood</div>
       <div class="neighborhood-list">
-        <div class="hood-item active" onclick="filterByHood(this, 'all')">
-          <span>All NYC</span>
-          <span class="hood-count" id="countAll">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Upper East Side')">
-          <span>Upper East Side</span>
-          <span class="hood-count" id="countUES">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Upper West Side')">
-          <span>Upper West Side</span>
-          <span class="hood-count" id="countUWS">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Williamsburg')">
-          <span>Williamsburg</span>
-          <span class="hood-count" id="countWilliamsburg">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Astoria')">
-          <span>Astoria</span>
-          <span class="hood-count" id="countAstoria">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Forest Hills')">
-          <span>Forest Hills</span>
-          <span class="hood-count" id="countForestHills">0</span>
-        </div>
+        <div class="hood-item active" onclick="filterByHood(this, 'all')"><span>All NYC</span><span class="hood-count" id="countAll">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Upper East Side')"><span>Upper East Side</span><span class="hood-count" id="countUES">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Upper West Side')"><span>Upper West Side</span><span class="hood-count" id="countUWS">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Williamsburg')"><span>Williamsburg</span><span class="hood-count" id="countWilliamsburg">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Astoria')"><span>Astoria</span><span class="hood-count" id="countAstoria">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Forest Hills')"><span>Forest Hills</span><span class="hood-count" id="countForestHills">0</span></div>
       </div>
     </div>
 
@@ -248,12 +223,9 @@
         <div class="cat-item" onclick="filterByCat(this, 'Introductions')">👋 Introductions</div>
       </div>
     </div>
-
   </div>
 
-  <!-- MAIN FEED -->
   <div class="feed">
-
     <div class="feed-header">
       <div>
         <div class="feed-title">Community Board</div>
@@ -286,7 +258,6 @@
         <div>Loading posts...</div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -313,32 +284,28 @@
 
   function toggleReply(postId) {
     const box = document.getElementById('reply-composer-' + postId);
-    if (box) {
-      box.classList.toggle('show');
-      if (box.classList.contains('show')) {
-        document.getElementById('reply-input-' + postId).focus();
-      }
-    }
+    if (box) box.classList.toggle('show');
   }
 
   function toggleNestedReply(postId, replyIndex) {
-    const box = document.getElementById('nested-composer-' + postId + '-' + replyIndex);
-    if (box) {
-      box.classList.toggle('show');
-      if (box.classList.contains('show')) {
-        document.getElementById('nested-input-' + postId + '-' + replyIndex).focus();
+    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (composer) {
+      composer.classList.toggle('show');
+      if (composer.classList.contains('show')) {
+        const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+        if (input) input.focus();
       }
     }
   }
 
   function submitNestedReply(postId, replyIndex, replyingToName) {
-    const input = document.getElementById('nested-input-' + postId + '-' + replyIndex);
+    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
     if (!input || !input.value.trim()) return;
     const text = '@' + replyingToName + ' ' + input.value.trim();
     document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text } }));
     input.value = '';
-    const box = document.getElementById('nested-composer-' + postId + '-' + replyIndex);
-    if (box) box.classList.remove('show');
+    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (composer) composer.classList.remove('show');
   }
 
   function filterByHood(el, hood) {
@@ -373,12 +340,7 @@
     return Math.floor(seconds / 86400) + 'd ago';
   }
 
-  function formatReplyText(text) {
-    return text.replace(/@(\w+)/g, '<span class="mention">@$1</span>');
-  }
-
   function updateCounts() {
-    const neighborhoods = ['Upper East Side', 'Upper West Side', 'Williamsburg', 'Astoria', 'Forest Hills'];
     const idMap = {
       'Upper East Side': 'countUES',
       'Upper West Side': 'countUWS',
@@ -387,7 +349,7 @@
       'Forest Hills': 'countForestHills'
     };
     document.getElementById('countAll').textContent = allPosts.length;
-    neighborhoods.forEach(hood => {
+    Object.keys(idMap).forEach(hood => {
       const count = allPosts.filter(p => p.neighborhood === hood).length;
       const el = document.getElementById(idMap[hood]);
       if (el) el.textContent = count;
@@ -420,17 +382,17 @@
       const repliesHTML = replies.length > 0 ? `
         <div class="replies-list">
           ${replies.map((r, rIndex) => `
-            <div class="reply-item">
+            <div class="reply-item" id="reply-${post.id}-${rIndex}">
               <div class="reply-header">
                 <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
                 <div class="reply-author">${r.authorFirstName || 'Member'} ${r.authorLastName?.[0] || ''}.</div>
                 <div class="reply-time">${timeAgo(r.createdAt)}</div>
               </div>
-              <div class="reply-text">${formatReplyText(r.text)}</div>
-              <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'Member'}</button>
-              <div class="nested-reply-composer" id="nested-composer-${post.id}-${rIndex}">
-                <textarea class="nested-reply-input" id="nested-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'Member'}..." rows="2"></textarea>
-                <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
+              <div class="reply-text">${r.text}</div>
+              <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
+              <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
+                <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
+                <button class="btn-nested-reply-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
               </div>
             </div>
           `).join('')}
@@ -528,7 +490,6 @@
       const btn = document.getElementById('postBtn');
       btn.disabled = true;
       btn.textContent = 'Posting...';
-
       try {
         await addDoc(collection(db, "community_posts"), {
           text,
@@ -537,20 +498,14 @@
           authorLastName: lastName,
           neighborhood,
           authorUid: user.uid,
-          createdAt: new Date().toISOString(),
+          createdAt: serverTimestamp(),
           replies: []
         });
 
         fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: fullName,
-            neighborhood,
-            category,
-            message: text,
-            date: new Date().toISOString()
-          })
+          body: JSON.stringify({ name: fullName, neighborhood, category, message: text, date: new Date().toISOString() })
         });
 
         document.getElementById('postInput').value = '';
@@ -558,7 +513,6 @@
         console.error(err);
         alert('Could not post. Please try again.');
       }
-
       btn.disabled = false;
       btn.textContent = 'Post';
     });
@@ -575,10 +529,12 @@
             createdAt: new Date().toISOString()
           })
         });
+
         const input = document.getElementById('reply-input-' + postId);
         if (input) input.value = '';
         const box = document.getElementById('reply-composer-' + postId);
         if (box) box.classList.remove('show');
+
       } catch (err) {
         console.error(err);
         alert('Could not post reply. Please try again.');
