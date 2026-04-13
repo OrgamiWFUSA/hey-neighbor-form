@@ -407,7 +407,7 @@
                 <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
                 <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
                   <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
-                  <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')"
+                  <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
                 </div>
               </div>
             `;
