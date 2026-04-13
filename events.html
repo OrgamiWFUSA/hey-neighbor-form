@@ -185,13 +185,49 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { auth, db } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
   const EVENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
   const RSVP_WEBHOOK = 'https://hook.us2.make.com/p5sslp4cqf1uyexezgw37b1i4leylkmn';
 
   let allEvents = [];
   let activeFilter = 'all';
   let currentEventName = '';
+  let userStatus = 'guest'; // 'guest', 'basic', 'premium'
+  let currentUser = null;
+
+  // Check login status first, then load events
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      try {
+        const docSnap = await getDoc(doc(db, "members", user.uid));
+        if (docSnap.exists()) {
+          const profile = docSnap.data();
+          userStatus = profile.membershipChoice === 'member' ? 'premium' : 'basic';
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      // Update nav for logged in users
+      const navLinks = document.querySelector('.hn-nav-links');
+      if (navLinks) {
+        navLinks.innerHTML = `
+          <a class="hn-navl" href="events.html">Events</a>
+          <a class="hn-navl" href="community.html">Community</a>
+          <a class="hn-navl" href="about.html">About</a>
+          <a class="hn-navl" href="dashboard.html">Dashboard</a>
+          <button class="hn-join-btn" onclick="window.location.href='dashboard.html'">My Account</button>
+        `;
+      }
+    }
+    // Load events regardless of login status
+    await loadEvents();
+  });
 
   async function loadEvents() {
     try {
@@ -201,21 +237,23 @@
       allEvents = rows.filter(r => r.trim()).map(row => {
         const cols = parseCSVRow(row);
         return {
-          name: cols[0] || '',
-          category: cols[1] || '',
-          datetime: cols[2] || '',
-          location: cols[3] || '',
-          description: cols[4] || '',
-          priceMember: cols[5] || '',
-          priceNonMember: cols[6] || '',
-          stripeMember: cols[7] || '',
+          name:            cols[0] || '',
+          category:        cols[1] || '',
+          datetime:        cols[2] || '',
+          location:        cols[3] || '',
+          description:     cols[4] || '',
+          priceMember:     cols[5] || '',
+          priceNonMember:  cols[6] || '',
+          stripeMember:    cols[7] || '',
           stripeNonMember: cols[8] || '',
-          type: cols[9] || 'paid'
+          type:            (cols[9] || 'paid').trim().toLowerCase()
         };
       });
       renderEvents();
     } catch(e) {
-      document.getElementById('eventsContainer').innerHTML = '<div class="hn-loading">Unable to load events. Please refresh.</div>';
+      console.error(e);
+      document.getElementById('eventsContainer').innerHTML = 
+        '<div class="hn-loading">Unable to load events. Please refresh.</div>';
     }
   }
 
@@ -240,9 +278,9 @@
 
   function getBadgeClass(category) {
     if (category.includes('Adults')) return 'b-adult';
-    if (category.includes('Moms')) return 'b-moms';
+    if (category.includes('Moms'))   return 'b-moms';
     if (category.includes('Family')) return 'b-family';
-    if (category.includes('Free')) return 'b-free';
+    if (category.includes('Free'))   return 'b-free';
     if (category.includes('Premium')) return 'b-premium';
     return 'b-adult';
   }
@@ -261,7 +299,8 @@
 
     container.innerHTML = filtered.map(event => {
       const badgeClass = getBadgeClass(event.category);
-      
+
+      // FREE EVENTS
       if (event.type === 'free') {
         return `
           <div class="hn-event-row">
@@ -280,112 +319,132 @@
                 <button class="hn-book-btn free" onclick="openFreeModal('${event.name}')">Reserve my spot</button>
               </div>
             </div>
-          </div>
-        `;
-      } else if (event.type === 'premium') {
-        return `
-          <div class="hn-event-row">
-            <div class="hn-event-main">
-              <div>
-                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
-                <div class="hn-event-title">${event.name}</div>
-                <div class="hn-event-meta">📅 ${event.datetime}</div>
-                <div class="hn-event-meta">📍 ${event.location}</div>
-                <div class="hn-event-desc">${event.description}</div>
-              </div>
-              <div class="hn-event-right">
-                <div class="hn-event-price">${event.priceNonMember}</div>
-                <div class="hn-event-price-sub">Premium membership</div>
-                <div class="hn-event-price-member">${event.priceMember}</div>
-                <a class="hn-book-btn" href="${event.stripeMember}" target="_blank">Get Premium — $80/yr</a>
-              </div>
-            </div>
-          </div>
-        `;
-      } else {
-        return `
-          <div class="hn-event-row">
-            <div class="hn-event-main">
-              <div>
-                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
-                <div class="hn-event-title">${event.name}</div>
-                <div class="hn-event-meta">📅 ${event.datetime}</div>
-                <div class="hn-event-meta">📍 ${event.location}</div>
-                <div class="hn-event-desc">${event.description}</div>
-              </div>
-              <div class="hn-event-right">
-                <div class="hn-event-price">${event.priceNonMember}</div>
-                <div class="hn-event-price-sub">non-members</div>
-                <div class="hn-event-price-member">${event.priceMember} for members</div>
-                <a class="hn-book-btn" href="${event.stripeNonMember}" target="_blank">Book my spot — ${event.priceNonMember}</a>
-                <a class="hn-book-btn member" href="${event.stripeMember}" target="_blank">Member price — ${event.priceMember}</a>
-                <div class="hn-member-note">Not a member? <a href="heyneighbor-join.html" style="color:#6B8F5E;">Join free →</a></div>
-              </div>
-            </div>
-          </div>
-        `;
+          </div>`;
       }
+
+      // PAID EVENTS — PREMIUM MEMBER
+      if (userStatus === 'premium') {
+        return `
+          <div class="hn-event-row">
+            <div class="hn-event-main">
+              <div>
+                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+                <div class="hn-event-title">${event.name}</div>
+                <div class="hn-event-meta">📅 ${event.datetime}</div>
+                <div class="hn-event-meta">📍 ${event.location}</div>
+                <div class="hn-event-desc">${event.description}</div>
+              </div>
+              <div class="hn-event-right">
+                <div class="hn-event-price">${event.priceMember}</div>
+                <div class="hn-event-price-sub">your member price ✦</div>
+                <div class="hn-event-price-member" style="text-decoration:line-through; color:#999;">${event.priceNonMember} non-member</div>
+                <a class="hn-book-btn" href="${event.stripeMember}" target="_blank">Book my spot — ${event.priceMember}</a>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      // PAID EVENTS — BASIC MEMBER
+      if (userStatus === 'basic') {
+        return `
+          <div class="hn-event-row">
+            <div class="hn-event-main">
+              <div>
+                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+                <div class="hn-event-title">${event.name}</div>
+                <div class="hn-event-meta">📅 ${event.datetime}</div>
+                <div class="hn-event-meta">📍 ${event.location}</div>
+                <div class="hn-event-desc">${event.description}</div>
+              </div>
+              <div class="hn-event-right">
+                <div class="hn-event-price">${event.priceNonMember}</div>
+                <div class="hn-event-price-sub">member price</div>
+                <div class="hn-event-price-member">
+                  <a href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank" style="color:var(--sage);">Upgrade to Premium</a> for ${event.priceMember}
+                </div>
+                <a class="hn-book-btn" href="${event.stripeNonMember}" target="_blank">Book my spot — ${event.priceNonMember}</a>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      // PAID EVENTS — GUEST (not logged in)
+      return `
+        <div class="hn-event-row">
+          <div class="hn-event-main">
+            <div>
+              <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+              <div class="hn-event-title">${event.name}</div>
+              <div class="hn-event-meta">📅 ${event.datetime}</div>
+              <div class="hn-event-meta">📍 ${event.location}</div>
+              <div class="hn-event-desc">${event.description}</div>
+            </div>
+            <div class="hn-event-right">
+              <div class="hn-event-price">${event.priceNonMember}</div>
+              <div class="hn-event-price-sub">non-member price</div>
+              <div class="hn-event-price-member">${event.priceMember} for members</div>
+              <a class="hn-book-btn" href="${event.stripeNonMember}" target="_blank">Book my spot — ${event.priceNonMember}</a>
+              <a class="hn-book-btn member" href="heyneighbor-join.html">Join for member pricing →</a>
+              <div class="hn-member-note">Already a member? <a href="login.html" style="color:#6B8F5E;">Log in →</a></div>
+            </div>
+          </div>
+        </div>`;
+
     }).join('');
   }
 
-  function filterEvents(el, filter) {
+  window.filterEvents = function(el, filter) {
     document.querySelectorAll('.hn-filter-pill').forEach(p => p.classList.remove('on'));
     el.classList.add('on');
     activeFilter = filter;
     renderEvents();
-  }
+  };
 
-  function openFreeModal(eventName) {
+  window.openFreeModal = function(eventName) {
     currentEventName = eventName;
     document.getElementById('freeEventName').textContent = eventName;
     document.getElementById('freeForm').style.display = 'block';
     document.getElementById('freeSuccess').classList.remove('show');
     document.getElementById('freeModalOverlay').classList.add('show');
-  }
+  };
 
-  function closeFreeModal() {
+  window.closeFreeModal = function() {
     document.getElementById('freeModalOverlay').classList.remove('show');
-  }
+  };
 
-  function closeFreeModalOutside(e) {
+  window.closeFreeModalOutside = function(e) {
     if (e.target === document.getElementById('freeModalOverlay')) closeFreeModal();
-  }
+  };
 
-  async function submitFreeBooking() {
+  window.submitFreeBooking = async function() {
     const firstName = document.getElementById('freeFirstName').value.trim();
-    const lastName = document.getElementById('freeLastName').value.trim();
-    const email = document.getElementById('freeEmail').value.trim();
+    const lastName  = document.getElementById('freeLastName').value.trim();
+    const email     = document.getElementById('freeEmail').value.trim();
 
     if (!firstName || !lastName || !email) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    const data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      eventName: currentEventName,
-      date: new Date().toLocaleDateString()
-    };
-
     try {
       await fetch(RSVP_WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          firstName, lastName, email,
+          eventName: currentEventName,
+          date: new Date().toLocaleDateString()
+        })
       });
       document.getElementById('freeForm').style.display = 'none';
       document.getElementById('freeSuccess').classList.add('show');
       document.getElementById('freeFirstName').value = '';
-      document.getElementById('freeLastName').value = '';
-      document.getElementById('freeEmail').value = '';
+      document.getElementById('freeLastName').value  = '';
+      document.getElementById('freeEmail').value     = '';
     } catch(e) {
       alert('Something went wrong. Please try again.');
     }
-  }
-
-  loadEvents();
+  };
 </script>
 
 </body>
