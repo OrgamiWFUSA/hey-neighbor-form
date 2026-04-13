@@ -7,16 +7,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sage: #6B8F5E; --sage-light: #E4EDE0; --sage-mid: #C8D4C0;
-    --sage-dark: #3D5C34; --forest: #2D3B2A; --cream: #F8F6F1;
-    --warm-white: #FDFCF9; --text: #2D3B2A; --text-muted: #6A7A65;
-    --border: #C8D4C0; --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans: 'Jost', sans-serif;
+    --sage:       #6B8F5E;
+    --sage-light: #E4EDE0;
+    --sage-mid:   #C8D4C0;
+    --sage-dark:  #3D5C34;
+    --forest:     #2D3B2A;
+    --cream:      #F8F6F1;
+    --warm-white: #FDFCF9;
+    --text:       #2D3B2A;
+    --text-muted: #6A7A65;
+    --border:     #C8D4C0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'Jost', sans-serif;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans); background: var(--cream); color: var(--text); min-height: 100vh; }
 
-  /* NAV */
   nav { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
   .logo { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--forest); display: flex; align-items: center; gap: 8px; text-decoration: none; }
   .logo-leaf { width: 18px; height: 18px; background: var(--sage); border-radius: 50% 0 50% 0; transform: rotate(45deg); flex-shrink: 0; }
@@ -26,7 +33,6 @@
   .btn-logout { background: transparent; border: 1.5px solid var(--border); border-radius: 20px; padding: 6px 16px; font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); cursor: pointer; }
   .btn-logout:hover { border-color: var(--sage-mid); color: var(--forest); }
 
-  /* LOADING */
   .loading { text-align: center; padding: 80px 20px; font-size: 14px; color: var(--text-muted); }
 
   /* GATE SCREENS */
@@ -45,53 +51,51 @@
   .btn-secondary:hover { border-color: var(--sage-mid); color: var(--forest); }
 
   /* MAIN BOARD LAYOUT */
-  .board-layout { display: none; grid-template-columns: 260px 1fr; gap: 28px; max-width: 1100px; margin: 0 auto; padding: 32px 28px 80px; }
+  .board-layout { display: none; grid-template-columns: 260px 1fr; gap: 28px; max-width: 1100px; margin: 0 auto; padding: 36px 28px 80px; }
   .board-layout.show { display: grid; }
 
   /* LEFT SIDEBAR */
-  .sidebar { position: sticky; top: 80px; height: fit-content; }
-  .sidebar-section { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-  .sidebar-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
-  .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 14px; color: var(--forest); cursor: pointer; transition: background 0.15s; margin-bottom: 4px; }
-  .sidebar-item:hover { background: var(--sage-light); }
-  .sidebar-item.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
-  .sidebar-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sage-mid); flex-shrink: 0; }
-  .sidebar-item.active .sidebar-dot { background: var(--sage); }
-  .member-card { background: var(--sage-light); border: 1px solid var(--sage-mid); border-radius: 12px; padding: 20px; margin-bottom: 16px; text-align: center; }
-  .member-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; color: #fff; margin: 0 auto 12px; }
-  .member-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--forest); margin-bottom: 4px; }
-  .member-hood { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+  .sidebar-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .sidebar-title { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--forest); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .member-profile { text-align: center; padding: 8px 0; }
+  .member-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; color: var(--sage-dark); margin: 0 auto 12px; }
+  .member-name { font-size: 15px; font-weight: 600; color: var(--forest); margin-bottom: 4px; }
+  .member-hood { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
   .member-badge { display: inline-block; background: var(--sage); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .neighborhood-list { display: flex; flex-direction: column; gap: 6px; }
+  .hood-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; color: var(--text-muted); transition: background 0.15s; }
+  .hood-item:hover { background: var(--sage-light); color: var(--forest); }
+  .hood-item.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
+  .hood-count { font-size: 11px; background: var(--sage-mid); color: var(--forest); padding: 2px 7px; border-radius: 10px; }
+  .category-list { display: flex; flex-direction: column; gap: 6px; }
+  .cat-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; color: var(--text-muted); transition: background 0.15s; }
+  .cat-item:hover { background: var(--sage-light); color: var(--forest); }
+  .cat-item.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
 
   /* MAIN FEED */
-  .feed { min-width: 0; }
+  .feed { display: flex; flex-direction: column; gap: 0; }
   .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
   .feed-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--forest); }
   .feed-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
   .premium-badge { background: var(--sage); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; }
 
   /* COMPOSER */
-  .composer { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .composer { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
   .composer-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
   .composer-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
-  .composer-input { width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 14px; color: var(--forest); padding: 12px 16px; outline: none; resize: none; min-height: 80px; }
+  .composer-input { width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 14px; color: var(--forest); padding: 12px 16px; outline: none; resize: none; min-height: 80px; transition: border-color 0.2s; }
   .composer-input:focus { border-color: var(--sage); }
   .composer-input::placeholder { color: #BCC8B8; }
   .composer-bottom { display: flex; justify-content: space-between; align-items: center; }
   .composer-category { background: var(--cream); border: 1.5px solid var(--border); border-radius: 20px; padding: 6px 14px; font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); outline: none; cursor: pointer; }
-  .btn-post { background: var(--sage); color: #fff; border: none; border-radius: 20px; padding: 8px 24px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; }
+  .btn-post { background: var(--sage); color: #fff; border: none; border-radius: 20px; padding: 8px 24px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
   .btn-post:hover { background: var(--sage-dark); }
   .btn-post:disabled { background: var(--sage-mid); cursor: default; }
 
-  /* FILTER BAR */
-  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-  .filter-pill { border: 1.5px solid var(--border); color: var(--text-muted); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; background: var(--warm-white); }
-  .filter-pill:hover { background: var(--sage-light); border-color: var(--sage-mid); }
-  .filter-pill.on { background: var(--sage); border-color: var(--sage); color: #fff; }
-
   /* POSTS */
   .posts-list { display: flex; flex-direction: column; gap: 14px; }
-  .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: box-shadow 0.15s; }
   .post-card:hover { box-shadow: 0 2px 12px rgba(45,59,42,0.07); }
   .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .post-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
@@ -105,30 +109,49 @@
   .post-reply-btn:hover { color: var(--sage); }
   .reply-count { font-size: 12px; color: var(--text-muted); }
 
-  /* REPLY COMPOSER */
+  /* TOP-LEVEL REPLY COMPOSER (reply to the post) */
   .reply-composer { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EAF0E6; }
   .reply-composer.show { display: flex; gap: 10px; }
-  .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; }
+  .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; transition: border-color 0.2s; }
   .reply-input:focus { border-color: var(--sage); }
   .reply-input::placeholder { color: #BCC8B8; }
   .btn-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .btn-reply-submit:hover { background: var(--sage-dark); }
 
-  /* REPLIES */
-  .replies-list { margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--sage-light); display: flex; flex-direction: column; gap: 10px; }
-  .reply-item { background: var(--cream); border-radius: 8px; padding: 12px 16px; }
+  /* REPLIES LIST */
+  .replies-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+
+  /* INDIVIDUAL REPLY ITEM */
+  .reply-item { background: var(--cream); border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--sage-light); }
+  .reply-item.nested { margin-left: 24px; border-left-color: var(--sage-mid); background: var(--warm-white); }
   .reply-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
   .reply-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
   .reply-author { font-size: 12px; font-weight: 500; color: var(--forest); }
   .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
-  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
+  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; margin-bottom: 8px; }
+
+  /* REPLY-TO-REPLY BUTTON */
+  .reply-to-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 0; display: inline-flex; align-items: center; gap: 4px; }
+  .reply-to-reply-btn:hover { color: var(--sage); }
+
+  /* NESTED REPLY COMPOSER (reply to a specific reply) */
+  .nested-reply-composer { display: none; margin-top: 10px; }
+  .nested-reply-composer.show { display: flex; gap: 8px; }
+  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; transition: border-color 0.2s; }
+  .nested-reply-input:focus { border-color: var(--sage); }
+  .nested-reply-input::placeholder { color: #BCC8B8; }
+  .btn-nested-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .btn-nested-submit:hover { background: var(--sage-dark); }
+
+  /* QUOTED NAME (shows who you're replying to) */
+  .reply-mention { font-size: 12px; color: var(--sage-dark); font-weight: 600; margin-bottom: 4px; }
 
   .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px; }
   .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
 
   @media (max-width: 768px) {
     .board-layout { grid-template-columns: 1fr; }
-    .sidebar { position: static; }
+    .sidebar { display: none; }
     .gate-card { padding: 36px 24px; }
     nav { padding: 14px 20px; }
   }
@@ -147,7 +170,6 @@
   </div>
 </nav>
 
-<!-- LOADING -->
 <div class="loading" id="loadingMsg">Loading...</div>
 
 <!-- GATE 1: Not logged in -->
@@ -172,7 +194,7 @@
     <div class="gate-eyebrow">Premium Only</div>
     <div class="gate-title">Unlock the community board.</div>
     <div class="gate-divider"></div>
-    <div class="gate-text">The community board is exclusively for Hey Neighbor Premium members. Upgrade for $80/year to join the conversation, get member pricing on all events, and access invite-only experiences.</div>
+    <div class="gate-text">The community board is exclusively for Hey Neighbor Premium members. Upgrade for $80/year to join the conversation.</div>
     <div class="gate-btns">
       <a class="btn-primary" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">Upgrade to Premium — $80/yr →</a>
       <a class="btn-secondary" href="dashboard.html">Back to my dashboard</a>
@@ -180,63 +202,62 @@
   </div>
 </div>
 
-<!-- FULL BOARD LAYOUT -->
+<!-- FULL BOARD (Premium members only) -->
 <div class="board-layout" id="boardLayout">
 
   <!-- LEFT SIDEBAR -->
   <div class="sidebar">
-
-    <!-- Member Card -->
-    <div class="member-card">
-      <div class="member-avatar" id="sidebarAvatar">?</div>
-      <div class="member-name" id="sidebarName">Loading...</div>
-      <div class="member-hood" id="sidebarHood">Hey Neighbor</div>
-      <span class="member-badge">✦ Premium</span>
-    </div>
-
-    <!-- Neighborhood Filter -->
-    <div class="sidebar-section">
-      <div class="sidebar-title">Neighborhood</div>
-      <div class="sidebar-item active" onclick="filterNeighborhood(this, 'all')">
-        <div class="sidebar-dot"></div>All NYC
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'Upper East Side')">
-        <div class="sidebar-dot"></div>Upper East Side
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'Upper West Side')">
-        <div class="sidebar-dot"></div>Upper West Side
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'Williamsburg')">
-        <div class="sidebar-dot"></div>Williamsburg
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'DUMBO')">
-        <div class="sidebar-dot"></div>DUMBO
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'Carroll Gardens')">
-        <div class="sidebar-dot"></div>Carroll Gardens
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'Astoria')">
-        <div class="sidebar-dot"></div>Astoria
-      </div>
-      <div class="sidebar-item" onclick="filterNeighborhood(this, 'Forest Hills')">
-        <div class="sidebar-dot"></div>Forest Hills
+    <div class="sidebar-card">
+      <div class="member-profile">
+        <div class="member-avatar" id="sidebarAvatar">?</div>
+        <div class="member-name" id="sidebarName">Loading...</div>
+        <div class="member-hood" id="sidebarHood">—</div>
+        <span class="member-badge">Premium</span>
       </div>
     </div>
 
-    <!-- Quick Links -->
-    <div class="sidebar-section">
-      <div class="sidebar-title">Quick Links</div>
-      <div class="sidebar-item" onclick="window.location.href='dashboard.html'">
-        <div class="sidebar-dot"></div>My Dashboard
-      </div>
-      <div class="sidebar-item" onclick="window.location.href='events.html'">
-        <div class="sidebar-dot"></div>Upcoming Events
-      </div>
-      <div class="sidebar-item" onclick="document.dispatchEvent(new CustomEvent('hn-logout'))">
-        <div class="sidebar-dot"></div>Log Out
+    <div class="sidebar-card">
+      <div class="sidebar-title">📍 Neighborhood</div>
+      <div class="neighborhood-list">
+        <div class="hood-item active" onclick="filterByHood(this, 'all')">
+          <span>All NYC</span>
+          <span class="hood-count" id="countAll">0</span>
+        </div>
+        <div class="hood-item" onclick="filterByHood(this, 'Upper East Side')">
+          <span>Upper East Side</span>
+          <span class="hood-count" id="countUES">0</span>
+        </div>
+        <div class="hood-item" onclick="filterByHood(this, 'Upper West Side')">
+          <span>Upper West Side</span>
+          <span class="hood-count" id="countUWS">0</span>
+        </div>
+        <div class="hood-item" onclick="filterByHood(this, 'Williamsburg')">
+          <span>Williamsburg</span>
+          <span class="hood-count" id="countWilliamsburg">0</span>
+        </div>
+        <div class="hood-item" onclick="filterByHood(this, 'Astoria')">
+          <span>Astoria</span>
+          <span class="hood-count" id="countAstoria">0</span>
+        </div>
+        <div class="hood-item" onclick="filterByHood(this, 'Forest Hills')">
+          <span>Forest Hills</span>
+          <span class="hood-count" id="countForestHills">0</span>
+        </div>
       </div>
     </div>
 
+    <div class="sidebar-card">
+      <div class="sidebar-title">💬 Categories</div>
+      <div class="category-list">
+        <div class="cat-item active" onclick="filterByCat(this, 'all')">🌿 All posts</div>
+        <div class="cat-item" onclick="filterByCat(this, 'General')">💬 General</div>
+        <div class="cat-item" onclick="filterByCat(this, 'Recommendations')">⭐ Recommendations</div>
+        <div class="cat-item" onclick="filterByCat(this, 'Events')">📅 Events</div>
+        <div class="cat-item" onclick="filterByCat(this, 'Parenting')">👶 Parenting</div>
+        <div class="cat-item" onclick="filterByCat(this, 'Resources')">📚 Resources</div>
+        <div class="cat-item" onclick="filterByCat(this, 'Introductions')">👋 Introductions</div>
+      </div>
+    </div>
   </div>
 
   <!-- MAIN FEED -->
@@ -244,16 +265,15 @@
     <div class="feed-header">
       <div>
         <div class="feed-title">Community Board</div>
-        <div class="feed-subtitle" id="feedSubtitle">Welcome to your neighborhood feed.</div>
+        <div class="feed-subtitle" id="feedSubtitle">Welcome to your neighborhood!</div>
       </div>
       <span class="premium-badge">✦ Premium</span>
     </div>
 
-    <!-- COMPOSER -->
     <div class="composer">
       <div class="composer-top">
         <div class="composer-avatar" id="composerAvatar">?</div>
-        <textarea class="composer-input" id="postInput" placeholder="Share something with your neighbors..."></textarea>
+        <textarea class="composer-input" id="postInput" placeholder="Share something with the neighborhood..."></textarea>
       </div>
       <div class="composer-bottom">
         <select class="composer-category" id="postCategory">
@@ -264,22 +284,10 @@
           <option value="Resources">📚 Resources</option>
           <option value="Introductions">👋 Introductions</option>
         </select>
-        <button class="btn-post" id="postBtn" onclick="handlePost()">Post →</button>
+        <button class="btn-post" id="postBtn" onclick="handlePost()">Post</button>
       </div>
     </div>
 
-    <!-- FILTER BAR -->
-    <div class="filter-bar">
-      <div class="filter-pill on" onclick="filterCategory(this,'all')">All</div>
-      <div class="filter-pill" onclick="filterCategory(this,'General')">💬 General</div>
-      <div class="filter-pill" onclick="filterCategory(this,'Recommendations')">⭐ Recommendations</div>
-      <div class="filter-pill" onclick="filterCategory(this,'Events')">📅 Events</div>
-      <div class="filter-pill" onclick="filterCategory(this,'Parenting')">👶 Parenting</div>
-      <div class="filter-pill" onclick="filterCategory(this,'Resources')">📚 Resources</div>
-      <div class="filter-pill" onclick="filterCategory(this,'Introductions')">👋 Introductions</div>
-    </div>
-
-    <!-- POSTS -->
     <div class="posts-list" id="postsList">
       <div class="empty-state">
         <div class="empty-state-icon">🌱</div>
@@ -287,44 +295,91 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
-  let currentFilter = 'all';
-  let currentNeighborhood = 'all';
+  let currentUser = null;
+  let currentProfile = null;
   let allPosts = [];
+  let currentHoodFilter = 'all';
+  let currentCatFilter = 'all';
 
   function handlePost() {
-    document.dispatchEvent(new CustomEvent('hn-post'));
+    const text = document.getElementById('postInput').value.trim();
+    const category = document.getElementById('postCategory').value;
+    if (!text) return;
+    document.dispatchEvent(new CustomEvent('hn-post', { detail: { text, category } }));
   }
 
-  function filterCategory(el, type) {
-    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('on'));
-    el.classList.add('on');
-    currentFilter = type;
-    renderPosts();
-  }
-
-  function filterNeighborhood(el, hood) {
-    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  function filterByHood(el, hood) {
+    document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
-    currentNeighborhood = hood;
+    currentHoodFilter = hood;
     renderPosts();
   }
 
-  function toggleReply(postId) {
-    const composer = document.getElementById('reply-composer-' + postId);
-    if (composer) composer.classList.toggle('show');
+  function filterByCat(el, cat) {
+    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    currentCatFilter = cat;
+    renderPosts();
   }
 
+  function handleLogout() {
+    document.dispatchEvent(new CustomEvent('hn-logout'));
+  }
+
+  // Toggle the top-level reply composer (replying to the post itself)
+  function toggleReply(postId) {
+    const box = document.getElementById('reply-composer-' + postId);
+    if (box) {
+      box.classList.toggle('show');
+      if (box.classList.contains('show')) {
+        document.getElementById('reply-input-' + postId).focus();
+      }
+    }
+  }
+
+  // Submit a top-level reply to a post
   function submitReply(postId) {
     const input = document.getElementById('reply-input-' + postId);
-    if (!input || !input.value.trim()) return;
-    document.dispatchEvent(new CustomEvent('hn-reply', {
-      detail: { postId, text: input.value.trim() }
-    }));
+    const text = input ? input.value.trim() : '';
+    if (!text) return;
+    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text, parentReplyId: null } }));
     input.value = '';
+  }
+
+  // Toggle the nested reply composer (replying to a specific reply)
+  function toggleNestedReply(postId, replyId, replyAuthorName) {
+    // Close all other nested composers first
+    document.querySelectorAll('.nested-reply-composer').forEach(el => {
+      if (el.id !== 'nested-composer-' + replyId) {
+        el.classList.remove('show');
+      }
+    });
+
+    const box = document.getElementById('nested-composer-' + replyId);
+    if (box) {
+      box.classList.toggle('show');
+      if (box.classList.contains('show')) {
+        const input = document.getElementById('nested-input-' + replyId);
+        if (input) {
+          input.placeholder = 'Replying to ' + replyAuthorName + '...';
+          input.focus();
+        }
+      }
+    }
+  }
+
+  // Submit a nested reply (reply to a reply)
+  function submitNestedReply(postId, parentReplyId) {
+    const input = document.getElementById('nested-input-' + parentReplyId);
+    const text = input ? input.value.trim() : '';
+    if (!text) return;
+    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text, parentReplyId } }));
+    input.value = '';
+    const box = document.getElementById('nested-composer-' + parentReplyId);
+    if (box) box.classList.remove('show');
   }
 
   function getInitials(first, last) {
@@ -333,68 +388,127 @@
 
   function timeAgo(dateStr) {
     if (!dateStr) return '';
-    const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
-    if (diff < 60) return 'just now';
-    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    return Math.floor(diff / 86400) + 'd ago';
+    const seconds = Math.floor((new Date() - new Date(dateStr)) / 1000);
+    if (seconds < 60) return 'just now';
+    if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+    if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+    return Math.floor(seconds / 86400) + 'd ago';
+  }
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '<br>');
+  }
+
+  function updateCounts() {
+    const neighborhoods = {
+      'Upper East Side': 'countUES',
+      'Upper West Side': 'countUWS',
+      'Williamsburg': 'countWilliamsburg',
+      'Astoria': 'countAstoria',
+      'Forest Hills': 'countForestHills'
+    };
+    document.getElementById('countAll').textContent = allPosts.length;
+    Object.entries(neighborhoods).forEach(([hood, id]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = allPosts.filter(p => p.neighborhood === hood).length;
+    });
+  }
+
+  function renderReplies(postId, replies) {
+    if (!replies || replies.length === 0) return '';
+
+    // Separate top-level replies and nested replies
+    const topLevelReplies = replies.filter(r => !r.parentReplyId);
+    const nestedReplies = replies.filter(r => r.parentReplyId);
+
+    return topLevelReplies.map(reply => {
+      const replyId = reply.id;
+      const authorName = (reply.authorFirstName || 'Member') + ' ' + (reply.authorLastName?.[0] || '') + '.';
+      
+      // Find any nested replies that belong to this reply
+      const children = nestedReplies.filter(r => r.parentReplyId === replyId);
+
+      const childrenHtml = children.map(child => {
+        const childAuthor = (child.authorFirstName || 'Member') + ' ' + (child.authorLastName?.[0] || '') + '.';
+        return `
+          <div class="reply-item nested">
+            <div class="reply-header">
+              <div class="reply-avatar">${getInitials(child.authorFirstName, child.authorLastName)}</div>
+              <div class="reply-author">${childAuthor}</div>
+              <div class="reply-time">${timeAgo(child.createdAt)}</div>
+            </div>
+            <div class="reply-mention">↩ replying to ${authorName}</div>
+            <div class="reply-text">${escapeHtml(child.text)}</div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="reply-item" id="reply-${replyId}">
+          <div class="reply-header">
+            <div class="reply-avatar">${getInitials(reply.authorFirstName, reply.authorLastName)}</div>
+            <div class="reply-author">${authorName}</div>
+            <div class="reply-time">${timeAgo(reply.createdAt)}</div>
+          </div>
+          <div class="reply-text">${escapeHtml(reply.text)}</div>
+          <button class="reply-to-reply-btn" onclick="toggleNestedReply('${postId}', '${replyId}', '${reply.authorFirstName || 'Member'}')">
+            ↩ Reply
+          </button>
+          <div class="nested-reply-composer" id="nested-composer-${replyId}">
+            <textarea class="nested-reply-input" id="nested-input-${replyId}" rows="2"></textarea>
+            <button class="btn-nested-submit" onclick="submitNestedReply('${postId}', '${replyId}')">Reply</button>
+          </div>
+          ${childrenHtml}
+        </div>
+      `;
+    }).join('');
   }
 
   function renderPosts() {
     const list = document.getElementById('postsList');
     let filtered = allPosts;
 
-    if (currentFilter !== 'all') {
-      filtered = filtered.filter(p => p.category === currentFilter);
-    }
-    if (currentNeighborhood !== 'all') {
-      filtered = filtered.filter(p => p.neighborhood === currentNeighborhood);
-    }
+    if (currentHoodFilter !== 'all') filtered = filtered.filter(p => p.neighborhood === currentHoodFilter);
+    if (currentCatFilter !== 'all') filtered = filtered.filter(p => p.category === currentCatFilter);
 
     if (filtered.length === 0) {
       list.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">🌱</div>
-          <div>No posts yet. Be the first to say something!</div>
+          <div>No posts yet in this area. Be the first to say something!</div>
         </div>`;
       return;
     }
 
     list.innerHTML = filtered.map(post => {
       const replies = post.replies || [];
+      const topLevelCount = replies.filter(r => !r.parentReplyId).length;
+
       return `
         <div class="post-card" id="post-${post.id}">
           <div class="post-header">
             <div class="post-avatar">${getInitials(post.authorFirstName, post.authorLastName)}</div>
             <div>
               <div class="post-author">${post.authorFirstName || 'Member'} ${post.authorLastName?.[0] || ''}.</div>
-              <div class="post-hood">📍 ${post.neighborhood || 'Hey Neighbor'}</div>
+              <div class="post-hood">${post.neighborhood || 'Hey Neighbor member'}</div>
             </div>
             <div class="post-time">${timeAgo(post.createdAt)}</div>
           </div>
           <div class="post-category">${post.category || 'General'}</div>
-          <div class="post-text">${post.text}</div>
-          ${replies.length > 0 ? `
-            <div class="replies-list">
-              ${replies.map(r => `
-                <div class="reply-item">
-                  <div class="reply-header">
-                    <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
-                    <div class="reply-author">${r.authorFirstName || 'Member'}</div>
-                    <div class="reply-time">${timeAgo(r.createdAt)}</div>
-                  </div>
-                  <div class="reply-text">${r.text}</div>
-                </div>
-              `).join('')}
-            </div>
-          ` : ''}
+          <div class="post-text">${escapeHtml(post.text)}</div>
+          ${replies.length > 0 ? `<div class="replies-list">${renderReplies(post.id, replies)}</div>` : ''}
           <div class="post-footer">
             <button class="post-reply-btn" onclick="toggleReply('${post.id}')">💬 Reply</button>
-            <span class="reply-count">${replies.length} ${replies.length === 1 ? 'reply' : 'replies'}</span>
+            <span class="reply-count">${topLevelCount} ${topLevelCount === 1 ? 'reply' : 'replies'}</span>
           </div>
           <div class="reply-composer" id="reply-composer-${post.id}">
             <textarea class="reply-input" id="reply-input-${post.id}" placeholder="Write a reply..."></textarea>
-            <button class="btn-reply-submit" onclick="submitReply('${post.id}')">Reply →</button>
+            <button class="btn-reply-submit" onclick="submitReply('${post.id}')">Reply</button>
           </div>
         </div>
       `;
@@ -409,9 +523,6 @@
     collection, addDoc, onSnapshot, orderBy,
     query, doc, getDoc, serverTimestamp, updateDoc, arrayUnion
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  let currentUser = null;
-  let currentProfile = null;
 
   onAuthStateChanged(auth, async (user) => {
     document.getElementById('loadingMsg').style.display = 'none';
@@ -432,124 +543,104 @@
 
     if (!isPremium) {
       document.getElementById('gateBasicMember').classList.add('show');
+      document.getElementById('navRight').innerHTML = `
+        <span style="font-size:13px;color:var(--text-muted)">Hi, ${currentProfile?.firstName || 'there'} 👋</span>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      `;
       return;
     }
 
-    // Premium member — show the full board
     const firstName = currentProfile?.firstName || 'Member';
     const lastName = currentProfile?.lastName || '';
-    const fullName = firstName + ' ' + lastName;
-    const neighborhood = currentProfile?.neighborhood || 'Hey Neighbor';
-    const initials = ((firstName[0] || '') + (lastName[0] || '')).toUpperCase();
+    const fullName = `${firstName} ${lastName}`.trim();
+    const neighborhood = currentProfile?.neighborhood || 'NYC';
 
-    // Update nav
     document.getElementById('navRight').innerHTML = `
       <span style="font-size:13px;color:var(--text-muted)">Hi, ${firstName} 👋</span>
       <a href="dashboard.html" class="nav-link">Dashboard</a>
-      <button class="btn-logout" onclick="document.dispatchEvent(new CustomEvent('hn-logout'))">Log out</button>
+      <button class="btn-logout" onclick="handleLogout()">Log out</button>
     `;
 
-    // Update sidebar
-    document.getElementById('sidebarAvatar').textContent = initials;
+    document.getElementById('sidebarAvatar').textContent = getInitials(firstName, lastName);
     document.getElementById('sidebarName').textContent = fullName;
-    document.getElementById('sidebarHood').textContent = '📍 ' + neighborhood;
-    document.getElementById('composerAvatar').textContent = initials;
-    document.getElementById('feedSubtitle').textContent = 'Welcome back, ' + firstName + '!';
-
-    // Show the board
+    document.getElementById('sidebarHood').textContent = neighborhood;
+    document.getElementById('composerAvatar').textContent = getInitials(firstName, lastName);
+    document.getElementById('feedSubtitle').textContent = `Welcome back, ${firstName}! What's happening in ${neighborhood}?`;
     document.getElementById('boardLayout').classList.add('show');
 
-    // Load posts from Firestore in real time
     const postsQuery = query(collection(db, "community_posts"), orderBy("createdAt", "desc"));
     onSnapshot(postsQuery, (snapshot) => {
-      allPosts = snapshot.docs.map(d => {
-        const data = d.data();
-        return {
-          id: d.id,
-          ...data,
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || new Date().toISOString()
-        };
-      });
+      allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      updateCounts();
       renderPosts();
     });
-  });
 
-  // New post
-  document.addEventListener('hn-post', async () => {
-    const text = document.getElementById('postInput').value.trim();
-    const category = document.getElementById('postCategory').value;
-    if (!text) return;
-
-    const btn = document.getElementById('postBtn');
-    btn.disabled = true;
-    btn.textContent = 'Posting...';
-
-    const firstName = currentProfile?.firstName || 'Member';
-    const lastName = currentProfile?.lastName || '';
-    const neighborhood = currentProfile?.neighborhood || '';
-
-    try {
-      // Save to Firestore
-      await addDoc(collection(db, "community_posts"), {
-        text,
-        category,
-        authorFirstName: firstName,
-        authorLastName: lastName,
-        neighborhood,
-        authorUid: currentUser.uid,
-        createdAt: serverTimestamp(),
-        replies: []
-      });
-
-      // Also save to Google Sheets via Make.com
-      fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: firstName + ' ' + lastName,
-          neighborhood,
-          category,
-          message: text,
-          date: new Date().toISOString()
-        })
-      });
-
-      document.getElementById('postInput').value = '';
-    } catch (err) {
-      console.error(err);
-      alert('Could not post. Please try again.');
-    }
-
-    btn.disabled = false;
-    btn.textContent = 'Post →';
-  });
-
-  // Reply
-  document.addEventListener('hn-reply', async (e) => {
-    const { postId, text } = e.detail;
-    const firstName = currentProfile?.firstName || 'Member';
-    const lastName = currentProfile?.lastName || '';
-
-    try {
-      await updateDoc(doc(db, "community_posts", postId), {
-        replies: arrayUnion({
+    // New post
+    document.addEventListener('hn-post', async (e) => {
+      const { text, category } = e.detail;
+      const btn = document.getElementById('postBtn');
+      btn.disabled = true;
+      btn.textContent = 'Posting...';
+      try {
+        await addDoc(collection(db, "community_posts"), {
           text,
+          category,
           authorFirstName: firstName,
           authorLastName: lastName,
-          authorUid: currentUser.uid,
-          createdAt: new Date().toISOString()
-        })
-      });
-    } catch (err) {
-      console.error(err);
-      alert('Could not post reply. Please try again.');
-    }
-  });
+          neighborhood,
+          authorUid: user.uid,
+          createdAt: new Date().toISOString(),
+          replies: []
+        });
+        fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: fullName, neighborhood, category, message: text, date: new Date().toISOString() })
+        });
+        document.getElementById('postInput').value = '';
+      } catch (err) {
+        console.error(err);
+        alert('Could not post. Please try again.');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Post';
+    });
 
-  // Logout
-  document.addEventListener('hn-logout', async () => {
-    await signOut(auth);
-    window.location.href = 'index.html';
+    // Reply (works for both top-level replies and nested replies)
+    document.addEventListener('hn-reply', async (e) => {
+      const { postId, text, parentReplyId } = e.detail;
+      
+      // Generate a unique ID for this reply
+      const replyId = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+      
+      try {
+        await updateDoc(doc(db, "community_posts", postId), {
+          replies: arrayUnion({
+            id: replyId,
+            text,
+            parentReplyId: parentReplyId || null,
+            authorFirstName: firstName,
+            authorLastName: lastName,
+            authorUid: user.uid,
+            createdAt: new Date().toISOString()
+          })
+        });
+
+        // Close the top-level reply composer if this was a top-level reply
+        if (!parentReplyId) {
+          const box = document.getElementById('reply-composer-' + postId);
+          if (box) box.classList.remove('show');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Could not post reply. Please try again.');
+      }
+    });
+
+    document.addEventListener('hn-logout', async () => {
+      await signOut(auth);
+      window.location.href = 'index.html';
+    });
   });
 </script>
 
