@@ -300,16 +300,18 @@
     }
   }
 
-  function submitNestedReply(postId, replyIndex) {
-    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-    if (!input || !input.value.trim()) return;
-    document.dispatchEvent(new CustomEvent('hn-nested-reply', {
-      detail: { postId, replyIndex, text: input.value.trim() }
-    }));
-    input.value = '';
-    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (box) box.classList.remove('show');
-  }
+  function submitNestedReply(postId, replyIndex, replyingToName) {
+  const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+  if (!input || !input.value.trim()) return;
+  const text = '@' + replyingToName + ' ' + input.value.trim();
+  document.dispatchEvent(new CustomEvent('hn-reply', {
+    detail: { postId, text }
+  }));
+  input.value = '';
+  const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+  if (composer) composer.classList.remove('show');
+}
+
 
   function filterByHood(el, hood) {
     document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('active'));
@@ -405,7 +407,7 @@
                 <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
                 <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
                   <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
-                  <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex})">Reply</button>
+                  <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')"
                 </div>
               </div>
             `;
@@ -498,10 +500,10 @@
       <button class="btn-logout" onclick="handleLogout()">Log out</button>
     `;
 
-    document.getElementById('sidebarAvatar').textContent = getInitials(firstName, lastName);
+    document.getElementById('sidebarAvatar').textContent = ((firstName?.[0] || '') + (lastName?.[0] || '')).toUpperCase();
     document.getElementById('sidebarName').textContent = fullName;
     document.getElementById('sidebarHood').textContent = neighborhood;
-    document.getElementById('composerAvatar').textContent = getInitials(firstName, lastName);
+    document.getElementById('composerAvatar').textContent = ((firstName?.[0] || '') + (lastName?.[0] || '')).toUpperCase();
     document.getElementById('feedSubtitle').textContent = `Welcome back, ${firstName}! What's happening in ${neighborhood}?`;
     document.getElementById('boardLayout').classList.add('show');
 
