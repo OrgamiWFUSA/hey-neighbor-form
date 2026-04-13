@@ -330,9 +330,10 @@
     document.dispatchEvent(new CustomEvent('hn-logout'));
   }
 
-  function getInitials(first, last) {
-    return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
-  }
+  window.getInitials = function(first, last) {
+  return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
+}
+
 
   function timeAgo(dateStr) {
     if (!dateStr) return '';
@@ -384,7 +385,7 @@
       <div class="reply-time">${timeAgo(r.createdAt)}</div>
     </div>
     <div class="reply-text">${r.text}</div>
-    <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
+    <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">&#8617 Reply to ${r.authorFirstName || 'this'}</button>
     <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
       <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
       <button class="btn-nested-reply-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
