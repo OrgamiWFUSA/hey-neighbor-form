@@ -485,6 +485,10 @@
     lastName = currentProfile?.lastName || '';
     fullName = `${firstName} ${lastName}`.trim();
     neighborhood = currentProfile?.neighborhood || 'NYC';
+    window._currentFirstName = firstName;
+    window._currentLastName = lastName;
+    window._currentUid = user.uid;
+
 
     document.getElementById('navRight').innerHTML = `
       <span style="font-size:13px;color:var(--text-muted)">Hi, ${firstName} 👋</span>
