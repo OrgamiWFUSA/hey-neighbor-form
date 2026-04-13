@@ -119,7 +119,6 @@
   .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
   .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
 
-  
   .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 0 0 0; display: block; }
   .reply-reply-btn:hover { color: var(--sage); }
   .nested-reply-composer { display: none; margin-top: 8px; gap: 8px; align-items: flex-start; }
@@ -311,28 +310,6 @@
     const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
     if (box) box.classList.remove('show');
   }
-  function toggleNestedReply(postId, replyIndex) {
-  const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-  if (composer) {
-    composer.classList.toggle('show');
-    if (composer.classList.contains('show')) {
-      const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-      if (input) input.focus();
-    }
-  }
-}
-
-function submitNestedReply(postId, replyIndex, replyingToName) {
-  const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-  if (!input || !input.value.trim()) return;
-  const text = '@' + replyingToName + ' ' + input.value.trim();
-  document.dispatchEvent(new CustomEvent('hn-reply', {
-    detail: { postId, text }
-  }));
-  input.value = '';
-  const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-  if (composer) composer.classList.remove('show');
-}
 
   function filterByHood(el, hood) {
     document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('active'));
