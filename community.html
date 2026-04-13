@@ -555,6 +555,41 @@
           nestedReplies: []
         })
       });
+      document.addEventListener('hn-nested-reply', async (e) => {
+  const { postId, replyIndex, text } = e.detail;
+  try {
+    const postRef = doc(db, "community_posts", postId);
+    const postSnap = await getDoc(postRef);
+    if (!postSnap.exists()) return;
+
+    const postData = postSnap.data();
+    const replies = postData.replies ? [...postData.replies] : [];
+
+    if (!replies[replyIndex]) return;
+
+    if (!replies[replyIndex].nestedReplies) {
+      replies[replyIndex].nestedReplies = [];
+    }
+
+    replies[replyIndex].nestedReplies.push({
+      text,
+      authorFirstName: firstName,
+      authorLastName: lastName,
+      authorUid: user.uid,
+      createdAt: new Date().toISOString()
+    });
+
+    await updateDoc(postRef, { replies });
+
+    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (composer) composer.classList.remove('show');
+
+  } catch (err) {
+    console.error('Nested reply error:', err);
+    alert('Could not post reply. Please try again.');
+  }
+});
+
       const input = document.getElementById('reply-input-' + postId);
       if (input) input.value = '';
       const box = document.getElementById('reply-composer-' + postId);
