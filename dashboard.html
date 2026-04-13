@@ -391,6 +391,14 @@
       </div>
       <a class="btn-community" id="communityBtn" href="community.html">Go to board →</a>
     </div>
+    
+<!-- ATTENDING CARD -->
+<div class="dash-card" id="attendingCard" style="margin-bottom:20px;">
+  <div class="dash-card-label">🎟️ You're attending</div>
+  <div id="attendingList">
+    <div style="color:var(--text-muted); font-size:13px;">Loading your bookings...</div>
+  </div>
+</div>
 
     <!-- PROFILE + EVENTS GRID -->
     <div class="dash-grid">
@@ -410,38 +418,12 @@
 
       <!-- EVENTS CARD -->
       <div class="dash-card">
-        <div class="dash-card-label">Upcoming events — your prices</div>
-        <div id="eventsList">
-          <div class="event-item">
-            <div>
-              <div class="event-item-name">Wine Society</div>
-              <div class="event-item-date">2nd Tuesday · UES</div>
-            </div>
-            <div class="event-item-price member-price" data-basic="$25" data-premium="$15">$25</div>
-          </div>
-          <div class="event-item">
-            <div>
-              <div class="event-item-name">After Bedtime Supper Club</div>
-              <div class="event-item-date">Wednesdays · Rotating</div>
-            </div>
-            <div class="event-item-price member-price" data-basic="$30" data-premium="$20">$30</div>
-          </div>
-          <div class="event-item">
-            <div>
-              <div class="event-item-name">Saturday Park Club</div>
-              <div class="event-item-date">Every Saturday morning</div>
-            </div>
-            <div class="event-item-price" style="color:var(--sage-dark)">Free</div>
-          </div>
-          <div class="event-item">
-            <div>
-              <div class="event-item-name">Family Brunch</div>
-              <div class="event-item-date">3rd Sunday · Restaurant</div>
-            </div>
-            <div class="event-item-price member-price" data-basic="$25" data-premium="$15">$25</div>
-          </div>
-        </div>
-      </div>
+  <div class="dash-card-label">Upcoming events — your prices</div>
+  <div id="eventsList">
+    <div style="color:var(--text-muted); font-size:13px;">Loading events...</div>
+  </div>
+  <a href="events.html" style="display:block; margin-top:16px; font-size:13px; color:var(--sage); text-decoration:none; font-weight:500;">Browse all events →</a>
+</div>
 
     </div>
 
@@ -539,6 +521,91 @@
     await signOut(auth);
     window.location.href = 'index.html';
   });
+</script>
+<script>
+  const DASH_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
+
+  function parseCSVRow(row) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < row.length; i++) {
+      const char = row[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  async function loadDashEvents(isPremium) {
+    try {
+      const res = await fetch(DASH_CSV_URL);
+      const text = await res.text();
+      const rows = text.trim().split('\n').slice(1);
+      const events = rows.filter(r => r.trim()).map(row => {
+        const cols = parseCSVRow(row);
+        return {
+          name:           cols[0] || '',
+          datetime:       cols[2] || '',
+          location:       cols[3] || '',
+          priceMember:    cols[5] || '',
+          priceNonMember: cols[6] || '',
+          stripeMember:   cols[7] || '',
+          stripeNonMember:cols[8] || '',
+          type:           (cols[9] || 'paid').trim().toLowerCase()
+        };
+      });
+
+      const list = document.getElementById('eventsList');
+
+      if (events.length === 0) {
+        list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">No upcoming events.</div>';
+        return;
+      }
+
+      list.innerHTML = events.slice(0, 4).map(event => {
+        const price = event.type === 'free' 
+          ? 'Free' 
+          : isPremium 
+            ? event.priceMember 
+            : event.priceNonMember;
+
+        const stripeLink = event.type === 'free'
+          ? null
+          : isPremium
+            ? event.stripeMember
+            : event.stripeNonMember;
+
+        return `
+          <div class="event-item" style="padding:12px 0;">
+            <div>
+              <div class="event-item-name">${event.name}</div>
+              <div class="event-item-date" style="margin-top:3px;">${event.datetime}</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="event-item-price">${price}</div>
+              ${stripeLink 
+                ? `<a href="${stripeLink}" target="_blank" style="font-size:11px; color:var(--sage); text-decoration:none; font-weight:500;">Book →</a>`
+                : `<span style="font-size:11px; color:var(--sage);">Free RSVP on events page</span>`
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    } catch(e) {
+      console.error('Dashboard events error:', e);
+      document.getElementById('eventsList').innerHTML = 
+        '<div style="color:var(--text-muted);font-size:13px;">Unable to load events.</div>';
+    }
+  }
 </script>
 
 </body>
