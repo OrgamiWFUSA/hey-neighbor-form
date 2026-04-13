@@ -213,7 +213,7 @@
       <a class="hn-sec-link" href="heyneighbor-join.html">Full calendar →</a>
     </div>
     <div class="hn-events-grid">
-      <a class="hn-ecard" href="heyneighbor-join.html">
+      <a class="hn-ecard" href="events.html">
         <div class="hn-ecard-top">
           <div class="hn-badge b-adult">Adults only</div>
           <div class="hn-ecard-title">Wine Society</div>
@@ -437,6 +437,26 @@
       document.querySelectorAll('.hn-hood-pill').forEach(function(p) { p.classList.remove('on'); });
       this.classList.add('on');
     });
+  });
+<script type="module">
+  import { auth } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in — update nav to show dashboard link
+      const navLinks = document.querySelector('.hn-nav-links');
+      if (navLinks) {
+        navLinks.innerHTML = `
+          <a class="hn-navl" href="events.html">Events</a>
+          <a class="hn-navl" href="community.html">Community</a>
+          <a class="hn-navl" href="about.html">About</a>
+          <a class="hn-navl" href="dashboard.html">My Dashboard</a>
+          <button class="hn-join-btn" onclick="window.location.href='dashboard.html'">My Account</button>
+        `;
+      }
+    }
+    // If not logged in, nav stays as-is
   });
 </script>
 </body>
