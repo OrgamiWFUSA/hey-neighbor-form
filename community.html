@@ -300,16 +300,17 @@
     }
   }
 
-  function submitNestedReply(postId, replyIndex) {
-    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-    if (!input || !input.value.trim()) return;
-    document.dispatchEvent(new CustomEvent('hn-nested-reply', {
-      detail: { postId, replyIndex, text: input.value.trim() }
-    }));
-    input.value = '';
-    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (box) box.classList.remove('show');
-  }
+  function submitNestedReply(postId, replyIndex, replyingToName) {
+  const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+  if (!input || !input.value.trim()) return;
+  const text = '@' + replyingToName + ' ' + input.value.trim();
+  document.dispatchEvent(new CustomEvent('hn-nested-reply', {
+    detail: { postId, replyIndex: parseInt(replyIndex), text }
+  }));
+  input.value = '';
+  const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+  if (composer) composer.classList.remove('show');
+}
 
   function filterByHood(el, hood) {
     document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('active'));
