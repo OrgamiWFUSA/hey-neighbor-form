@@ -375,21 +375,19 @@
 
       const repliesHTML = replies.length > 0 ? `
         <div class="replies-list">
-          ${replies.map((r, rIndex) => `
-  <div class="reply-item" id="reply-${post.id}-${rIndex}">
-    <div class="reply-header">
-      <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
-      <div class="reply-author">${r.authorFirstName || 'Member'} ${r.authorLastName?.[0] || ''}.</div>
-      <div class="reply-time">${timeAgo(r.createdAt)}</div>
-    </div>
-    <div class="reply-text">${r.text}</div>
-    <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
-    <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
-      <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
-      <button class="btn-nested-reply-submit" onclick="submitNestedReply('${post.id}', ${rIndex}, '${r.authorFirstName || 'Member'}')">Reply</button>
-    </div>
-  </div>
-`).join('')}
+          ${replies.map((r, rIndex) => {
+            const nestedReplies = r.nestedReplies || [];
+            const nestedHTML = nestedReplies.length > 0 ? `
+              <div class="nested-replies-list">
+                ${nestedReplies.map(nr => `
+                  <div class="nested-reply-item">
+                    <div class="nested-reply-author">
+                      ${nr.authorFirstName || 'Member'} ${nr.authorLastName?.[0] || ''}.
+                      <span class="nested-reply-time">${timeAgo(nr.createdAt)}</span>
+                    </div>
+                    <div class="nested-reply-text">${nr.text}</div>
+                  </div>
+                `).join('')}
               </div>
             ` : '';
 
