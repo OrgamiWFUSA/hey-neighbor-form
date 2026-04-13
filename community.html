@@ -377,7 +377,7 @@
 
       const repliesHTML = replies.length > 0 ? `
         <div class="replies-list">
-          ${replies.map((r, rIndex) => `
+          {replies.map((r, rIndex) => `
   <div class="reply-item" id="reply-${post.id}-${rIndex}">
     <div class="reply-header">
       <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
