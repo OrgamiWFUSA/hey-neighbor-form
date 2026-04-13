@@ -35,7 +35,6 @@
 
   .loading { text-align: center; padding: 80px 20px; font-size: 14px; color: var(--text-muted); }
 
-  /* GATE SCREENS */
   .gate { display: none; min-height: 80vh; align-items: center; justify-content: center; padding: 48px 24px; }
   .gate.show { display: flex; }
   .gate-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 20px; padding: 56px 48px; max-width: 520px; width: 100%; text-align: center; }
@@ -50,11 +49,9 @@
   .btn-secondary { background: transparent; color: var(--text-muted); border: 1.5px solid var(--border); border-radius: 50px; padding: 14px 32px; font-family: var(--font-sans); font-size: 14px; cursor: pointer; text-decoration: none; display: block; text-align: center; }
   .btn-secondary:hover { border-color: var(--sage-mid); color: var(--forest); }
 
-  /* MAIN BOARD LAYOUT */
   .board-layout { display: none; grid-template-columns: 260px 1fr; gap: 28px; max-width: 1100px; margin: 0 auto; padding: 36px 28px 80px; }
   .board-layout.show { display: grid; }
 
-  /* LEFT SIDEBAR */
   .sidebar { display: flex; flex-direction: column; gap: 20px; }
   .sidebar-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
   .sidebar-title { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--forest); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
@@ -73,14 +70,12 @@
   .cat-item:hover { background: var(--sage-light); color: var(--forest); }
   .cat-item.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
 
-  /* MAIN FEED */
   .feed { display: flex; flex-direction: column; gap: 0; }
   .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
   .feed-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--forest); }
   .feed-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
   .premium-badge { background: var(--sage); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; }
 
-  /* COMPOSER */
   .composer { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
   .composer-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
   .composer-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
@@ -93,7 +88,6 @@
   .btn-post:hover { background: var(--sage-dark); }
   .btn-post:disabled { background: var(--sage-mid); cursor: default; }
 
-  /* POSTS */
   .posts-list { display: flex; flex-direction: column; gap: 14px; }
   .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: box-shadow 0.15s; }
   .post-card:hover { box-shadow: 0 2px 12px rgba(45,59,42,0.07); }
@@ -109,7 +103,6 @@
   .post-reply-btn:hover { color: var(--sage); }
   .reply-count { font-size: 12px; color: var(--text-muted); }
 
-  /* TOP-LEVEL REPLY COMPOSER (reply to the post) */
   .reply-composer { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EAF0E6; }
   .reply-composer.show { display: flex; gap: 10px; }
   .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; transition: border-color 0.2s; }
@@ -118,33 +111,29 @@
   .btn-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .btn-reply-submit:hover { background: var(--sage-dark); }
 
-  /* REPLIES LIST */
-  .replies-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
-
-  /* INDIVIDUAL REPLY ITEM */
-  .reply-item { background: var(--cream); border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--sage-light); }
-  .reply-item.nested { margin-left: 24px; border-left-color: var(--sage-mid); background: var(--warm-white); }
+  .replies-list { margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--sage-light); display: flex; flex-direction: column; gap: 10px; }
+  .reply-item { background: var(--cream); border-radius: 8px; padding: 12px 16px; }
   .reply-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
   .reply-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
   .reply-author { font-size: 12px; font-weight: 500; color: var(--forest); }
   .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
-  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; margin-bottom: 8px; }
+  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
 
-  /* REPLY-TO-REPLY BUTTON */
-  .reply-to-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 0; display: inline-flex; align-items: center; gap: 4px; }
-  .reply-to-reply-btn:hover { color: var(--sage); }
-
-  /* NESTED REPLY COMPOSER (reply to a specific reply) */
-  .nested-reply-composer { display: none; margin-top: 10px; }
-  .nested-reply-composer.show { display: flex; gap: 8px; }
-  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; transition: border-color 0.2s; }
+  .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 0 0 0; display: block; }
+  .reply-reply-btn:hover { color: var(--sage); }
+  .nested-reply-composer { display: none; margin-top: 8px; gap: 8px; align-items: flex-start; }
+  .nested-reply-composer.show { display: flex; }
+  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; }
   .nested-reply-input:focus { border-color: var(--sage); }
   .nested-reply-input::placeholder { color: #BCC8B8; }
-  .btn-nested-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .btn-nested-submit { background: var(--sage); color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .btn-nested-submit:hover { background: var(--sage-dark); }
 
-  /* QUOTED NAME (shows who you're replying to) */
-  .reply-mention { font-size: 12px; color: var(--sage-dark); font-weight: 600; margin-bottom: 4px; }
+  .nested-replies-list { margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--sage-mid); display: flex; flex-direction: column; gap: 8px; }
+  .nested-reply-item { background: var(--warm-white); border-radius: 6px; padding: 10px 12px; }
+  .nested-reply-author { font-size: 11px; font-weight: 500; color: var(--forest); margin-bottom: 4px; }
+  .nested-reply-time { font-size: 10px; color: var(--text-muted); margin-left: 6px; }
+  .nested-reply-text { font-size: 12px; color: var(--forest); line-height: 1.55; }
 
   .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px; }
   .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
@@ -172,7 +161,6 @@
 
 <div class="loading" id="loadingMsg">Loading...</div>
 
-<!-- GATE 1: Not logged in -->
 <div class="gate" id="gateNotLoggedIn">
   <div class="gate-card">
     <div class="gate-icon">🌿</div>
@@ -187,7 +175,6 @@
   </div>
 </div>
 
-<!-- GATE 2: Basic member -->
 <div class="gate" id="gateBasicMember">
   <div class="gate-card">
     <div class="gate-icon">⭐</div>
@@ -202,10 +189,8 @@
   </div>
 </div>
 
-<!-- FULL BOARD (Premium members only) -->
 <div class="board-layout" id="boardLayout">
 
-  <!-- LEFT SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-card">
       <div class="member-profile">
@@ -219,30 +204,12 @@
     <div class="sidebar-card">
       <div class="sidebar-title">📍 Neighborhood</div>
       <div class="neighborhood-list">
-        <div class="hood-item active" onclick="filterByHood(this, 'all')">
-          <span>All NYC</span>
-          <span class="hood-count" id="countAll">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Upper East Side')">
-          <span>Upper East Side</span>
-          <span class="hood-count" id="countUES">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Upper West Side')">
-          <span>Upper West Side</span>
-          <span class="hood-count" id="countUWS">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Williamsburg')">
-          <span>Williamsburg</span>
-          <span class="hood-count" id="countWilliamsburg">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Astoria')">
-          <span>Astoria</span>
-          <span class="hood-count" id="countAstoria">0</span>
-        </div>
-        <div class="hood-item" onclick="filterByHood(this, 'Forest Hills')">
-          <span>Forest Hills</span>
-          <span class="hood-count" id="countForestHills">0</span>
-        </div>
+        <div class="hood-item active" onclick="filterByHood(this, 'all')"><span>All NYC</span><span class="hood-count" id="countAll">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Upper East Side')"><span>Upper East Side</span><span class="hood-count" id="countUES">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Upper West Side')"><span>Upper West Side</span><span class="hood-count" id="countUWS">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Williamsburg')"><span>Williamsburg</span><span class="hood-count" id="countWilliamsburg">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Astoria')"><span>Astoria</span><span class="hood-count" id="countAstoria">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this, 'Forest Hills')"><span>Forest Hills</span><span class="hood-count" id="countForestHills">0</span></div>
       </div>
     </div>
 
@@ -260,7 +227,6 @@
     </div>
   </div>
 
-  <!-- MAIN FEED -->
   <div class="feed">
     <div class="feed-header">
       <div>
@@ -311,6 +277,40 @@
     document.dispatchEvent(new CustomEvent('hn-post', { detail: { text, category } }));
   }
 
+  function handleReply(postId) {
+    const input = document.getElementById('reply-input-' + postId);
+    const text = input ? input.value.trim() : '';
+    if (!text) return;
+    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text } }));
+  }
+
+  function toggleReply(postId) {
+    const box = document.getElementById('reply-composer-' + postId);
+    if (box) box.classList.toggle('show');
+  }
+
+  function toggleNestedReply(postId, replyIndex) {
+    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (box) {
+      box.classList.toggle('show');
+      if (box.classList.contains('show')) {
+        const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+        if (input) input.focus();
+      }
+    }
+  }
+
+  function submitNestedReply(postId, replyIndex) {
+    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
+    if (!input || !input.value.trim()) return;
+    document.dispatchEvent(new CustomEvent('hn-nested-reply', {
+      detail: { postId, replyIndex, text: input.value.trim() }
+    }));
+    input.value = '';
+    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (box) box.classList.remove('show');
+  }
+
   function filterByHood(el, hood) {
     document.querySelectorAll('.hood-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
@@ -329,59 +329,6 @@
     document.dispatchEvent(new CustomEvent('hn-logout'));
   }
 
-  // Toggle the top-level reply composer (replying to the post itself)
-  function toggleReply(postId) {
-    const box = document.getElementById('reply-composer-' + postId);
-    if (box) {
-      box.classList.toggle('show');
-      if (box.classList.contains('show')) {
-        document.getElementById('reply-input-' + postId).focus();
-      }
-    }
-  }
-
-  // Submit a top-level reply to a post
-  function submitReply(postId) {
-    const input = document.getElementById('reply-input-' + postId);
-    const text = input ? input.value.trim() : '';
-    if (!text) return;
-    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text, parentReplyId: null } }));
-    input.value = '';
-  }
-
-  // Toggle the nested reply composer (replying to a specific reply)
-  function toggleNestedReply(postId, replyId, replyAuthorName) {
-    // Close all other nested composers first
-    document.querySelectorAll('.nested-reply-composer').forEach(el => {
-      if (el.id !== 'nested-composer-' + replyId) {
-        el.classList.remove('show');
-      }
-    });
-
-    const box = document.getElementById('nested-composer-' + replyId);
-    if (box) {
-      box.classList.toggle('show');
-      if (box.classList.contains('show')) {
-        const input = document.getElementById('nested-input-' + replyId);
-        if (input) {
-          input.placeholder = 'Replying to ' + replyAuthorName + '...';
-          input.focus();
-        }
-      }
-    }
-  }
-
-  // Submit a nested reply (reply to a reply)
-  function submitNestedReply(postId, parentReplyId) {
-    const input = document.getElementById('nested-input-' + parentReplyId);
-    const text = input ? input.value.trim() : '';
-    if (!text) return;
-    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text, parentReplyId } }));
-    input.value = '';
-    const box = document.getElementById('nested-composer-' + parentReplyId);
-    if (box) box.classList.remove('show');
-  }
-
   function getInitials(first, last) {
     return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
   }
@@ -395,17 +342,8 @@
     return Math.floor(seconds / 86400) + 'd ago';
   }
 
-  function escapeHtml(text) {
-    if (!text) return '';
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\n/g, '<br>');
-  }
-
   function updateCounts() {
-    const neighborhoods = {
+    const idMap = {
       'Upper East Side': 'countUES',
       'Upper West Side': 'countUWS',
       'Williamsburg': 'countWilliamsburg',
@@ -413,60 +351,11 @@
       'Forest Hills': 'countForestHills'
     };
     document.getElementById('countAll').textContent = allPosts.length;
-    Object.entries(neighborhoods).forEach(([hood, id]) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = allPosts.filter(p => p.neighborhood === hood).length;
+    Object.keys(idMap).forEach(hood => {
+      const count = allPosts.filter(p => p.neighborhood === hood).length;
+      const el = document.getElementById(idMap[hood]);
+      if (el) el.textContent = count;
     });
-  }
-
-  function renderReplies(postId, replies) {
-    if (!replies || replies.length === 0) return '';
-
-    // Separate top-level replies and nested replies
-    const topLevelReplies = replies.filter(r => !r.parentReplyId);
-    const nestedReplies = replies.filter(r => r.parentReplyId);
-
-    return topLevelReplies.map(reply => {
-      const replyId = reply.id;
-      const authorName = (reply.authorFirstName || 'Member') + ' ' + (reply.authorLastName?.[0] || '') + '.';
-      
-      // Find any nested replies that belong to this reply
-      const children = nestedReplies.filter(r => r.parentReplyId === replyId);
-
-      const childrenHtml = children.map(child => {
-        const childAuthor = (child.authorFirstName || 'Member') + ' ' + (child.authorLastName?.[0] || '') + '.';
-        return `
-          <div class="reply-item nested">
-            <div class="reply-header">
-              <div class="reply-avatar">${getInitials(child.authorFirstName, child.authorLastName)}</div>
-              <div class="reply-author">${childAuthor}</div>
-              <div class="reply-time">${timeAgo(child.createdAt)}</div>
-            </div>
-            <div class="reply-mention">↩ replying to ${authorName}</div>
-            <div class="reply-text">${escapeHtml(child.text)}</div>
-          </div>
-        `;
-      }).join('');
-
-      return `
-        <div class="reply-item" id="reply-${replyId}">
-          <div class="reply-header">
-            <div class="reply-avatar">${getInitials(reply.authorFirstName, reply.authorLastName)}</div>
-            <div class="reply-author">${authorName}</div>
-            <div class="reply-time">${timeAgo(reply.createdAt)}</div>
-          </div>
-          <div class="reply-text">${escapeHtml(reply.text)}</div>
-          <button class="reply-to-reply-btn" onclick="toggleNestedReply('${postId}', '${replyId}', '${reply.authorFirstName || 'Member'}')">
-            ↩ Reply
-          </button>
-          <div class="nested-reply-composer" id="nested-composer-${replyId}">
-            <textarea class="nested-reply-input" id="nested-input-${replyId}" rows="2"></textarea>
-            <button class="btn-nested-submit" onclick="submitNestedReply('${postId}', '${replyId}')">Reply</button>
-          </div>
-          ${childrenHtml}
-        </div>
-      `;
-    }).join('');
   }
 
   function renderPosts() {
@@ -477,17 +366,50 @@
     if (currentCatFilter !== 'all') filtered = filtered.filter(p => p.category === currentCatFilter);
 
     if (filtered.length === 0) {
-      list.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-state-icon">🌱</div>
-          <div>No posts yet in this area. Be the first to say something!</div>
-        </div>`;
+      list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🌱</div><div>No posts yet. Be the first!</div></div>`;
       return;
     }
 
     list.innerHTML = filtered.map(post => {
       const replies = post.replies || [];
-      const topLevelCount = replies.filter(r => !r.parentReplyId).length;
+
+      const repliesHTML = replies.length > 0 ? `
+        <div class="replies-list">
+          ${replies.map((r, rIndex) => {
+            const nestedReplies = r.nestedReplies || [];
+            const nestedHTML = nestedReplies.length > 0 ? `
+              <div class="nested-replies-list">
+                ${nestedReplies.map(nr => `
+                  <div class="nested-reply-item">
+                    <div class="nested-reply-author">
+                      ${nr.authorFirstName || 'Member'} ${nr.authorLastName?.[0] || ''}.
+                      <span class="nested-reply-time">${timeAgo(nr.createdAt)}</span>
+                    </div>
+                    <div class="nested-reply-text">${nr.text}</div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : '';
+
+            return `
+              <div class="reply-item">
+                <div class="reply-header">
+                  <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
+                  <div class="reply-author">${r.authorFirstName || 'Member'} ${r.authorLastName?.[0] || ''}.</div>
+                  <div class="reply-time">${timeAgo(r.createdAt)}</div>
+                </div>
+                <div class="reply-text">${r.text}</div>
+                ${nestedHTML}
+                <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
+                <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
+                  <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
+                  <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex})">Reply</button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      ` : '';
 
       return `
         <div class="post-card" id="post-${post.id}">
@@ -500,15 +422,15 @@
             <div class="post-time">${timeAgo(post.createdAt)}</div>
           </div>
           <div class="post-category">${post.category || 'General'}</div>
-          <div class="post-text">${escapeHtml(post.text)}</div>
-          ${replies.length > 0 ? `<div class="replies-list">${renderReplies(post.id, replies)}</div>` : ''}
+          <div class="post-text">${post.text}</div>
+          ${repliesHTML}
           <div class="post-footer">
             <button class="post-reply-btn" onclick="toggleReply('${post.id}')">💬 Reply</button>
-            <span class="reply-count">${topLevelCount} ${topLevelCount === 1 ? 'reply' : 'replies'}</span>
+            <span class="reply-count">${replies.length} ${replies.length === 1 ? 'reply' : 'replies'}</span>
           </div>
           <div class="reply-composer" id="reply-composer-${post.id}">
             <textarea class="reply-input" id="reply-input-${post.id}" placeholder="Write a reply..."></textarea>
-            <button class="btn-reply-submit" onclick="submitReply('${post.id}')">Reply</button>
+            <button class="btn-reply-submit" onclick="handleReply('${post.id}')">Reply</button>
           </div>
         </div>
       `;
@@ -523,6 +445,14 @@
     collection, addDoc, onSnapshot, orderBy,
     query, doc, getDoc, serverTimestamp, updateDoc, arrayUnion
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // These are module-level so all event listeners can access them
+  let currentUser = null;
+  let currentProfile = null;
+  let firstName = '';
+  let lastName = '';
+  let fullName = '';
+  let neighborhood = '';
 
   onAuthStateChanged(auth, async (user) => {
     document.getElementById('loadingMsg').style.display = 'none';
@@ -550,10 +480,15 @@
       return;
     }
 
-    const firstName = currentProfile?.firstName || 'Member';
-    const lastName = currentProfile?.lastName || '';
-    const fullName = `${firstName} ${lastName}`.trim();
-    const neighborhood = currentProfile?.neighborhood || 'NYC';
+    // Set module-level variables so ALL event listeners can use them
+    firstName = currentProfile?.firstName || 'Member';
+    lastName = currentProfile?.lastName || '';
+    fullName = `${firstName} ${lastName}`.trim();
+    neighborhood = currentProfile?.neighborhood || 'NYC';
+    window._currentFirstName = firstName;
+    window._currentLastName = lastName;
+    window._currentUid = user.uid;
+
 
     document.getElementById('navRight').innerHTML = `
       <span style="font-size:13px;color:var(--text-muted)">Hi, ${firstName} 👋</span>
@@ -574,73 +509,130 @@
       updateCounts();
       renderPosts();
     });
+  });
 
-    // New post
-    document.addEventListener('hn-post', async (e) => {
-      const { text, category } = e.detail;
-      const btn = document.getElementById('postBtn');
-      btn.disabled = true;
-      btn.textContent = 'Posting...';
-      try {
-        await addDoc(collection(db, "community_posts"), {
+  // New post
+  document.addEventListener('hn-post', async (e) => {
+    const { text, category } = e.detail;
+    const btn = document.getElementById('postBtn');
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
+    try {
+      await addDoc(collection(db, "community_posts"), {
+        text, category,
+        authorFirstName: firstName,
+        authorLastName: lastName,
+        neighborhood,
+        authorUid: currentUser.uid,
+        createdAt: new Date().toISOString(),
+        replies: []
+      });
+      fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: fullName, neighborhood, category, message: text, date: new Date().toISOString() })
+      });
+      document.getElementById('postInput').value = '';
+    } catch (err) {
+      console.error(err);
+      alert('Could not post. Please try again.');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Post';
+  });
+
+  // Reply to a post
+  document.addEventListener('hn-reply', async (e) => {
+    const { postId, text } = e.detail;
+    try {
+      await updateDoc(doc(db, "community_posts", postId), {
+        replies: arrayUnion({
           text,
-          category,
           authorFirstName: firstName,
           authorLastName: lastName,
-          neighborhood,
-          authorUid: user.uid,
+          authorUid: currentUser.uid,
           createdAt: new Date().toISOString(),
-          replies: []
-        });
-        fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: fullName, neighborhood, category, message: text, date: new Date().toISOString() })
-        });
-        document.getElementById('postInput').value = '';
-      } catch (err) {
-        console.error(err);
-        alert('Could not post. Please try again.');
-      }
-      btn.disabled = false;
-      btn.textContent = 'Post';
+          nestedReplies: []
+        })
+      });
+      document.addEventListener('hn-nested-reply', async (e) => {
+  const { postId, replyIndex, text } = e.detail;
+  try {
+    const postRef = doc(db, "community_posts", postId);
+    const postSnap = await getDoc(postRef);
+    if (!postSnap.exists()) return;
+
+    const postData = postSnap.data();
+    const replies = postData.replies ? [...postData.replies] : [];
+
+    if (!replies[replyIndex]) return;
+
+    if (!replies[replyIndex].nestedReplies) {
+      replies[replyIndex].nestedReplies = [];
+    }
+
+    replies[replyIndex].nestedReplies.push({
+      text,
+      authorFirstName: firstName,
+      authorLastName: lastName,
+      authorUid: user.uid,
+      createdAt: new Date().toISOString()
     });
 
-    // Reply (works for both top-level replies and nested replies)
-    document.addEventListener('hn-reply', async (e) => {
-      const { postId, text, parentReplyId } = e.detail;
-      
-      // Generate a unique ID for this reply
-      const replyId = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-      
-      try {
-        await updateDoc(doc(db, "community_posts", postId), {
-          replies: arrayUnion({
-            id: replyId,
-            text,
-            parentReplyId: parentReplyId || null,
-            authorFirstName: firstName,
-            authorLastName: lastName,
-            authorUid: user.uid,
-            createdAt: new Date().toISOString()
-          })
-        });
+    await updateDoc(postRef, { replies });
 
-        // Close the top-level reply composer if this was a top-level reply
-        if (!parentReplyId) {
-          const box = document.getElementById('reply-composer-' + postId);
-          if (box) box.classList.remove('show');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Could not post reply. Please try again.');
-      }
-    });
+    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
+    if (composer) composer.classList.remove('show');
 
-    document.addEventListener('hn-logout', async () => {
-      await signOut(auth);
-      window.location.href = 'index.html';
-    });
+  } catch (err) {
+    console.error('Nested reply error:', err);
+    alert('Could not post reply. Please try again.');
+  }
+});
+
+      const input = document.getElementById('reply-input-' + postId);
+      if (input) input.value = '';
+      const box = document.getElementById('reply-composer-' + postId);
+      if (box) box.classList.remove('show');
+    } catch (err) {
+      console.error(err);
+      alert('Could not post reply. Please try again.');
+    }
+  });
+
+  // Reply to a reply (nested)
+  document.addEventListener('hn-nested-reply', async (e) => {
+    const { postId, replyIndex, text } = e.detail;
+    try {
+      const postRef = doc(db, "community_posts", postId);
+      const postSnap = await getDoc(postRef);
+      if (!postSnap.exists()) return;
+
+      const postData = postSnap.data();
+      const replies = JSON.parse(JSON.stringify(postData.replies || []));
+
+      if (!replies[replyIndex]) return;
+      if (!replies[replyIndex].nestedReplies) replies[replyIndex].nestedReplies = [];
+
+      replies[replyIndex].nestedReplies.push({
+        text,
+        authorFirstName: firstName,
+        authorLastName: lastName,
+        authorUid: currentUser.uid,
+        createdAt: new Date().toISOString()
+      });
+
+      await updateDoc(postRef, { replies });
+    } catch (err) {
+      console.error('Nested reply error:', err);
+      alert('Could not post reply. Please try again.');
+    }
+  });
+
+  // Logout
+  document.addEventListener('hn-logout', async () => {
+    await signOut(auth);
+    window.location.href = 'index.html';
   });
 </script>
 
