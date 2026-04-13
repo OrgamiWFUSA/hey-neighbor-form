@@ -199,7 +199,10 @@
   let userStatus = 'guest'; // 'guest', 'basic', 'premium'
   let currentUser = null;
 
-  // Check login status first, then load events
+    // Load events immediately — don't wait for auth
+  loadEvents();
+
+  // Check login status separately — updates display after load
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       currentUser = user;
@@ -224,9 +227,11 @@
           <button class="hn-join-btn" onclick="window.location.href='dashboard.html'">My Account</button>
         `;
       }
+
+      // Re-render events now that we know who the user is
+      renderEvents();
     }
-    // Load events regardless of login status
-    await loadEvents();
+    // If guest, events already loaded with guest view above
   });
 
   async function loadEvents() {
