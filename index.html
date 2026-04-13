@@ -212,18 +212,9 @@
       <div class="hn-sec-title">Upcoming events</div>
       <a class="hn-sec-link" href="heyneighbor-join.html">Full calendar →</a>
     </div>
-    <div class="hn-events-grid">
-      <a class="hn-ecard" href="events.html">
-        <div class="hn-ecard-top">
-          <div class="hn-badge b-adult">Adults only</div>
-          <div class="hn-ecard-title">Wine Society</div>
-        </div>
-        <div class="hn-ecard-body">
-          <div class="hn-ecard-meta">2nd Tuesday · 7:30 to 9:30pm · UES</div>
-          <div class="hn-ecard-meta">12 to 20 parents · Members get priority</div>
-          <div class="hn-ecard-desc">"A relaxed evening with a good glass of wine and the kind of conversation that actually flows."</div>
-        </div>
-      </a>
+    <div class="hn-events-grid" id="homeEventsGrid">
+  <div style="color:#7A9270; font-size:14px; padding:20px 0;">Loading events...</div>
+</div>
       <a class="hn-ecard" href="events.html">
         <div class="hn-ecard-top">
           <div class="hn-badge b-moms">Moms only</div>
@@ -458,6 +449,86 @@
     }
     // If not logged in, nav stays as-is
   });
+</script>
+ <script>
+  const HOME_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
+
+  function parseCSVRow(row) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < row.length; i++) {
+      const char = row[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  function getHomeBadgeClass(category) {
+    if (category.includes('Adults')) return 'b-adult';
+    if (category.includes('Moms'))   return 'b-moms';
+    if (category.includes('Family')) return 'b-family';
+    if (category.includes('Free'))   return 'b-free';
+    if (category.includes('Premium')) return 'b-premium';
+    return 'b-adult';
+  }
+
+  async function loadHomeEvents() {
+    try {
+      const res = await fetch(HOME_CSV_URL);
+      const text = await res.text();
+      const rows = text.trim().split('\n').slice(1);
+      const events = rows
+        .filter(r => r.trim())
+        .map(row => {
+          const cols = parseCSVRow(row);
+          return {
+            name:        cols[0] || '',
+            category:    cols[1] || '',
+            datetime:    cols[2] || '',
+            location:    cols[3] || '',
+            description: cols[4] || ''
+          };
+        })
+        .slice(0, 4); // Only show first 4 events on homepage
+
+      const grid = document.getElementById('homeEventsGrid');
+
+      if (events.length === 0) {
+        grid.innerHTML = '<div style="color:#7A9270; font-size:14px;">No events yet. Check back soon!</div>';
+        return;
+      }
+
+      grid.innerHTML = events.map(event => `
+        <a class="hn-ecard" href="events.html">
+          <div class="hn-ecard-top">
+            <div class="hn-badge ${getHomeBadgeClass(event.category)}">${event.category}</div>
+            <div class="hn-ecard-title">${event.name}</div>
+          </div>
+          <div class="hn-ecard-body">
+            <div class="hn-ecard-meta">📅 ${event.datetime}</div>
+            <div class="hn-ecard-meta">📍 ${event.location}</div>
+            <div class="hn-ecard-desc">"${event.description}"</div>
+          </div>
+        </a>
+      `).join('');
+
+    } catch(e) {
+      console.error('Home events error:', e);
+      document.getElementById('homeEventsGrid').innerHTML = 
+        '<div style="color:#7A9270; font-size:14px;">Unable to load events. Please refresh.</div>';
+    }
+  }
+
+  loadHomeEvents();
 </script>
 </body>
 </html>
