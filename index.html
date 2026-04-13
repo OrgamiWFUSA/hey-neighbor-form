@@ -488,12 +488,13 @@
       // Also populate hero card
       const heroList = document.getElementById('heroEventsList');
       if (heroList) {
-        heroList.innerHTML = events.map(event => `
-          <div class="hn-hc-stat">
-            <span class="hn-hc-name">${event.name}</span>
-            <span class="hn-hc-detail">${event.datetime}</span>
+              heroList.innerHTML = events.map(event => `
+          <div class="hn-hc-stat" style="padding: 12px 0;">
+            <div class="hn-hc-name">${event.name}</div>
+            <div class="hn-hc-detail" style="margin-top: 4px;">${event.datetime}</div>
           </div>
         `).join('');
+
       }
 
     } catch(e) {
