@@ -322,26 +322,28 @@
           </div>`;
       }
 
-      // PAID EVENTS — PREMIUM MEMBER
-      if (userStatus === 'premium') {
-        return `
-          <div class="hn-event-row">
-            <div class="hn-event-main">
-              <div>
-                <div class="hn-event-badge ${badgeClass}">${event.category}</div>
-                <div class="hn-event-title">${event.name}</div>
-                <div class="hn-event-meta">📅 ${event.datetime}</div>
-                <div class="hn-event-meta">📍 ${event.location}</div>
-                <div class="hn-event-desc">${event.description}</div>
-              </div>
-              <div class="hn-event-right">
-                <div class="hn-event-price">${event.priceMember}</div>
-                <div class="hn-event-price-sub">your member price ✦</div>
-                <div class="hn-event-price-member" style="text-decoration:line-through; color:#999;">${event.priceNonMember} non-member</div>
-                <a class="hn-book-btn" href="${event.stripeMember}" target="_blank">Book my spot — ${event.priceMember}</a>
-              </div>
+            // PAID EVENTS — GUEST (not logged in)
+      return `
+        <div class="hn-event-row">
+          <div class="hn-event-main">
+            <div>
+              <div class="hn-event-badge ${badgeClass}">${event.category}</div>
+              <div class="hn-event-title">${event.name}</div>
+              <div class="hn-event-meta">📅 ${event.datetime}</div>
+              <div class="hn-event-meta">📍 ${event.location}</div>
+              <div class="hn-event-desc">${event.description}</div>
             </div>
-          </div>`;
+            <div class="hn-event-right">
+              <div class="hn-event-price">Members only</div>
+              <div class="hn-event-price-sub">login to see pricing</div>
+              <div class="hn-event-price-member">${event.priceMember} for premium members</div>
+              <a class="hn-book-btn" href="heyneighbor-join.html">Join for member pricing →</a>
+              <a class="hn-book-btn member" href="heyneighbor-join.html">Join for premium member pricing →</a>
+              <div class="hn-member-note">Already a member? <a href="login.html" style="color:#6B8F5E;">Log in →</a></div>
+            </div>
+          </div>
+        </div>`;
+
       }
 
       // PAID EVENTS — BASIC MEMBER
