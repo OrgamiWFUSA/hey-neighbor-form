@@ -844,14 +844,30 @@ if (isPremium && profile.membershipExpiryDate) {
     const actions = document.getElementById('membershipActions');
 
     if (isPremium) {
-      badge.textContent = 'Premium';
-      badge.classList.remove('basic');
-      type.textContent = 'Premium Member';
-      type.classList.add('premium');
-      desc.textContent = 'You have full Premium access. Member pricing on all events and access to the community board.';
-      actions.innerHTML = `
-        <button class="btn-danger" onclick="confirmCancelMembership()">Cancel membership</button>
-      `;
+  badge.textContent = 'Premium';
+  badge.classList.remove('basic');
+  type.textContent = 'Premium Member';
+  type.classList.add('premium');
+
+  // Show expiry date if available
+  const expiryDate = currentProfile?.membershipExpiryDate
+    ? new Date(currentProfile.membershipExpiryDate).toLocaleDateString('en-US', { 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric' 
+      })
+    : null;
+
+  const isCancelled = currentProfile?.membershipCancelled === true;
+
+  desc.innerHTML = isCancelled
+    ? `Your membership has been cancelled. You will keep Premium access until <strong>${expiryDate || 'your expiry date'}</strong>, then be downgraded to Basic.`
+    : `You have full Premium access. Member pricing on all events and access to the community board.${expiryDate ? ` <br><span style="font-size:12px; color:var(--text-muted);">Renews ${expiryDate}</span>` : ''}`;
+
+  actions.innerHTML = isCancelled
+    ? `<span style="font-size:13px; color:var(--text-muted);">Cancellation scheduled</span>`
+    : `<button class="btn-danger" onclick="confirmCancelMembership()">Cancel membership</button>`;
+
     } else {
       badge.textContent = 'Basic';
       badge.classList.add('basic');
