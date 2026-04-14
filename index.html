@@ -62,10 +62,11 @@
   .hn-ecard:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(45,59,42,0.08); }
   .hn-ecard-top { padding: 14px 16px 10px; border-bottom: 1px solid #EAF0E6; }
   .hn-badge { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; display: inline-block; margin-bottom: 8px; }
-  .b-adult { background: #F0EBF8; color: #5B3E8A; }
-  .b-family { background: #E8F4E8; color: #2A6B2A; }
-  .b-free { background: #E4EDE0; color: #3A5E30; }
-  .b-moms { background: #FAEEF4; color: #8A3E5E; }
+  .b-adult   { background: #F0EBF8; color: #5B3E8A; }
+  .b-family  { background: #E8F4E8; color: #2A6B2A; }
+  .b-free    { background: #E4EDE0; color: #3A5E30; }
+  .b-moms    { background: #FAEEF4; color: #8A3E5E; }
+  .b-premium { background: #E0EAF5; color: #1E4A7A; }
   .hn-ecard-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: #1E2D1B; line-height: 1.25; }
   .hn-ecard-body { padding: 10px 16px 14px; }
   .hn-ecard-meta { font-size: 12px; color: #7A9270; margin-bottom: 3px; }
@@ -130,12 +131,12 @@
 <body>
 <div class="hn">
 
-  <!-- NAV -->
+  <!-- NAV — starts as guest, Firebase updates if logged in -->
   <nav class="hn-nav">
     <a class="hn-logo" href="index.html">
       <div class="hn-logo-leaf"></div>Hey Neighbor
     </a>
-    <div class="hn-nav-links">
+    <div class="hn-nav-links" id="navLinks">
       <a class="hn-navl" href="events.html">Events</a>
       <a class="hn-navl" href="community.html">Community</a>
       <a class="hn-navl" href="about.html">About</a>
@@ -151,16 +152,16 @@
       <h1 class="hn-hero-h1">Building NYC's village,<br><em>one neighborhood</em><br>at a time.</h1>
       <p class="hn-hero-p">Hey Neighbor brings parents together through real events, real connection, and a community worth showing up for.</p>
       <div class="hn-hero-btns">
-        <a class="hn-btn-sage" href="#events">Browse events</a>
-        <a class="hn-btn-ghost" href="#about">Our story</a>
+        <a class="hn-btn-sage" href="events.html">Browse events</a>
+        <a class="hn-btn-ghost" href="about.html">Our story</a>
       </div>
     </div>
     <div class="hn-hero-card">
-  <div class="hn-hc-label">This month's events</div>
-  <div id="heroEventsList">
-    <div style="color:#7A9270; font-size:13px;">Loading...</div>
-  </div>
-</div>
+      <div class="hn-hc-label">This month's events</div>
+      <div id="heroEventsList">
+        <div style="color:#7A9270; font-size:13px;">Loading...</div>
+      </div>
+    </div>
   </div>
 
   <!-- MISSION -->
@@ -198,22 +199,21 @@
   <!-- NEIGHBORHOOD FILTER -->
   <div class="hn-hood-bar">
     <span class="hn-hood-label">Filter by area</span>
-    <div class="hn-hood-pill on">All NYC</div>
-    <div class="hn-hood-pill">Upper East Side</div>
-    <div class="hn-hood-pill">Upper West Side</div>
-    <div class="hn-hood-pill">Forest Hills</div>
+    <div class="hn-hood-pill on"  data-hood="all">All NYC</div>
+    <div class="hn-hood-pill" data-hood="Upper East Side">Upper East Side</div>
+    <div class="hn-hood-pill" data-hood="Upper West Side">Upper West Side</div>
+    <div class="hn-hood-pill" data-hood="Forest Hills">Forest Hills</div>
   </div>
 
   <!-- EVENTS -->
   <div class="hn-events" id="events">
     <div class="hn-sec-head">
       <div class="hn-sec-title">Upcoming events</div>
-      <a class="hn-sec-link" href="heyneighbor-join.html">Full calendar →</a>
+      <a class="hn-sec-link" href="events.html">Full calendar →</a>
     </div>
     <div class="hn-events-grid" id="homeEventsGrid">
-  <div style="color:#7A9270; font-size:14px; padding:20px 0;">Loading events...</div>
-</div>
-
+      <div style="color:#7A9270; font-size:14px; padding:20px 0;">Loading events...</div>
+    </div>
   </div>
 
   <!-- TESTIMONIALS -->
@@ -267,11 +267,11 @@
 
   <!-- GET INVOLVED -->
   <div class="hn-involve">
-    <div class="hn-sec-head" style="margin-bottom: 0;">
+    <div class="hn-sec-head" style="margin-bottom:0;">
       <div class="hn-sec-title">Be part of the movement</div>
       <a class="hn-sec-link" href="heyneighbor-join.html">Get involved →</a>
     </div>
-    <p style="font-size: 14px; color: #4A5E42; margin-top: 10px; margin-bottom: 0; line-height: 1.65;">Hey Neighbor only works because parents show up for each other. Here are three ways to help the community grow.</p>
+    <p style="font-size:14px; color:#4A5E42; margin-top:10px; line-height:1.65;">Hey Neighbor only works because parents show up for each other. Here are three ways to help the community grow.</p>
     <div class="hn-involve-grid">
       <div class="hn-inv-card">
         <div class="hn-inv-num">01</div>
@@ -354,8 +354,9 @@
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="#6B8F5E" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
         </div>
-        <div class="hn-faq-a">The community board is a private space for Hey Neighbor members to ask questions, share recommendations, and connect with parents in their neighborhood. Join for free to get access.</div>
+        <div class="hn-faq-a">The community board is a private space for Hey Neighbor Premium members to ask questions, share recommendations, and connect with parents in their neighborhood. Join free and upgrade to Premium for full access.</div>
       </div>
+
     </div>
   </div>
 
@@ -364,64 +365,60 @@
     <a class="hn-footer-logo" href="index.html"><div class="hn-footer-leaf"></div>Hey Neighbor</a>
     <div class="hn-footer-text">Building NYC's village, one neighborhood at a time.</div>
     <div class="hn-footer-links">
-      <a class="hn-footer-link" href="#events">Events</a>
-      <a class="hn-footer-link" href="#about">About</a>
+      <a class="hn-footer-link" href="events.html">Events</a>
+      <a class="hn-footer-link" href="about.html">About</a>
       <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
     </div>
   </div>
 
 </div>
 
+<!-- ── Plain script: FAQ + neighborhood filter + events ───── -->
 <script>
+  // ── FAQ accordion ─────────────────────────────────────────
   document.querySelectorAll('.hn-faq-q').forEach(function(q) {
     q.addEventListener('click', function() {
-      var item = this.parentElement;
-      var isOpen = item.classList.contains('open');
+      const item   = this.parentElement;
+      const isOpen = item.classList.contains('open');
+
+      // Close all
       document.querySelectorAll('.hn-faq-item').forEach(function(i) {
         i.classList.remove('open');
-        i.querySelector('.hn-faq-icon svg path').setAttribute('stroke', '#6B8F5E');
+        const path = i.querySelector('.hn-faq-icon svg path');
+        if (path) path.setAttribute('stroke', '#6B8F5E');
       });
+
+      // Open clicked one if it was closed
       if (!isOpen) {
         item.classList.add('open');
-        item.querySelector('.hn-faq-icon svg path').setAttribute('stroke', '#fff');
+        const path = item.querySelector('.hn-faq-icon svg path');
+        if (path) path.setAttribute('stroke', '#fff');
       }
     });
   });
 
+  // ── Neighborhood filter pills ─────────────────────────────
+  // These filter the homepage event cards by location field
   document.querySelectorAll('.hn-hood-pill').forEach(function(pill) {
     pill.addEventListener('click', function() {
-      document.querySelectorAll('.hn-hood-pill').forEach(function(p) { p.classList.remove('on'); });
+      document.querySelectorAll('.hn-hood-pill').forEach(function(p) {
+        p.classList.remove('on');
+      });
       this.classList.add('on');
+
+      const hood = this.dataset.hood;
+      filterHomeEvents(hood);
     });
   });
- </script>
-<script type="module">
-  import { auth } from './firebase-init.js';
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is logged in — update nav to show dashboard link
-      const navLinks = document.querySelector('.hn-nav-links');
-      if (navLinks) {
-        navLinks.innerHTML = `
-          <a class="hn-navl" href="events.html">Events</a>
-          <a class="hn-navl" href="community.html">Community</a>
-          <a class="hn-navl" href="about.html">About</a>
-          <a class="hn-navl" href="dashboard.html">My Dashboard</a>
-          <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
-        `;
-      }
-    }
-    // If not logged in, nav stays as-is
-  });
-</script>
- <script>
+  // ── CSV helpers ───────────────────────────────────────────
   const HOME_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
+
+  let allHomeEvents = [];
 
   function parseCSVRow(row) {
     const result = [];
-    let current = '';
+    let current  = '';
     let inQuotes = false;
     for (let i = 0; i < row.length; i++) {
       const char = row[i];
@@ -439,20 +436,51 @@
   }
 
   function getHomeBadgeClass(category) {
-    if (category.includes('Adults')) return 'b-adult';
-    if (category.includes('Moms'))   return 'b-moms';
-    if (category.includes('Family')) return 'b-family';
-    if (category.includes('Free'))   return 'b-free';
+    if (category.includes('Adults'))  return 'b-adult';
+    if (category.includes('Moms'))    return 'b-moms';
+    if (category.includes('Family'))  return 'b-family';
+    if (category.includes('Free'))    return 'b-free';
     if (category.includes('Premium')) return 'b-premium';
     return 'b-adult';
   }
 
+  // ── Filter homepage event cards by neighborhood ───────────
+  function filterHomeEvents(hood) {
+    const grid = document.getElementById('homeEventsGrid');
+    const filtered = hood === 'all'
+      ? allHomeEvents
+      : allHomeEvents.filter(e =>
+          e.location.toLowerCase().includes(hood.toLowerCase())
+        );
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="color:#7A9270;font-size:14px;padding:20px 0;">No events in this area yet. Check back soon!</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.slice(0, 4).map(event => `
+      <a class="hn-ecard" href="events.html">
+        <div class="hn-ecard-top">
+          <div class="hn-badge ${getHomeBadgeClass(event.category)}">${event.category}</div>
+          <div class="hn-ecard-title">${event.name}</div>
+        </div>
+        <div class="hn-ecard-body">
+          <div class="hn-ecard-meta">📅 ${event.datetime}</div>
+          <div class="hn-ecard-meta">📍 ${event.location}</div>
+          <div class="hn-ecard-desc">"${event.description}"</div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  // ── Load events from CSV ──────────────────────────────────
   async function loadHomeEvents() {
     try {
-      const res = await fetch(HOME_CSV_URL);
+      const res  = await fetch(HOME_CSV_URL);
       const text = await res.text();
       const rows = text.trim().split('\n').slice(1);
-      const events = rows
+
+      allHomeEvents = rows
         .filter(r => r.trim())
         .map(row => {
           const cols = parseCSVRow(row);
@@ -463,49 +491,56 @@
             location:    cols[3] || '',
             description: cols[4] || ''
           };
-        })
-        .slice(0, 4); // Only show first 4 events on homepage
+        });
 
-      const grid = document.getElementById('homeEventsGrid');
+      // Render all events by default
+      filterHomeEvents('all');
 
-      if (events.length === 0) {
-        grid.innerHTML = '<div style="color:#7A9270; font-size:14px;">No events yet. Check back soon!</div>';
-        return;
-      }
-
-      grid.innerHTML = events.map(event => `
-        <a class="hn-ecard" href="events.html">
-          <div class="hn-ecard-top">
-            <div class="hn-badge ${getHomeBadgeClass(event.category)}">${event.category}</div>
-            <div class="hn-ecard-title">${event.name}</div>
-          </div>
-          <div class="hn-ecard-body">
-            <div class="hn-ecard-meta">📅 ${event.datetime}</div>
-            <div class="hn-ecard-meta">📍 ${event.location}</div>
-            <div class="hn-ecard-desc">"${event.description}"</div>
-          </div>
-        </a>
-      `).join('');
-      // Also populate hero card
+      // Populate hero card sidebar
       const heroList = document.getElementById('heroEventsList');
       if (heroList) {
-              heroList.innerHTML = events.map(event => `
-          <div class="hn-hc-stat" style="padding: 12px 0;">
-            <div class="hn-hc-name">${event.name}</div>
-            <div class="hn-hc-detail" style="margin-top: 4px;">${event.datetime}</div>
-          </div>
-        `).join('');
-
+        if (allHomeEvents.length === 0) {
+          heroList.innerHTML = '<div style="color:#7A9270;font-size:13px;">No events yet.</div>';
+        } else {
+          heroList.innerHTML = allHomeEvents.slice(0, 4).map(event => `
+            <div class="hn-hc-stat">
+              <div>
+                <div class="hn-hc-name">${event.name}</div>
+                <div class="hn-hc-detail" style="margin-top:3px;">${event.datetime}</div>
+              </div>
+            </div>
+          `).join('');
+        }
       }
 
-    } catch(e) {
+    } catch (e) {
       console.error('Home events error:', e);
-      document.getElementById('homeEventsGrid').innerHTML = 
-        '<div style="color:#7A9270; font-size:14px;">Unable to load events. Please refresh.</div>';
+      document.getElementById('homeEventsGrid').innerHTML =
+        '<div style="color:#7A9270;font-size:14px;">Unable to load events. Please refresh.</div>';
     }
   }
 
   loadHomeEvents();
 </script>
+
+<!-- ── Module script: Firebase auth (nav update only) ────── -->
+<script type="module">
+  import { auth } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('navLinks').innerHTML = `
+        <a class="hn-navl" href="events.html">Events</a>
+        <a class="hn-navl" href="community.html">Community</a>
+        <a class="hn-navl" href="about.html">About</a>
+        <a class="hn-navl" href="dashboard.html">My Dashboard</a>
+        <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+      `;
+    }
+    // If not logged in, nav stays as guest default
+  });
+</script>
+
 </body>
 </html>
