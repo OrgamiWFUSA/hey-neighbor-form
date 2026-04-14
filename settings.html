@@ -102,9 +102,7 @@
   .settings-content { display: none; }
   .settings-content.show { display: block; }
 
-  .settings-header {
-    margin-bottom: 36px;
-  }
+  .settings-header { margin-bottom: 36px; }
 
   .settings-eyebrow {
     font-size: 11px;
@@ -123,7 +121,6 @@
     line-height: 1.2;
   }
 
-  /* SECTIONS */
   .settings-section {
     background: var(--warm-white);
     border: 1px solid var(--border);
@@ -150,7 +147,6 @@
 
   .section-icon { font-size: 20px; }
 
-  /* FIELDS */
   .field-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -159,7 +155,6 @@
   }
 
   .field-group { margin-bottom: 0; }
-
   .field-group.full { grid-column: 1 / -1; }
 
   .field-group label {
@@ -188,10 +183,8 @@
 
   .field-group input:focus,
   .field-group select:focus { border-bottom-color: var(--sage); }
-
   .field-group input::placeholder { color: #BCC8B8; }
 
-  /* TILES */
   .tile-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -233,7 +226,6 @@
     margin: 16px 0 8px;
   }
 
-  /* BUTTONS */
   .btn-save {
     background: var(--sage);
     color: #fff;
@@ -303,7 +295,6 @@
     flex-wrap: wrap;
   }
 
-  /* MEMBERSHIP CARD */
   .membership-display {
     display: flex;
     align-items: center;
@@ -348,7 +339,6 @@
     color: var(--forest);
   }
 
-  /* ALERT MESSAGES */
   .alert {
     display: none;
     border-radius: 8px;
@@ -372,7 +362,6 @@
     color: var(--red);
   }
 
-  /* DANGER ZONE */
   .danger-zone {
     background: #FFF8F8;
     border: 1px solid #FCA5A5;
@@ -396,7 +385,6 @@
     margin-bottom: 16px;
   }
 
-  /* PASSWORD STRENGTH */
   .password-strength {
     height: 3px;
     background: var(--border);
@@ -452,7 +440,7 @@
     </div>
 
     <!-- PERSONAL INFO -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-personal">
       <div class="section-header">
         <div class="section-title">Personal Information</div>
         <span class="section-icon">👤</span>
@@ -482,12 +470,12 @@
     </div>
 
     <!-- NEIGHBORHOOD -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-neighborhood">
       <div class="section-header">
         <div class="section-title">Your Neighborhood</div>
         <span class="section-icon">📍</span>
       </div>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Select your current neighborhood. We use this to match you with local events and parents.</p>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Select your current neighborhood.</p>
       <p class="section-label">Manhattan — East Side</p>
       <div class="tile-grid cols-3">
         <div class="tile hood-tile" onclick="selectHood(this)">Upper East Side</div>
@@ -519,13 +507,13 @@
     </div>
 
     <!-- KIDS AGES -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-kids">
       <div class="section-header">
         <div class="section-title">Kids Ages</div>
         <span class="section-icon">👶</span>
       </div>
       <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Select all that apply.</p>
-      <div class="tile-grid cols-2">
+      <div class="tile-grid cols-2" id="kids-tiles">
         <div class="tile" onclick="toggleTile(this)"><strong>0–2</strong><div class="tile-sub">Baby</div></div>
         <div class="tile" onclick="toggleTile(this)"><strong>3–5</strong><div class="tile-sub">Toddler</div></div>
         <div class="tile" onclick="toggleTile(this)"><strong>6–10</strong><div class="tile-sub">Primary school</div></div>
@@ -538,13 +526,13 @@
     </div>
 
     <!-- AVAILABILITY -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-availability">
       <div class="section-header">
         <div class="section-title">Availability</div>
         <span class="section-icon">🕐</span>
       </div>
       <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">When are you generally free?</p>
-      <div class="tile-grid cols-3">
+      <div class="tile-grid cols-3" id="avail-tiles">
         <div class="tile" onclick="toggleTile(this)" style="text-align:center; padding:20px 14px;">
           <div style="font-size:22px; margin-bottom:8px;">☀️</div>
           <strong>Daytime</strong>
@@ -568,13 +556,13 @@
     </div>
 
     <!-- HOBBIES -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-hobbies">
       <div class="section-header">
         <div class="section-title">Hobbies & Interests</div>
         <span class="section-icon">✨</span>
       </div>
       <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Helps us match you with parents who share your vibe.</p>
-      <div class="tile-grid">
+      <div class="tile-grid" id="hobbies-tiles">
         <div class="tile" onclick="toggleTile(this)">Running</div>
         <div class="tile" onclick="toggleTile(this)">Cooking</div>
         <div class="tile" onclick="toggleTile(this)">Travel</div>
@@ -599,7 +587,7 @@
     </div>
 
     <!-- CHANGE PASSWORD -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-password">
       <div class="section-header">
         <div class="section-title">Change Password</div>
         <span class="section-icon">🔒</span>
@@ -629,7 +617,7 @@
     </div>
 
     <!-- MEMBERSHIP -->
-    <div class="settings-section">
+    <div class="settings-section" id="section-membership">
       <div class="section-header">
         <div class="section-title">Membership</div>
         <span class="section-icon">🌿</span>
@@ -656,6 +644,7 @@
 </div>
 
 <script>
+  // ── Tile helpers ─────────────────────────────────────────
   function toggleTile(el) { el.classList.toggle('sel'); }
 
   function selectHood(el) {
@@ -663,70 +652,56 @@
     el.classList.add('sel');
   }
 
-  function getSelectedTiles(container) {
+  // Get selected tile text from a SPECIFIC container by ID
+  // This prevents cross-section contamination
+  function getSelectedTilesFromContainer(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return '';
     return Array.from(container.querySelectorAll('.tile.sel'))
       .map(el => el.innerText.trim())
       .join(', ');
   }
 
+  // ── Alert helper ─────────────────────────────────────────
   function showAlert(id, message, type) {
     const el = document.getElementById(id);
+    if (!el) return;
     el.textContent = message;
     el.className = `alert alert-${type} show`;
     setTimeout(() => el.classList.remove('show'), 4000);
   }
 
+  // ── Password strength ────────────────────────────────────
   function checkPasswordStrength(password) {
     const bar = document.getElementById('strengthBar');
     const hint = document.getElementById('strengthHint');
     let strength = 0;
-    if (password.length >= 6) strength++;
+    if (password.length >= 6)  strength++;
     if (password.length >= 10) strength++;
     if (/[A-Z]/.test(password)) strength++;
     if (/[0-9]/.test(password)) strength++;
     if (/[^A-Za-z0-9]/.test(password)) strength++;
-
-    const colors = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#16A34A'];
-    const hints = ['Too short', 'Weak', 'Fair', 'Good', 'Strong'];
-    const widths = ['20%', '40%', '60%', '80%', '100%'];
-
-    bar.style.width = widths[strength - 1] || '0%';
+    const colors = ['#EF4444','#F97316','#EAB308','#22C55E','#16A34A'];
+    const hints  = ['Too short','Weak','Fair','Good','Strong'];
+    const widths = ['20%','40%','60%','80%','100%'];
+    bar.style.width      = widths[strength - 1] || '0%';
     bar.style.background = colors[strength - 1] || '#E5E7EB';
-    hint.textContent = hints[strength - 1] || 'At least 6 characters';
+    hint.textContent     = hints[strength - 1]  || 'At least 6 characters';
   }
+
+  // ── Button dispatchers ───────────────────────────────────
+  function savePersonalInfo()  { document.dispatchEvent(new CustomEvent('hn-save-personal')); }
+  function saveNeighborhood()  { document.dispatchEvent(new CustomEvent('hn-save-neighborhood')); }
+  function saveKids()          { document.dispatchEvent(new CustomEvent('hn-save-kids')); }
+  function saveAvailability()  { document.dispatchEvent(new CustomEvent('hn-save-availability')); }
+  function saveHobbies()       { document.dispatchEvent(new CustomEvent('hn-save-hobbies')); }
+  function changePassword()    { document.dispatchEvent(new CustomEvent('hn-change-password')); }
+  function handleLogout()      { document.dispatchEvent(new CustomEvent('hn-logout')); }
 
   function confirmDeleteAccount() {
     if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
       document.dispatchEvent(new CustomEvent('hn-delete-account'));
     }
-  }
-
-  function handleLogout() {
-    document.dispatchEvent(new CustomEvent('hn-logout'));
-  }
-
-  function savePersonalInfo() {
-    document.dispatchEvent(new CustomEvent('hn-save-personal'));
-  }
-
-  function saveNeighborhood() {
-    document.dispatchEvent(new CustomEvent('hn-save-neighborhood'));
-  }
-
-  function saveKids() {
-    document.dispatchEvent(new CustomEvent('hn-save-kids'));
-  }
-
-  function saveAvailability() {
-    document.dispatchEvent(new CustomEvent('hn-save-availability'));
-  }
-
-  function saveHobbies() {
-    document.dispatchEvent(new CustomEvent('hn-save-hobbies'));
-  }
-
-  function changePassword() {
-    document.dispatchEvent(new CustomEvent('hn-change-password'));
   }
 </script>
 
@@ -744,9 +719,10 @@
     doc, getDoc, updateDoc, deleteDoc
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  let currentUser = null;
-  let currentProfile = null;
+  let currentUser    = null;
+  let currentProfile = null;   // ← single source of truth, used everywhere
 
+  // ── Auth state ───────────────────────────────────────────
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'login.html';
@@ -759,114 +735,110 @@
       const docSnap = await getDoc(doc(db, "members", user.uid));
       if (docSnap.exists()) currentProfile = docSnap.data();
     } catch (err) {
-      console.error(err);
+      console.error('Firestore load error:', err);
     }
 
-    // Hide loading
+    // ── Expiry check ─────────────────────────────────────
+    let isPremium = currentProfile?.membershipChoice === 'member';
+
+    if (isPremium && currentProfile?.membershipExpiryDate) {
+      const expiry = new Date(currentProfile.membershipExpiryDate);
+      if (new Date() > expiry) {
+        isPremium = false;
+        try {
+          await updateDoc(doc(db, "members", user.uid), {
+            membershipChoice: 'nonmember',
+            membershipExpiredDate: new Date().toISOString(),
+            membershipCancelled: false
+          });
+          currentProfile.membershipChoice = 'nonmember';
+        } catch (err) {
+          console.error('Could not downgrade expired membership:', err);
+        }
+      }
+    }
+
+    // ── Show page ─────────────────────────────────────────
     document.getElementById('loadingMsg').style.display = 'none';
     document.getElementById('settingsContent').classList.add('show');
 
     // Nav
-    document.getElementById('navName').textContent = 
-      `Hi, ${currentProfile?.firstName || 'there'} 👋`;
+    document.getElementById('navName').textContent =
+      'Hi, ' + (currentProfile?.firstName || 'there') + ' 👋';
 
-    // Fill personal info
+    // ── Pre-fill personal info ────────────────────────────
     document.getElementById('settingFirstName').value = currentProfile?.firstName || '';
-    document.getElementById('settingLastName').value = currentProfile?.lastName || '';
-    document.getElementById('settingEmail').value = user.email || '';
-    document.getElementById('settingPhone').value = currentProfile?.phone || '';
+    document.getElementById('settingLastName').value  = currentProfile?.lastName  || '';
+    document.getElementById('settingEmail').value     = user.email || '';
+    document.getElementById('settingPhone').value     = currentProfile?.phone || '';
 
-    // Fill neighborhood
+    // ── Pre-select neighborhood ───────────────────────────
     if (currentProfile?.neighborhood) {
+      const savedHood = currentProfile.neighborhood.trim();
       document.querySelectorAll('.hood-tile').forEach(tile => {
-        if (tile.innerText.trim().startsWith(currentProfile.neighborhood)) {
-          tile.classList.add('sel');
-        }
+        // Match on the first line of text only (ignores "below 14th" sub-text)
+        const tileName = tile.childNodes[0]?.textContent?.trim() || tile.innerText.trim().split('\n')[0].trim();
+        if (tileName === savedHood) tile.classList.add('sel');
       });
     }
 
-    // Fill kids ages
+    // ── Pre-select kids ages ──────────────────────────────
     if (currentProfile?.kidsAges) {
-      const ages = currentProfile.kidsAges.split(',').map(a => a.trim());
-      document.querySelectorAll('#settingsContent .tile').forEach(tile => {
-        const text = tile.innerText.trim();
-        if (ages.some(age => text.startsWith(age))) {
-          tile.classList.add('sel');
-        }
+      const saved = currentProfile.kidsAges.split(',').map(s => s.trim());
+      document.querySelectorAll('#kids-tiles .tile').forEach(tile => {
+        const label = tile.querySelector('strong')?.textContent?.trim();
+        if (label && saved.includes(label)) tile.classList.add('sel');
       });
     }
 
-    // Fill availability
+    // ── Pre-select availability ───────────────────────────
     if (currentProfile?.availability) {
-      const avails = currentProfile.availability.split(',').map(a => a.trim());
-      document.querySelectorAll('#settingsContent .tile').forEach(tile => {
-        const text = tile.innerText.trim();
-        if (avails.some(a => text.includes(a))) {
-          tile.classList.add('sel');
-        }
+      const saved = currentProfile.availability.split(',').map(s => s.trim());
+      document.querySelectorAll('#avail-tiles .tile').forEach(tile => {
+        const label = tile.querySelector('strong')?.textContent?.trim();
+        if (label && saved.includes(label)) tile.classList.add('sel');
       });
     }
 
-    // Fill hobbies
+    // ── Pre-select hobbies ────────────────────────────────
     if (currentProfile?.hobbies) {
-      const hobbies = currentProfile.hobbies.split(',').map(h => h.trim());
-      document.querySelectorAll('#settingsContent .tile').forEach(tile => {
-        if (hobbies.includes(tile.innerText.trim())) {
-          tile.classList.add('sel');
-        }
+      const saved = currentProfile.hobbies.split(',').map(s => s.trim());
+      document.querySelectorAll('#hobbies-tiles .tile').forEach(tile => {
+        if (saved.includes(tile.innerText.trim())) tile.classList.add('sel');
       });
     }
 
-    // Membership
-    let isPremium = profile.membershipChoice === 'member';
-
-// Check if membership has expired
-if (isPremium && profile.membershipExpiryDate) {
-  const expiry = new Date(profile.membershipExpiryDate);
-  const today = new Date();
-  if (today > expiry) {
-    // Membership expired — downgrade them
-    isPremium = false;
-    try {
-      await updateDoc(doc(db, "members", user.uid), {
-        membershipChoice: 'nonmember',
-        membershipExpiredDate: new Date().toISOString()
-      });
-    } catch(err) {
-      console.error('Could not downgrade expired membership:', err);
-    }
-  }
-}
-
-    const badge = document.getElementById('membershipBadge');
-    const type = document.getElementById('membershipType');
-    const desc = document.getElementById('membershipDesc');
+    // ── Membership display ────────────────────────────────
+    const badge   = document.getElementById('membershipBadge');
+    const type    = document.getElementById('membershipType');
+    const desc    = document.getElementById('membershipDesc');
     const actions = document.getElementById('membershipActions');
 
     if (isPremium) {
-  badge.textContent = 'Premium';
-  badge.classList.remove('basic');
-  type.textContent = 'Premium Member';
-  type.classList.add('premium');
+      badge.textContent = 'Premium';
+      badge.classList.remove('basic');
+      type.textContent = 'Premium Member';
+      type.classList.add('premium');
 
-  // Show expiry date if available
-  const expiryDate = currentProfile?.membershipExpiryDate
-    ? new Date(currentProfile.membershipExpiryDate).toLocaleDateString('en-US', { 
-        month: 'long', 
-        day: 'numeric', 
-        year: 'numeric' 
-      })
-    : null;
+      const expiryDate = currentProfile?.membershipExpiryDate
+        ? new Date(currentProfile.membershipExpiryDate).toLocaleDateString('en-US', {
+            month: 'long', day: 'numeric', year: 'numeric'
+          })
+        : null;
 
-  const isCancelled = currentProfile?.membershipCancelled === true;
+      const isCancelled = currentProfile?.membershipCancelled === true;
 
-  desc.innerHTML = isCancelled
-    ? `Your membership has been cancelled. You will keep Premium access until <strong>${expiryDate || 'your expiry date'}</strong>, then be downgraded to Basic.`
-    : `You have full Premium access. Member pricing on all events and access to the community board.${expiryDate ? ` <br><span style="font-size:12px; color:var(--text-muted);">Renews ${expiryDate}</span>` : ''}`;
+      desc.innerHTML = isCancelled
+        ? `Your membership has been cancelled. You will keep Premium access until <strong>${expiryDate || 'your expiry date'}</strong>, then be downgraded to Basic.`
+        : `You have full Premium access. Member pricing on all events and access to the community board.${
+            expiryDate
+              ? `<br><span style="font-size:12px;color:var(--text-muted);">Renews ${expiryDate}</span>`
+              : ''
+          }`;
 
-  actions.innerHTML = isCancelled
-    ? `<span style="font-size:13px; color:var(--text-muted);">Cancellation scheduled</span>`
-    : `<button class="btn-danger" onclick="confirmCancelMembership()">Cancel membership</button>`;
+      actions.innerHTML = isCancelled
+        ? `<span style="font-size:13px; color:var(--text-muted);">Cancellation scheduled</span>`
+        : `<button class="btn-danger" onclick="confirmCancelMembership()">Cancel membership</button>`;
 
     } else {
       badge.textContent = 'Basic';
@@ -876,45 +848,41 @@ if (isPremium && profile.membershipExpiryDate) {
       actions.innerHTML = `
         <a class="btn-upgrade" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06">
           Upgrade to Premium — $80/yr →
-        </a>
-      `;
+        </a>`;
     }
   });
 
-  // Save personal info
+  // ── Save personal info ────────────────────────────────────
   document.addEventListener('hn-save-personal', async () => {
-    const btn = document.querySelector('[onclick="savePersonalInfo()"]');
+    const btn = document.querySelector('#section-personal .btn-save');
     btn.disabled = true;
     btn.textContent = 'Saving...';
-
     try {
       await updateDoc(doc(db, "members", currentUser.uid), {
         firstName: document.getElementById('settingFirstName').value.trim(),
-        lastName: document.getElementById('settingLastName').value.trim(),
-        phone: document.getElementById('settingPhone').value.trim()
+        lastName:  document.getElementById('settingLastName').value.trim(),
+        phone:     document.getElementById('settingPhone').value.trim()
       });
       showAlert('personalAlert', '✅ Personal information updated!', 'success');
     } catch (err) {
       console.error(err);
       showAlert('personalAlert', 'Could not save. Please try again.', 'error');
     }
-
     btn.disabled = false;
     btn.textContent = 'Save changes';
   });
 
-  // Save neighborhood
+  // ── Save neighborhood ─────────────────────────────────────
   document.addEventListener('hn-save-neighborhood', async () => {
     const selected = document.querySelector('.hood-tile.sel');
     if (!selected) {
       showAlert('hoodAlert', 'Please select a neighborhood.', 'error');
       return;
     }
-
     try {
-      await updateDoc(doc(db, "members", currentUser.uid), {
-        neighborhood: selected.innerText.trim()
-      });
+      // Get clean neighborhood name (first text node only, ignores sub-text)
+      const hoodName = selected.childNodes[0]?.textContent?.trim() || selected.innerText.trim().split('\n')[0].trim();
+      await updateDoc(doc(db, "members", currentUser.uid), { neighborhood: hoodName });
       showAlert('hoodAlert', '✅ Neighborhood updated!', 'success');
     } catch (err) {
       console.error(err);
@@ -922,62 +890,64 @@ if (isPremium && profile.membershipExpiryDate) {
     }
   });
 
-  // Save kids ages
+  // ── Save kids ages ────────────────────────────────────────
   document.addEventListener('hn-save-kids', async () => {
-    const kidsSection = document.querySelectorAll('.settings-section')[2];
-    const selected = getSelectedTiles(kidsSection);
+    const selected = getSelectedTilesFromContainer('kids-tiles');
     try {
       await updateDoc(doc(db, "members", currentUser.uid), { kidsAges: selected });
       showAlert('kidsAlert', '✅ Kids ages updated!', 'success');
     } catch (err) {
+      console.error(err);
       showAlert('kidsAlert', 'Could not save. Please try again.', 'error');
     }
   });
 
-  // Save availability
+  // ── Save availability ─────────────────────────────────────
   document.addEventListener('hn-save-availability', async () => {
-    const availSection = document.querySelectorAll('.settings-section')[3];
-    const selected = getSelectedTiles(availSection);
+    const selected = getSelectedTilesFromContainer('avail-tiles');
     try {
       await updateDoc(doc(db, "members", currentUser.uid), { availability: selected });
       showAlert('availAlert', '✅ Availability updated!', 'success');
     } catch (err) {
+      console.error(err);
       showAlert('availAlert', 'Could not save. Please try again.', 'error');
     }
   });
 
-  // Save hobbies
+  // ── Save hobbies ──────────────────────────────────────────
   document.addEventListener('hn-save-hobbies', async () => {
-    const hobbiesSection = document.querySelectorAll('.settings-section')[4];
-    const selected = getSelectedTiles(hobbiesSection);
+    const selected = getSelectedTilesFromContainer('hobbies-tiles');
     try {
       await updateDoc(doc(db, "members", currentUser.uid), { hobbies: selected });
       showAlert('hobbiesAlert', '✅ Hobbies updated!', 'success');
     } catch (err) {
+      console.error(err);
       showAlert('hobbiesAlert', 'Could not save. Please try again.', 'error');
     }
   });
 
-  // Change password
+  // ── Change password ───────────────────────────────────────
   document.addEventListener('hn-change-password', async () => {
     const current = document.getElementById('currentPassword').value;
-    const newPass = document.getElementById('newPassword').value;
-    const confirm = document.getElementById('confirmPassword').value;
+    const newPass  = document.getElementById('newPassword').value;
+    const confirm  = document.getElementById('confirmPassword').value;
 
     if (!current || !newPass || !confirm) {
       showAlert('passwordAlert', 'Please fill in all password fields.', 'error');
       return;
     }
-
     if (newPass.length < 6) {
       showAlert('passwordAlert', 'New password must be at least 6 characters.', 'error');
       return;
     }
-
     if (newPass !== confirm) {
       showAlert('passwordAlert', 'New passwords do not match.', 'error');
       return;
     }
+
+    const btn = document.querySelector('#section-password .btn-save');
+    btn.disabled = true;
+    btn.textContent = 'Updating...';
 
     try {
       const credential = EmailAuthProvider.credential(currentUser.email, current);
@@ -985,34 +955,40 @@ if (isPremium && profile.membershipExpiryDate) {
       await updatePassword(currentUser, newPass);
       showAlert('passwordAlert', '✅ Password updated successfully!', 'success');
       document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
+      document.getElementById('newPassword').value     = '';
       document.getElementById('confirmPassword').value = '';
     } catch (err) {
       console.error(err);
-      if (err.code === 'auth/wrong-password') {
+      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
         showAlert('passwordAlert', 'Current password is incorrect.', 'error');
       } else {
         showAlert('passwordAlert', 'Could not update password. Please try again.', 'error');
       }
     }
+
+    btn.disabled = false;
+    btn.textContent = 'Update password';
   });
 
-  // Cancel membership
-  window.confirmCancelMembership = function() {
-    if (confirm('Are you sure you want to cancel your Premium membership? You will keep Premium access until your membership expires, then be downgraded to Basic.')) {
-      updateDoc(doc(db, "members", currentUser.uid), {
-        membershipCancelled: true,
-        membershipCancelledDate: new Date().toISOString()
-      }).then(() => {
-        showAlert('membershipAlert', '✅ Membership cancellation scheduled. You will keep Premium access until your expiry date.', 'success');
-        setTimeout(() => window.location.reload(), 2000);
-      }).catch(err => {
+  // ── Cancel membership ─────────────────────────────────────
+  window.confirmCancelMembership = function () {
+    if (!confirm('Are you sure you want to cancel your Premium membership? You will keep Premium access until your membership expires, then be downgraded to Basic.')) return;
+
+    updateDoc(doc(db, "members", currentUser.uid), {
+      membershipCancelled: true,
+      membershipCancelledDate: new Date().toISOString()
+    })
+      .then(() => {
+        showAlert('membershipAlert', '✅ Cancellation scheduled. You keep Premium access until your expiry date.', 'success');
+        setTimeout(() => window.location.reload(), 2500);
+      })
+      .catch(err => {
+        console.error(err);
         showAlert('membershipAlert', 'Could not cancel membership. Please try again.', 'error');
       });
-    }
   };
 
-  // Delete account
+  // ── Delete account ────────────────────────────────────────
   document.addEventListener('hn-delete-account', async () => {
     try {
       await deleteDoc(doc(db, "members", currentUser.uid));
@@ -1028,7 +1004,7 @@ if (isPremium && profile.membershipExpiryDate) {
     }
   });
 
-  // Logout
+  // ── Logout ────────────────────────────────────────────────
   document.addEventListener('hn-logout', async () => {
     await signOut(auth);
     window.location.href = 'index.html';
