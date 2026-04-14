@@ -504,19 +504,7 @@
             </div>
             <div style="text-align:right;">
               <div class="event-item-price" style="color:var(--sage-dark);">
-             ${(() => {
-  if (!cols[3]) return '—';
-  const raw = cols[3].toString().trim();
-  // Handle "2000/100" text format
-  if (raw.includes('/')) {
-    const parts = raw.split('/');
-    return '$' + (parseFloat(parts[0]) / parseFloat(parts[1])).toFixed(2);
-  }
-  // Handle raw Stripe amount (1000 = $10.00)
-  const num = parseFloat(raw);
-  if (num > 100) return '$' + (num / 100).toFixed(2);
-  return '$' + num.toFixed(2);
-})()}
+     ${cols[3] ? '$' + (parseFloat(cols[3]) / 100).toFixed(2) : '—'}
 
             </div>
 
