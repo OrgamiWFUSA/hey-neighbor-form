@@ -88,7 +88,6 @@
   .btn-post:hover { background: var(--sage-dark); }
   .btn-post:disabled { background: var(--sage-mid); cursor: default; }
 
-  /* POSTS */
   .posts-list { display: flex; flex-direction: column; gap: 14px; }
   .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: box-shadow 0.15s; }
   .post-card:hover { box-shadow: 0 2px 12px rgba(45,59,42,0.07); }
@@ -100,16 +99,13 @@
   .post-category { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: var(--sage-light); color: var(--sage-dark); margin-bottom: 8px; }
   .post-text { font-size: 14px; color: var(--forest); line-height: 1.65; margin-bottom: 14px; }
 
-  /* POST ACTIONS */
   .post-actions { display: flex; align-items: center; gap: 16px; padding-top: 12px; border-top: 1px solid #EAF0E6; }
   .action-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 8px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
   .action-btn:hover { background: var(--sage-light); color: var(--sage-dark); }
   .action-btn.liked { color: var(--sage-dark); font-weight: 500; }
   .action-btn.delete-btn:hover { background: #FEE2E2; color: #DC2626; }
 
-  /* COMMENTS */
   .comments-section { margin-top: 14px; }
-  .comment-thread { position: relative; }
   .comment { display: flex; gap: 10px; margin-bottom: 10px; }
   .comment-indent { width: 2px; background: var(--sage-light); border-radius: 2px; margin-left: 15px; margin-right: 8px; cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
   .comment-indent:hover { background: var(--sage-mid); }
@@ -126,7 +122,6 @@
   .comment-action-btn.liked { color: var(--sage-dark); font-weight: 500; }
   .comment-action-btn.delete-btn:hover { background: #FEE2E2; color: #DC2626; }
 
-  /* REPLY COMPOSER */
   .reply-composer { display: none; margin-top: 8px; }
   .reply-composer.show { display: flex; gap: 8px; }
   .reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; min-height: 60px; transition: border-color 0.2s; }
@@ -162,6 +157,7 @@
 
 <div class="loading" id="loadingMsg">Loading...</div>
 
+<!-- Gate: not logged in -->
 <div class="gate" id="gateNotLoggedIn">
   <div class="gate-card">
     <div class="gate-icon">🌿</div>
@@ -176,6 +172,7 @@
   </div>
 </div>
 
+<!-- Gate: basic member -->
 <div class="gate" id="gateBasicMember">
   <div class="gate-card">
     <div class="gate-icon">⭐</div>
@@ -190,6 +187,7 @@
   </div>
 </div>
 
+<!-- Board: premium members only -->
 <div class="board-layout" id="boardLayout">
   <div class="sidebar">
     <div class="sidebar-card">
@@ -263,14 +261,15 @@
   </div>
 </div>
 
+<!-- ── Plain script: rendering helpers ───────────────────── -->
 <script>
-  let currentUserUid = null;
+  let currentUserUid   = null;
   let currentFirstName = '';
-  let currentLastName = '';
+  let currentLastName  = '';
   let currentNeighborhood = '';
-  let allPosts = [];
+  let allPosts         = [];
   let currentHoodFilter = 'all';
-  let currentCatFilter = 'all';
+  let currentCatFilter  = 'all';
 
   function getInitials(first, last) {
     return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
@@ -279,8 +278,8 @@
   function timeAgo(dateStr) {
     if (!dateStr) return '';
     const seconds = Math.floor((new Date() - new Date(dateStr)) / 1000);
-    if (seconds < 60) return 'just now';
-    if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+    if (seconds < 60)    return 'just now';
+    if (seconds < 3600)  return Math.floor(seconds / 60) + 'm ago';
     if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
     return Math.floor(seconds / 86400) + 'd ago';
   }
@@ -303,9 +302,9 @@
     const idMap = {
       'Upper East Side': 'countUES',
       'Upper West Side': 'countUWS',
-      'Williamsburg': 'countWilliamsburg',
-      'Astoria': 'countAstoria',
-      'Forest Hills': 'countForestHills'
+      'Williamsburg':    'countWilliamsburg',
+      'Astoria':         'countAstoria',
+      'Forest Hills':    'countForestHills'
     };
     document.getElementById('countAll').textContent = allPosts.length;
     Object.keys(idMap).forEach(hood => {
@@ -325,7 +324,7 @@
   }
 
   function submitPost() {
-    const text = document.getElementById('postInput').value.trim();
+    const text     = document.getElementById('postInput').value.trim();
     const category = document.getElementById('postCategory').value;
     if (!text) return;
     document.dispatchEvent(new CustomEvent('hn-post', { detail: { text, category } }));
@@ -333,7 +332,7 @@
 
   function submitComment(postId, parentId) {
     const inputId = 'reply-input-' + (parentId || postId);
-    const input = document.getElementById(inputId);
+    const input   = document.getElementById(inputId);
     if (!input || !input.value.trim()) return;
     document.dispatchEvent(new CustomEvent('hn-comment', {
       detail: { postId, parentId: parentId || null, text: input.value.trim() }
@@ -363,24 +362,26 @@
     }
   }
 
+  // Recursive comment renderer — handles unlimited reply depth
   function renderComments(comments, postId, parentId, depth) {
-    if (!comments || comments.length === 0) return '';
     depth = depth || 0;
-    const maxIndent = 6;
-    const indent = Math.min(depth, maxIndent);
+    const MAX_INDENT = 6;
+    const indent     = Math.min(depth, MAX_INDENT);
 
-    return comments
+    return (comments || [])
       .filter(c => (c.parentId || null) === (parentId || null))
       .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
       .map(comment => {
-        const isAuthor = comment.authorUid === currentUserUid;
-        const likes = comment.likes || [];
-        const hasLiked = likes.includes(currentUserUid);
-        const children = renderComments(comments, postId, comment.id, depth + 1);
+        const isAuthor  = comment.authorUid === currentUserUid;
+        const likes     = comment.likes || [];
+        const hasLiked  = likes.includes(currentUserUid);
+        const children  = renderComments(comments, postId, comment.id, depth + 1);
 
         return `
           <div class="comment" id="comment-${comment.id}">
-            ${indent > 0 ? `<div class="comment-indent" onclick="collapseThread('${comment.id}')" title="Collapse"></div>` : ''}
+            ${indent > 0
+              ? `<div class="comment-indent" onclick="collapseThread('${comment.id}')" title="Collapse"></div>`
+              : ''}
             <div class="comment-body">
               <div class="comment-card">
                 <div class="comment-header">
@@ -390,21 +391,29 @@
                 </div>
                 <div class="comment-text">${comment.text}</div>
                 <div class="comment-actions">
-                  <button class="comment-action-btn ${hasLiked ? 'liked' : ''}" onclick="likeComment('${postId}', '${comment.id}')">
+                  <button class="comment-action-btn ${hasLiked ? 'liked' : ''}"
+                    onclick="likeComment('${postId}', '${comment.id}')">
                     ♥ ${likes.length > 0 ? likes.length : ''}
                   </button>
-                  <button class="comment-action-btn" onclick="toggleReplyComposer('${comment.id}')">↩ Reply</button>
-                  ${isAuthor ? `<button class="comment-action-btn delete-btn" onclick="deleteComment('${postId}', '${comment.id}')">🗑 Delete</button>` : ''}
+                  <button class="comment-action-btn"
+                    onclick="toggleReplyComposer('${comment.id}')">↩ Reply</button>
+                  ${isAuthor
+                    ? `<button class="comment-action-btn delete-btn"
+                         onclick="deleteComment('${postId}', '${comment.id}')">🗑 Delete</button>`
+                    : ''}
                 </div>
               </div>
               <div class="reply-composer" id="reply-composer-${comment.id}">
-                <textarea class="reply-input" id="reply-input-${comment.id}" placeholder="Reply to ${comment.authorFirstName || 'this comment'}..." rows="2"></textarea>
-                <button class="reply-submit-btn" onclick="submitComment('${postId}', '${comment.id}')">Reply</button>
+                <textarea class="reply-input" id="reply-input-${comment.id}"
+                  placeholder="Reply to ${comment.authorFirstName || 'this comment'}..." rows="2"></textarea>
+                <button class="reply-submit-btn"
+                  onclick="submitComment('${postId}', '${comment.id}')">Reply</button>
               </div>
-              ${children ? `<div id="thread-${comment.id}">${children}</div>` : ''}
+              ${children
+                ? `<div id="thread-${comment.id}">${children}</div>`
+                : ''}
             </div>
-          </div>
-        `;
+          </div>`;
       }).join('');
   }
 
@@ -412,18 +421,22 @@
     const list = document.getElementById('postsList');
     let filtered = allPosts;
     if (currentHoodFilter !== 'all') filtered = filtered.filter(p => p.neighborhood === currentHoodFilter);
-    if (currentCatFilter !== 'all') filtered = filtered.filter(p => p.category === currentCatFilter);
+    if (currentCatFilter  !== 'all') filtered = filtered.filter(p => p.category    === currentCatFilter);
 
     if (filtered.length === 0) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🌱</div><div>No posts yet. Be the first!</div></div>`;
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">🌱</div>
+          <div>No posts yet. Be the first!</div>
+        </div>`;
       return;
     }
 
     list.innerHTML = filtered.map(post => {
-      const isAuthor = post.authorUid === currentUserUid;
-      const likes = post.likes || [];
-      const hasLiked = likes.includes(currentUserUid);
-      const comments = post.comments || [];
+      const isAuthor      = post.authorUid === currentUserUid;
+      const likes         = post.likes || [];
+      const hasLiked      = likes.includes(currentUserUid);
+      const comments      = post.comments || [];
       const topLevelCount = comments.filter(c => !c.parentId).length;
 
       return `
@@ -445,23 +458,24 @@
             <button class="action-btn" onclick="toggleReplyComposer('${post.id}')">
               💬 ${topLevelCount > 0 ? topLevelCount + ' ' : ''}Reply
             </button>
-            ${isAuthor ? `<button class="action-btn delete-btn" onclick="deletePost('${post.id}')">🗑 Delete</button>` : ''}
+            ${isAuthor
+              ? `<button class="action-btn delete-btn" onclick="deletePost('${post.id}')">🗑 Delete</button>`
+              : ''}
           </div>
           <div class="reply-composer" id="reply-composer-${post.id}">
-            <textarea class="reply-input" id="reply-input-${post.id}" placeholder="Write a reply..."></textarea>
+            <textarea class="reply-input" id="reply-input-${post.id}"
+              placeholder="Write a reply..."></textarea>
             <button class="reply-submit-btn" onclick="submitComment('${post.id}', null)">Reply</button>
           </div>
-          ${comments.length > 0 ? `
-            <div class="comments-section">
-              ${renderComments(comments, post.id, null, 0)}
-            </div>
-          ` : ''}
-        </div>
-      `;
+          ${comments.length > 0
+            ? `<div class="comments-section">${renderComments(comments, post.id, null, 0)}</div>`
+            : ''}
+        </div>`;
     }).join('');
   }
 </script>
 
+<!-- ── Module script: Firebase auth + Firestore ───────────── -->
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -475,167 +489,195 @@
   onAuthStateChanged(auth, async (user) => {
     document.getElementById('loadingMsg').style.display = 'none';
 
+    // ── Not logged in ─────────────────────────────────────
     if (!user) {
       document.getElementById('gateNotLoggedIn').classList.add('show');
       return;
     }
 
-    currentUser = user;
+    currentUser    = user;
     currentUserUid = user.uid;
 
+    // ── Load Firestore profile ────────────────────────────
     let currentProfile = null;
     try {
       const docSnap = await getDoc(doc(db, "members", user.uid));
       if (docSnap.exists()) currentProfile = docSnap.data();
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error('Profile load error:', err);
+    }
 
-    let isPremium = currentProfile && currentProfile.membershipChoice === 'member';
+    // ── Membership + expiry check ─────────────────────────
+    let isPremium = currentProfile?.membershipChoice === 'member';
 
-    // Check expiry
-    if (isPremium && currentProfile.membershipExpiryDate) {
+    if (isPremium && currentProfile?.membershipExpiryDate) {
       const expiry = new Date(currentProfile.membershipExpiryDate);
       if (new Date() > expiry) {
         isPremium = false;
         try {
           await updateDoc(doc(db, "members", user.uid), {
-            membershipChoice: 'nonmember',
+            membershipChoice:      'nonmember',
             membershipExpiredDate: new Date().toISOString(),
-            membershipCancelled: false
+            membershipCancelled:   false
           });
-        } catch(err) { console.error(err); }
+        } catch (err) {
+          console.error('Could not downgrade expired membership:', err);
+        }
       }
     }
 
+    // ── Basic member gate ─────────────────────────────────
     if (!isPremium) {
       document.getElementById('gateBasicMember').classList.add('show');
       document.getElementById('navRight').innerHTML = `
-        <span style="font-size:13px;color:var(--text-muted)">Hi, ${currentProfile?.firstName || 'there'} 👋</span>
+        <span style="font-size:13px;color:var(--text-muted)">
+          Hi, ${currentProfile?.firstName || 'there'} 👋
+        </span>
         <a href="dashboard.html" class="nav-link">Dashboard</a>
       `;
       return;
     }
 
-    currentFirstName = currentProfile?.firstName || 'Member';
-    currentLastName = currentProfile?.lastName || '';
+    // ── Premium member — show board ───────────────────────
+    currentFirstName    = currentProfile?.firstName    || 'Member';
+    currentLastName     = currentProfile?.lastName     || '';
     currentNeighborhood = currentProfile?.neighborhood || 'NYC';
 
     document.getElementById('navRight').innerHTML = `
       <span style="font-size:13px;color:var(--text-muted)">Hi, ${currentFirstName} 👋</span>
       <a href="dashboard.html" class="nav-link">Dashboard</a>
-      <a href="settings.html" class="nav-link">My Account</a>
-      <button class="btn-logout" onclick="document.dispatchEvent(new CustomEvent('hn-logout'))">Log out</button>
+      <a href="settings.html"  class="nav-link">My Account</a>
+      <button class="btn-logout"
+        onclick="document.dispatchEvent(new CustomEvent('hn-logout'))">Log out</button>
     `;
 
-    document.getElementById('sidebarAvatar').textContent = getInitials(currentFirstName, currentLastName);
-    document.getElementById('sidebarName').textContent = `${currentFirstName} ${currentLastName}`.trim();
-    document.getElementById('sidebarHood').textContent = currentNeighborhood;
+    document.getElementById('sidebarAvatar').textContent  = getInitials(currentFirstName, currentLastName);
+    document.getElementById('sidebarName').textContent    = (currentFirstName + ' ' + currentLastName).trim();
+    document.getElementById('sidebarHood').textContent    = currentNeighborhood;
     document.getElementById('composerAvatar').textContent = getInitials(currentFirstName, currentLastName);
-    document.getElementById('feedSubtitle').textContent = `Welcome back, ${currentFirstName}! What's happening in ${currentNeighborhood}?`;
+    document.getElementById('feedSubtitle').textContent   =
+      `Welcome back, ${currentFirstName}! What's happening in ${currentNeighborhood}?`;
+
     document.getElementById('boardLayout').classList.add('show');
 
-    // Listen for posts in real time
-    const postsQuery = query(collection(db, "community_posts"), orderBy("createdAt", "desc"));
-    onSnapshot(postsQuery, async (snapshot) => {
-      // For each post, also get its comments subcollection
-      const posts = [];
-      for (const d of snapshot.docs) {
-        const postData = { id: d.id, ...d.data() };
-        try {
-          const commentsSnap = await getDoc(doc(db, "community_posts", d.id));
-          postData.comments = postData.comments || [];
-        } catch(e) {}
-        posts.push(postData);
-      }
-      allPosts = posts;
+    // ── Real-time posts listener ──────────────────────────
+    // Posts store comments as an array field on the post document.
+    // The snapshot already contains all data — no extra getDoc needed.
+    const postsQuery = query(
+      collection(db, "community_posts"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(postsQuery, (snapshot) => {
+      // Map snapshot docs directly — comments array is already in the doc data
+      allPosts = snapshot.docs.map(d => ({
+        id:       d.id,
+        ...d.data(),
+        // Ensure comments is always an array even if field is missing
+        comments: d.data().comments || []
+      }));
       updateCounts();
       renderPosts();
+    }, (err) => {
+      console.error('Posts listener error:', err);
+      document.getElementById('postsList').innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">⚠️</div>
+          <div>Could not load posts. Please refresh.</div>
+        </div>`;
     });
   });
 
-  // New post
+  // ── New post ──────────────────────────────────────────────
   document.addEventListener('hn-post', async (e) => {
     const { text, category } = e.detail;
     const btn = document.getElementById('postBtn');
-    btn.disabled = true;
+    btn.disabled    = true;
     btn.textContent = 'Posting...';
+
     try {
       await addDoc(collection(db, "community_posts"), {
-        text, category,
+        text,
+        category,
         authorFirstName: currentFirstName,
-        authorLastName: currentLastName,
-        neighborhood: currentNeighborhood,
-        authorUid: currentUser.uid,
-        createdAt: new Date().toISOString(),
-        likes: [],
-        comments: []
+        authorLastName:  currentLastName,
+        neighborhood:    currentNeighborhood,
+        authorUid:       currentUser.uid,
+        createdAt:       new Date().toISOString(),
+        likes:           [],
+        comments:        []
       });
       document.getElementById('postInput').value = '';
     } catch (err) {
-      console.error(err);
+      console.error('Post error:', err);
       alert('Could not post. Please try again.');
     }
-    btn.disabled = false;
+
+    btn.disabled    = false;
     btn.textContent = 'Post';
   });
 
-  // New comment (works for all depths)
+  // ── New comment ───────────────────────────────────────────
   document.addEventListener('hn-comment', async (e) => {
     const { postId, parentId, text } = e.detail;
     try {
-      const postRef = doc(db, "community_posts", postId);
+      const postRef  = doc(db, "community_posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) return;
 
-      const comments = postSnap.data().comments || [];
       const newComment = {
-        id: Date.now().toString(),
+        id:              Date.now().toString(),
         text,
-        parentId: parentId || null,
+        parentId:        parentId || null,
         authorFirstName: currentFirstName,
-        authorLastName: currentLastName,
-        authorUid: currentUser.uid,
-        createdAt: new Date().toISOString(),
-        likes: []
+        authorLastName:  currentLastName,
+        authorUid:       currentUser.uid,
+        createdAt:       new Date().toISOString(),
+        likes:           []
       };
 
       await updateDoc(postRef, {
         comments: arrayUnion(newComment)
       });
     } catch (err) {
-      console.error(err);
+      console.error('Comment error:', err);
       alert('Could not post comment. Please try again.');
     }
   });
 
-  // Like a post
+  // ── Like a post ───────────────────────────────────────────
   document.addEventListener('hn-like-post', async (e) => {
     const { postId } = e.detail;
     try {
-      const postRef = doc(db, "community_posts", postId);
+      const postRef  = doc(db, "community_posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) return;
+
       const likes = postSnap.data().likes || [];
       if (likes.includes(currentUser.uid)) {
         await updateDoc(postRef, { likes: arrayRemove(currentUser.uid) });
       } else {
         await updateDoc(postRef, { likes: arrayUnion(currentUser.uid) });
       }
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error('Like post error:', err);
+    }
   });
 
-  // Like a comment
+  // ── Like a comment ────────────────────────────────────────
   document.addEventListener('hn-like-comment', async (e) => {
     const { postId, commentId } = e.detail;
     try {
-      const postRef = doc(db, "community_posts", postId);
+      const postRef  = doc(db, "community_posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) return;
 
+      // Deep copy to avoid mutating Firestore data directly
       const comments = JSON.parse(JSON.stringify(postSnap.data().comments || []));
-      const comment = comments.find(c => c.id === commentId);
+      const comment  = comments.find(c => c.id === commentId);
       if (!comment) return;
 
-      if (!comment.likes) comment.likes = [];
+      comment.likes = comment.likes || [];
       if (comment.likes.includes(currentUser.uid)) {
         comment.likes = comment.likes.filter(uid => uid !== currentUser.uid);
       } else {
@@ -643,46 +685,51 @@
       }
 
       await updateDoc(postRef, { comments });
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error('Like comment error:', err);
+    }
   });
 
-  // Delete a post
+  // ── Delete a post ─────────────────────────────────────────
   document.addEventListener('hn-delete-post', async (e) => {
     const { postId } = e.detail;
     try {
       await deleteDoc(doc(db, "community_posts", postId));
     } catch (err) {
-      console.error(err);
+      console.error('Delete post error:', err);
       alert('Could not delete post.');
     }
   });
 
-  // Delete a comment
+  // ── Delete a comment (and all its children) ───────────────
   document.addEventListener('hn-delete-comment', async (e) => {
     const { postId, commentId } = e.detail;
     try {
-      const postRef = doc(db, "community_posts", postId);
+      const postRef  = doc(db, "community_posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) return;
 
-      // Remove comment and all its children
       const allComments = postSnap.data().comments || [];
-      function getDescendants(id) {
+
+      // Recursively collect child comment IDs
+      function getDescendantIds(id) {
         const children = allComments.filter(c => c.parentId === id);
         return children.reduce((acc, child) => {
-          return acc.concat([child], getDescendants(child.id));
+          return acc.concat([child.id], getDescendantIds(child.id));
         }, []);
       }
-      const toDelete = [commentId, ...getDescendants(commentId).map(c => c.id)];
-      const remaining = allComments.filter(c => !toDelete.includes(c.id));
+
+      const toDelete = new Set([commentId, ...getDescendantIds(commentId)]);
+      const remaining = allComments.filter(c => !toDelete.has(c.id));
+
       await updateDoc(postRef, { comments: remaining });
     } catch (err) {
-      console.error(err);
+      console.error('Delete comment error:', err);
       alert('Could not delete comment.');
     }
   });
 
-  // Logout
+  // ── Logout ────────────────────────────────────────────────
   document.addEventListener('hn-logout', async () => {
     await signOut(auth);
     window.location.href = 'index.html';
