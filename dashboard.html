@@ -349,9 +349,11 @@
     Hey Neighbor
   </a>
   <div class="nav-right">
-    <span class="nav-name" id="navName"></span>
-    <button class="btn-logout" onclick="handleLogout()">Log out</button>
-  </div>
+  <span class="nav-name" id="navName"></span>
+  <a class="nav-link" href="settings.html">My Account</a>
+  <button class="btn-logout" onclick="handleLogout()">Log out</button>
+</div>
+
 </nav>
 
 <div class="dashboard-wrap">
@@ -613,7 +615,7 @@ if (isPremium && profile.membershipExpiryDate) {
     }
   }
 }
-
+    const isPremium = profile.membershipChoice === 'member';
     loadDashEvents(isPremium);
     loadMemberBookings(user.email);
 
