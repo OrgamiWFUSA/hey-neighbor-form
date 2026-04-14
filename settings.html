@@ -818,7 +818,26 @@
     }
 
     // Membership
-    const isPremium = currentProfile?.membershipChoice === 'member';
+    let isPremium = profile.membershipChoice === 'member';
+
+// Check if membership has expired
+if (isPremium && profile.membershipExpiryDate) {
+  const expiry = new Date(profile.membershipExpiryDate);
+  const today = new Date();
+  if (today > expiry) {
+    // Membership expired — downgrade them
+    isPremium = false;
+    try {
+      await updateDoc(doc(db, "members", user.uid), {
+        membershipChoice: 'nonmember',
+        membershipExpiredDate: new Date().toISOString()
+      });
+    } catch(err) {
+      console.error('Could not downgrade expired membership:', err);
+    }
+  }
+}
+
     const badge = document.getElementById('membershipBadge');
     const type = document.getElementById('membershipType');
     const desc = document.getElementById('membershipDesc');
@@ -964,11 +983,12 @@
 
   // Cancel membership
   window.confirmCancelMembership = function() {
-    if (confirm('Are you sure you want to cancel your Premium membership? You will be downgraded to Basic.')) {
+    if (confirm('Are you sure you want to cancel your Premium membership? You will keep Premium access until your membership expires, then be downgraded to Basic.')) {
       updateDoc(doc(db, "members", currentUser.uid), {
-        membershipChoice: 'nonmember'
+        membershipCancelled: true,
+        membershipCancelledDate: new Date().toISOString()
       }).then(() => {
-        showAlert('membershipAlert', '✅ Membership cancelled. You are now a Basic member.', 'success');
+        showAlert('membershipAlert', '✅ Membership cancellation scheduled. You will keep Premium access until your expiry date.', 'success');
         setTimeout(() => window.location.reload(), 2000);
       }).catch(err => {
         showAlert('membershipAlert', 'Could not cancel membership. Please try again.', 'error');
