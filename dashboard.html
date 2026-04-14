@@ -552,11 +552,11 @@
             <div class="event-item-name">${cols[1] || '—'}</div>
             <div class="event-item-date" style="margin-top:3px;">${cols[2] || '—'}</div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">
-              ${cols[4] ? `${cols[4]} ticket${cols[4] > 1 ? 's' : ''}` : '1 ticket'}
+              ${cols[5] ? `${cols[5]} ticket${cols[5] > 1 ? 's' : ''}` : '1 ticket'}
             </div>
           </div>
           <div style="text-align:right;">
-            <div class="event-item-price" style="color:var(--sage-dark);">${cols[3] || '—'}</div>
+            <div class="event-item-price" style="color:var(--sage-dark);">${cols[3] ? '$' + (parseFloat(cols[3]) / 100).toFixed(2) : '—'}</div>
             <div style="font-size:11px;color:var(--sage); font-weight:500;">Booked ✓</div>
           </div>
         </div>
