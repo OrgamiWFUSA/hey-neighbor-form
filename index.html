@@ -86,6 +86,76 @@
   .hn-tcard-name { font-size: 13px; font-weight: 500; color: #2D3B2A; }
   .hn-tcard-hood { font-size: 11px; color: #7A9270; }
 
+  /* ── NEWSLETTER SECTION ───────────────────────────────── */
+  .hn-newsletter {
+    background: #2D3B2A;
+    padding: 48px 36px;
+    border-bottom: 1px solid #1E2D1B;
+  }
+  .hn-newsletter-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  .hn-newsletter-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7A9270;
+    margin-bottom: 10px;
+  }
+  .hn-newsletter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #E8EFE4;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .hn-newsletter-title em { font-style: italic; color: #A8C89E; }
+  .hn-newsletter-text {
+    font-size: 14px;
+    color: #7A9270;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .hn-newsletter-btn {
+    display: inline-block;
+    background: #6B8F5E;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+    text-decoration: none;
+  }
+  .hn-newsletter-btn:hover { background: #527047; }
+  .hn-newsletter-qr {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .hn-newsletter-qr img {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    border: 3px solid #3D5C34;
+    display: block;
+    margin: 0 auto 8px;
+  }
+  .hn-newsletter-qr-label {
+    font-size: 11px;
+    color: #7A9270;
+    line-height: 1.5;
+  }
+
   .hn-involve { background: #E8EFE4; padding: 48px 28px; border-bottom: 1px solid #C8D4C0; }
   .hn-involve-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
   .hn-inv-card { background: #fff; border: 1px solid #C8D4C0; border-radius: 8px; padding: 22px 18px; }
@@ -112,9 +182,20 @@
   .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
   .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
   .hn-footer-text { font-size: 12px; color: #7A9270; }
-  .hn-footer-links { display: flex; gap: 16px; }
+  .hn-footer-links { display: flex; gap: 16px; align-items: center; }
   .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
   .hn-footer-link:hover { color: #E8EFE4; }
+  .hn-footer-newsletter {
+    font-size: 12px;
+    color: #6B8F5E;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #3D5C34;
+    padding: 4px 12px;
+    border-radius: 20px;
+    transition: background .15s, color .15s;
+  }
+  .hn-footer-newsletter:hover { background: #6B8F5E; color: #fff; }
 
   @media (max-width: 600px) {
     .hn-hero { grid-template-columns: 1fr; padding: 32px 20px; }
@@ -124,6 +205,8 @@
     .hn-mission-pillars { grid-template-columns: 1fr; }
     .hn-testimonials-grid { grid-template-columns: 1fr; }
     .hn-involve-grid { grid-template-columns: 1fr; }
+    .hn-newsletter-inner { grid-template-columns: 1fr; }
+    .hn-newsletter-qr { display: none; }
     .hn-footer { flex-direction: column; text-align: center; }
   }
 </style>
@@ -131,7 +214,7 @@
 <body>
 <div class="hn">
 
-  <!-- NAV — starts as guest, Firebase updates if logged in -->
+  <!-- NAV -->
   <nav class="hn-nav">
     <a class="hn-logo" href="index.html">
       <div class="hn-logo-leaf"></div>Hey Neighbor
@@ -265,6 +348,22 @@
     </div>
   </div>
 
+  <!-- NEWSLETTER -->
+  <div class="hn-newsletter">
+    <div class="hn-newsletter-inner">
+      <div>
+        <div class="hn-newsletter-eyebrow">📬 Stay in the loop</div>
+        <div class="hn-newsletter-title">The Hey Neighbor<br><em>newsletter.</em></div>
+        <div class="hn-newsletter-text">Real events, neighborhood news, and parent stories — straight to your inbox. No noise, just the good stuff.</div>
+        <a class="hn-newsletter-btn" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">Subscribe free →</a>
+      </div>
+      <div class="hn-newsletter-qr">
+        <img src="qr-newsletter.png" alt="Scan to subscribe to the Hey Neighbor newsletter" />
+        <div class="hn-newsletter-qr-label">Scan to subscribe<br>on your phone</div>
+      </div>
+    </div>
+  </div>
+
   <!-- GET INVOLVED -->
   <div class="hn-involve">
     <div class="hn-sec-head" style="margin-bottom:0;">
@@ -368,6 +467,7 @@
       <a class="hn-footer-link" href="events.html">Events</a>
       <a class="hn-footer-link" href="about.html">About</a>
       <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+      <a class="hn-footer-newsletter" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">📬 Newsletter</a>
     </div>
   </div>
 
@@ -375,20 +475,15 @@
 
 <!-- ── Plain script: FAQ + neighborhood filter + events ───── -->
 <script>
-  // ── FAQ accordion ─────────────────────────────────────────
   document.querySelectorAll('.hn-faq-q').forEach(function(q) {
     q.addEventListener('click', function() {
       const item   = this.parentElement;
       const isOpen = item.classList.contains('open');
-
-      // Close all
       document.querySelectorAll('.hn-faq-item').forEach(function(i) {
         i.classList.remove('open');
         const path = i.querySelector('.hn-faq-icon svg path');
         if (path) path.setAttribute('stroke', '#6B8F5E');
       });
-
-      // Open clicked one if it was closed
       if (!isOpen) {
         item.classList.add('open');
         const path = item.querySelector('.hn-faq-icon svg path');
@@ -397,21 +492,16 @@
     });
   });
 
-  // ── Neighborhood filter pills ─────────────────────────────
-  // These filter the homepage event cards by location field
   document.querySelectorAll('.hn-hood-pill').forEach(function(pill) {
     pill.addEventListener('click', function() {
       document.querySelectorAll('.hn-hood-pill').forEach(function(p) {
         p.classList.remove('on');
       });
       this.classList.add('on');
-
-      const hood = this.dataset.hood;
-      filterHomeEvents(hood);
+      filterHomeEvents(this.dataset.hood);
     });
   });
 
-  // ── CSV helpers ───────────────────────────────────────────
   const HOME_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
 
   let allHomeEvents = [];
@@ -422,14 +512,9 @@
     let inQuotes = false;
     for (let i = 0; i < row.length; i++) {
       const char = row[i];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
+      if (char === '"') { inQuotes = !inQuotes; }
+      else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+      else { current += char; }
     }
     result.push(current.trim());
     return result;
@@ -444,14 +529,11 @@
     return 'b-adult';
   }
 
-  // ── Filter homepage event cards by neighborhood ───────────
   function filterHomeEvents(hood) {
     const grid = document.getElementById('homeEventsGrid');
     const filtered = hood === 'all'
       ? allHomeEvents
-      : allHomeEvents.filter(e =>
-          e.location.toLowerCase().includes(hood.toLowerCase())
-        );
+      : allHomeEvents.filter(e => e.location.toLowerCase().includes(hood.toLowerCase()));
 
     if (filtered.length === 0) {
       grid.innerHTML = '<div style="color:#7A9270;font-size:14px;padding:20px 0;">No events in this area yet. Check back soon!</div>';
@@ -473,44 +555,37 @@
     `).join('');
   }
 
-  // ── Load events from CSV ──────────────────────────────────
   async function loadHomeEvents() {
     try {
       const res  = await fetch(HOME_CSV_URL);
       const text = await res.text();
       const rows = text.trim().split('\n').slice(1);
 
-      allHomeEvents = rows
-        .filter(r => r.trim())
-        .map(row => {
-          const cols = parseCSVRow(row);
-          return {
-            name:        cols[0] || '',
-            category:    cols[1] || '',
-            datetime:    cols[2] || '',
-            location:    cols[3] || '',
-            description: cols[4] || ''
-          };
-        });
+      allHomeEvents = rows.filter(r => r.trim()).map(row => {
+        const cols = parseCSVRow(row);
+        return {
+          name:        cols[0] || '',
+          category:    cols[1] || '',
+          datetime:    cols[2] || '',
+          location:    cols[3] || '',
+          description: cols[4] || ''
+        };
+      });
 
-      // Render all events by default
       filterHomeEvents('all');
 
-      // Populate hero card sidebar
       const heroList = document.getElementById('heroEventsList');
       if (heroList) {
-        if (allHomeEvents.length === 0) {
-          heroList.innerHTML = '<div style="color:#7A9270;font-size:13px;">No events yet.</div>';
-        } else {
-          heroList.innerHTML = allHomeEvents.slice(0, 4).map(event => `
-            <div class="hn-hc-stat">
-              <div>
-                <div class="hn-hc-name">${event.name}</div>
-                <div class="hn-hc-detail" style="margin-top:3px;">${event.datetime}</div>
+        heroList.innerHTML = allHomeEvents.length === 0
+          ? '<div style="color:#7A9270;font-size:13px;">No events yet.</div>'
+          : allHomeEvents.slice(0, 4).map(event => `
+              <div class="hn-hc-stat">
+                <div>
+                  <div class="hn-hc-name">${event.name}</div>
+                  <div class="hn-hc-detail" style="margin-top:3px;">${event.datetime}</div>
+                </div>
               </div>
-            </div>
-          `).join('');
-        }
+            `).join('');
       }
 
     } catch (e) {
@@ -538,7 +613,6 @@
         <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
       `;
     }
-    // If not logged in, nav stays as guest default
   });
 </script>
 
