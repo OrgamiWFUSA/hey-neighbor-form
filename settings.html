@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor — Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage:       #6B8F5E;
+    --sage-light: #E4EDE0;
+    --sage-mid:   #C8D4C0;
+    --sage-dark:  #3D5C34;
+    --forest:     #2D3B2A;
+    --cream:      #F8F6F1;
+    --warm-white: #FDFCF9;
+    --text:       #2D3B2A;
+    --text-muted: #6A7A65;
+    --border:     #C8D4C0;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'Jost', sans-serif;
+    --red:        #DC2626;
+    --red-light:  #FEE2E2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--forest);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .logo-leaf {
+    width: 18px;
+    height: 18px;
+    background: var(--sage);
+    border-radius: 50% 0 50% 0;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .nav-link:hover { color: var(--forest); }
+
+  .btn-logout {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-logout:hover { border-color: var(--sage-mid); color: var(--forest); }
+
+  .settings-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .settings-content { display: none; }
+  .settings-content.show { display: block; }
+
+  .settings-header {
+    margin-bottom: 36px;
+  }
+
+  .settings-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+  }
+
+  .settings-title {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--forest);
+    line-height: 1.2;
+  }
+
+  /* SECTIONS */
+  .settings-section {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--forest);
+  }
+
+  .section-icon { font-size: 20px; }
+
+  /* FIELDS */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 28px;
+    margin-bottom: 20px;
+  }
+
+  .field-group { margin-bottom: 0; }
+
+  .field-group.full { grid-column: 1 / -1; }
+
+  .field-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .field-group input,
+  .field-group select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--sage-mid);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--forest);
+    padding: 8px 0;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field-group input:focus,
+  .field-group select:focus { border-bottom-color: var(--sage); }
+
+  .field-group input::placeholder { color: #BCC8B8; }
+
+  /* TILES */
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .tile-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .tile-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .tile {
+    background: var(--sage-light);
+    border: 1.5px solid var(--sage-mid);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--forest);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none;
+    line-height: 1.4;
+  }
+
+  .tile:hover { background: #D0DEC9; border-color: #9DB89A; }
+  .tile.sel { background: #D0DEC9; border: 2px solid var(--sage); font-weight: 500; }
+
+  .tile-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 16px 0 8px;
+  }
+
+  /* BUTTONS */
+  .btn-save {
+    background: var(--sage);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 32px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-save:hover { background: var(--sage-dark); }
+  .btn-save:disabled { background: var(--sage-mid); cursor: default; }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-outline:hover { border-color: var(--sage-mid); color: var(--forest); }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border: 1.5px solid var(--red);
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-danger:hover { background: var(--red-light); }
+
+  .btn-upgrade {
+    background: var(--sage);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-upgrade:hover { background: var(--sage-dark); }
+
+  .btn-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* MEMBERSHIP CARD */
+  .membership-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .membership-info { flex: 1; }
+
+  .membership-type {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 4px;
+  }
+
+  .membership-type.premium { color: #8B6914; }
+
+  .membership-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .membership-badge {
+    display: inline-block;
+    background: var(--sage);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  .membership-badge.basic {
+    background: var(--sage-mid);
+    color: var(--forest);
+  }
+
+  /* ALERT MESSAGES */
+  .alert {
+    display: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .alert.show { display: block; }
+
+  .alert-success {
+    background: var(--sage-light);
+    border: 1px solid var(--sage-mid);
+    color: var(--sage-dark);
+  }
+
+  .alert-error {
+    background: var(--red-light);
+    border: 1px solid #FCA5A5;
+    color: var(--red);
+  }
+
+  /* DANGER ZONE */
+  .danger-zone {
+    background: #FFF8F8;
+    border: 1px solid #FCA5A5;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+
+  .danger-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .danger-text {
+    font-size: 13px;
+    color: #6B7280;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* PASSWORD STRENGTH */
+  .password-strength {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .password-strength-bar {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s, background 0.3s;
+    width: 0%;
+  }
+
+  .password-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .settings-wrap { padding: 32px 20px 60px; }
+    nav { padding: 14px 20px; }
+    .membership-display { flex-direction: column; align-items: flex-start; }
+    .tile-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-leaf"></div>
+    Hey Neighbor
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="dashboard.html">Dashboard</a>
+    <span class="nav-link" id="navName"></span>
+    <button class="btn-logout" onclick="handleLogout()">Log out</button>
+  </div>
+</nav>
+
+<div class="settings-wrap">
+  <div class="loading" id="loadingMsg">Loading your settings...</div>
+
+  <div class="settings-content" id="settingsContent">
+
+    <div class="settings-header">
+      <div class="settings-eyebrow">Account Settings</div>
+      <div class="settings-title">Your profile.</div>
+    </div>
+
+    <!-- PERSONAL INFO -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Personal Information</div>
+        <span class="section-icon">👤</span>
+      </div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label>First Name</label>
+          <input type="text" id="settingFirstName" placeholder="Jane" />
+        </div>
+        <div class="field-group">
+          <label>Last Name</label>
+          <input type="text" id="settingLastName" placeholder="Smith" />
+        </div>
+        <div class="field-group">
+          <label>Email</label>
+          <input type="email" id="settingEmail" placeholder="jane@example.com" disabled style="opacity:0.6;" />
+        </div>
+        <div class="field-group">
+          <label>Phone Number</label>
+          <input type="tel" id="settingPhone" placeholder="(555) 000-0000" />
+        </div>
+      </div>
+      <div id="personalAlert" class="alert"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="savePersonalInfo()">Save changes</button>
+      </div>
+    </div>
+
+    <!-- NEIGHBORHOOD -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Your Neighborhood</div>
+        <span class="section-icon">📍</span>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Select your current neighborhood. We use this to match you with local events and parents.</p>
+      <p class="section-label">Manhattan — East Side</p>
+      <div class="tile-grid cols-3">
+        <div class="tile hood-tile" onclick="selectHood(this)">Upper East Side</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Midtown East</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Downtown East<div class="tile-sub">below 14th</div></div>
+      </div>
+      <p class="section-label">Manhattan — West Side</p>
+      <div class="tile-grid cols-3">
+        <div class="tile hood-tile" onclick="selectHood(this)">Upper West Side</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Midtown West</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Downtown West<div class="tile-sub">below 14th</div></div>
+      </div>
+      <p class="section-label">Brooklyn</p>
+      <div class="tile-grid cols-3">
+        <div class="tile hood-tile" onclick="selectHood(this)">Williamsburg</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">DUMBO</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Carroll Gardens</div>
+      </div>
+      <p class="section-label">Queens</p>
+      <div class="tile-grid cols-3">
+        <div class="tile hood-tile" onclick="selectHood(this)">Astoria</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Sunnyside</div>
+        <div class="tile hood-tile" onclick="selectHood(this)">Forest Hills</div>
+      </div>
+      <div id="hoodAlert" class="alert"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveNeighborhood()">Save neighborhood</button>
+      </div>
+    </div>
+
+    <!-- KIDS AGES -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Kids Ages</div>
+        <span class="section-icon">👶</span>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Select all that apply.</p>
+      <div class="tile-grid cols-2">
+        <div class="tile" onclick="toggleTile(this)"><strong>0–2</strong><div class="tile-sub">Baby</div></div>
+        <div class="tile" onclick="toggleTile(this)"><strong>3–5</strong><div class="tile-sub">Toddler</div></div>
+        <div class="tile" onclick="toggleTile(this)"><strong>6–10</strong><div class="tile-sub">Primary school</div></div>
+        <div class="tile" onclick="toggleTile(this)"><strong>11–13</strong><div class="tile-sub">Middle school</div></div>
+      </div>
+      <div id="kidsAlert" class="alert"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveKids()">Save</button>
+      </div>
+    </div>
+
+    <!-- AVAILABILITY -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Availability</div>
+        <span class="section-icon">🕐</span>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">When are you generally free?</p>
+      <div class="tile-grid cols-3">
+        <div class="tile" onclick="toggleTile(this)" style="text-align:center; padding:20px 14px;">
+          <div style="font-size:22px; margin-bottom:8px;">☀️</div>
+          <strong>Daytime</strong>
+          <div class="tile-sub">9am – 5pm · Weekdays</div>
+        </div>
+        <div class="tile" onclick="toggleTile(this)" style="text-align:center; padding:20px 14px;">
+          <div style="font-size:22px; margin-bottom:8px;">🌆</div>
+          <strong>After work</strong>
+          <div class="tile-sub">5pm – 9pm · Evenings</div>
+        </div>
+        <div class="tile" onclick="toggleTile(this)" style="text-align:center; padding:20px 14px;">
+          <div style="font-size:22px; margin-bottom:8px;">🌿</div>
+          <strong>Weekends</strong>
+          <div class="tile-sub">Sat & Sun</div>
+        </div>
+      </div>
+      <div id="availAlert" class="alert"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveAvailability()">Save</button>
+      </div>
+    </div>
+
+    <!-- HOBBIES -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Hobbies & Interests</div>
+        <span class="section-icon">✨</span>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Helps us match you with parents who share your vibe.</p>
+      <div class="tile-grid">
+        <div class="tile" onclick="toggleTile(this)">Running</div>
+        <div class="tile" onclick="toggleTile(this)">Cooking</div>
+        <div class="tile" onclick="toggleTile(this)">Travel</div>
+        <div class="tile" onclick="toggleTile(this)">Reading</div>
+        <div class="tile" onclick="toggleTile(this)">Fitness</div>
+        <div class="tile" onclick="toggleTile(this)">Music</div>
+        <div class="tile" onclick="toggleTile(this)">Photography</div>
+        <div class="tile" onclick="toggleTile(this)">Yoga</div>
+        <div class="tile" onclick="toggleTile(this)">Movies</div>
+        <div class="tile" onclick="toggleTile(this)">Sports</div>
+        <div class="tile" onclick="toggleTile(this)">Hiking</div>
+        <div class="tile" onclick="toggleTile(this)">Arts & crafts</div>
+        <div class="tile" onclick="toggleTile(this)">Board games</div>
+        <div class="tile" onclick="toggleTile(this)">Dancing</div>
+        <div class="tile" onclick="toggleTile(this)">Wine & dining</div>
+        <div class="tile" onclick="toggleTile(this)">Other</div>
+      </div>
+      <div id="hobbiesAlert" class="alert"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveHobbies()">Save</button>
+      </div>
+    </div>
+
+    <!-- CHANGE PASSWORD -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Change Password</div>
+        <span class="section-icon">🔒</span>
+      </div>
+      <div class="field-grid">
+        <div class="field-group full">
+          <label>Current Password</label>
+          <input type="password" id="currentPassword" placeholder="••••••••" />
+        </div>
+        <div class="field-group">
+          <label>New Password</label>
+          <input type="password" id="newPassword" placeholder="••••••••" oninput="checkPasswordStrength(this.value)" />
+          <div class="password-strength">
+            <div class="password-strength-bar" id="strengthBar"></div>
+          </div>
+          <div class="password-hint" id="strengthHint">At least 6 characters</div>
+        </div>
+        <div class="field-group">
+          <label>Confirm New Password</label>
+          <input type="password" id="confirmPassword" placeholder="••••••••" />
+        </div>
+      </div>
+      <div id="passwordAlert" class="alert"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="changePassword()">Update password</button>
+      </div>
+    </div>
+
+    <!-- MEMBERSHIP -->
+    <div class="settings-section">
+      <div class="section-header">
+        <div class="section-title">Membership</div>
+        <span class="section-icon">🌿</span>
+      </div>
+      <div class="membership-display">
+        <div class="membership-info">
+          <div class="membership-badge" id="membershipBadge">Basic</div>
+          <div class="membership-type" id="membershipType">Basic Member</div>
+          <div class="membership-desc" id="membershipDesc">Free membership. Upgrade to Premium for member pricing on all events and access to the community board.</div>
+        </div>
+        <div id="membershipActions"></div>
+      </div>
+      <div id="membershipAlert" class="alert"></div>
+    </div>
+
+    <!-- DANGER ZONE -->
+    <div class="danger-zone">
+      <div class="danger-title">Danger Zone</div>
+      <div class="danger-text">Deleting your account is permanent and cannot be undone. All your data, bookings, and community posts will be removed.</div>
+      <button class="btn-danger" onclick="confirmDeleteAccount()">Delete my account</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleTile(el) { el.classList.toggle('sel'); }
+
+  function selectHood(el) {
+    document.querySelectorAll('.hood-tile').forEach(t => t.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+
+  function getSelectedTiles(container) {
+    return Array.from(container.querySelectorAll('.tile.sel'))
+      .map(el => el.innerText.trim())
+      .join(', ');
+  }
+
+  function showAlert(id, message, type) {
+    const el = document.getElementById(id);
+    el.textContent = message;
+    el.className = `alert alert-${type} show`;
+    setTimeout(() => el.classList.remove('show'), 4000);
+  }
+
+  function checkPasswordStrength(password) {
+    const bar = document.getElementById('strengthBar');
+    const hint = document.getElementById('strengthHint');
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    const colors = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#16A34A'];
+    const hints = ['Too short', 'Weak', 'Fair', 'Good', 'Strong'];
+    const widths = ['20%', '40%', '60%', '80%', '100%'];
+
+    bar.style.width = widths[strength - 1] || '0%';
+    bar.style.background = colors[strength - 1] || '#E5E7EB';
+    hint.textContent = hints[strength - 1] || 'At least 6 characters';
+  }
+
+  function confirmDeleteAccount() {
+    if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
+      document.dispatchEvent(new CustomEvent('hn-delete-account'));
+    }
+  }
+
+  function handleLogout() {
+    document.dispatchEvent(new CustomEvent('hn-logout'));
+  }
+
+  function savePersonalInfo() {
+    document.dispatchEvent(new CustomEvent('hn-save-personal'));
+  }
+
+  function saveNeighborhood() {
+    document.dispatchEvent(new CustomEvent('hn-save-neighborhood'));
+  }
+
+  function saveKids() {
+    document.dispatchEvent(new CustomEvent('hn-save-kids'));
+  }
+
+  function saveAvailability() {
+    document.dispatchEvent(new CustomEvent('hn-save-availability'));
+  }
+
+  function saveHobbies() {
+    document.dispatchEvent(new CustomEvent('hn-save-hobbies'));
+  }
+
+  function changePassword() {
+    document.dispatchEvent(new CustomEvent('hn-change-password'));
+  }
+</script>
+
+<script type="module">
+  import { auth, db } from './firebase-init.js';
+  import {
+    onAuthStateChanged,
+    signOut,
+    updatePassword,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+    deleteUser
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import {
+    doc, getDoc, updateDoc, deleteDoc
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  let currentUser = null;
+  let currentProfile = null;
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    currentUser = user;
+
+    try {
+      const docSnap = await getDoc(doc(db, "members", user.uid));
+      if (docSnap.exists()) currentProfile = docSnap.data();
+    } catch (err) {
+      console.error(err);
+    }
+
+    // Hide loading
+    document.getElementById('loadingMsg').style.display = 'none';
+    document.getElementById('settingsContent').classList.add('show');
+
+    // Nav
+    document.getElementById('navName').textContent = 
+      `Hi, ${currentProfile?.firstName || 'there'} 👋`;
+
+    // Fill personal info
+    document.getElementById('settingFirstName').value = currentProfile?.firstName || '';
+    document.getElementById('settingLastName').value = currentProfile?.lastName || '';
+    document.getElementById('settingEmail').value = user.email || '';
+    document.getElementById('settingPhone').value = currentProfile?.phone || '';
+
+    // Fill neighborhood
+    if (currentProfile?.neighborhood) {
+      document.querySelectorAll('.hood-tile').forEach(tile => {
+        if (tile.innerText.trim().startsWith(currentProfile.neighborhood)) {
+          tile.classList.add('sel');
+        }
+      });
+    }
+
+    // Fill kids ages
+    if (currentProfile?.kidsAges) {
+      const ages = currentProfile.kidsAges.split(',').map(a => a.trim());
+      document.querySelectorAll('#settingsContent .tile').forEach(tile => {
+        const text = tile.innerText.trim();
+        if (ages.some(age => text.startsWith(age))) {
+          tile.classList.add('sel');
+        }
+      });
+    }
+
+    // Fill availability
+    if (currentProfile?.availability) {
+      const avails = currentProfile.availability.split(',').map(a => a.trim());
+      document.querySelectorAll('#settingsContent .tile').forEach(tile => {
+        const text = tile.innerText.trim();
+        if (avails.some(a => text.includes(a))) {
+          tile.classList.add('sel');
+        }
+      });
+    }
+
+    // Fill hobbies
+    if (currentProfile?.hobbies) {
+      const hobbies = currentProfile.hobbies.split(',').map(h => h.trim());
+      document.querySelectorAll('#settingsContent .tile').forEach(tile => {
+        if (hobbies.includes(tile.innerText.trim())) {
+          tile.classList.add('sel');
+        }
+      });
+    }
+
+    // Membership
+    const isPremium = currentProfile?.membershipChoice === 'member';
+    const badge = document.getElementById('membershipBadge');
+    const type = document.getElementById('membershipType');
+    const desc = document.getElementById('membershipDesc');
+    const actions = document.getElementById('membershipActions');
+
+    if (isPremium) {
+      badge.textContent = 'Premium';
+      badge.classList.remove('basic');
+      type.textContent = 'Premium Member';
+      type.classList.add('premium');
+      desc.textContent = 'You have full Premium access. Member pricing on all events and access to the community board.';
+      actions.innerHTML = `
+        <button class="btn-danger" onclick="confirmCancelMembership()">Cancel membership</button>
+      `;
+    } else {
+      badge.textContent = 'Basic';
+      badge.classList.add('basic');
+      type.textContent = 'Basic Member';
+      desc.textContent = 'Free membership. Upgrade to Premium for member pricing on all events and access to the community board.';
+      actions.innerHTML = `
+        <a class="btn-upgrade" href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank">
+          Upgrade to Premium — $80/yr →
+        </a>
+      `;
+    }
+  });
+
+  // Save personal info
+  document.addEventListener('hn-save-personal', async () => {
+    const btn = document.querySelector('[onclick="savePersonalInfo()"]');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    try {
+      await updateDoc(doc(db, "members", currentUser.uid), {
+        firstName: document.getElementById('settingFirstName').value.trim(),
+        lastName: document.getElementById('settingLastName').value.trim(),
+        phone: document.getElementById('settingPhone').value.trim()
+      });
+      showAlert('personalAlert', '✅ Personal information updated!', 'success');
+    } catch (err) {
+      console.error(err);
+      showAlert('personalAlert', 'Could not save. Please try again.', 'error');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Save changes';
+  });
+
+  // Save neighborhood
+  document.addEventListener('hn-save-neighborhood', async () => {
+    const selected = document.querySelector('.hood-tile.sel');
+    if (!selected) {
+      showAlert('hoodAlert', 'Please select a neighborhood.', 'error');
+      return;
+    }
+
+    try {
+      await updateDoc(doc(db, "members", currentUser.uid), {
+        neighborhood: selected.innerText.trim()
+      });
+      showAlert('hoodAlert', '✅ Neighborhood updated!', 'success');
+    } catch (err) {
+      console.error(err);
+      showAlert('hoodAlert', 'Could not save. Please try again.', 'error');
+    }
+  });
+
+  // Save kids ages
+  document.addEventListener('hn-save-kids', async () => {
+    const kidsSection = document.querySelectorAll('.settings-section')[2];
+    const selected = getSelectedTiles(kidsSection);
+    try {
+      await updateDoc(doc(db, "members", currentUser.uid), { kidsAges: selected });
+      showAlert('kidsAlert', '✅ Kids ages updated!', 'success');
+    } catch (err) {
+      showAlert('kidsAlert', 'Could not save. Please try again.', 'error');
+    }
+  });
+
+  // Save availability
+  document.addEventListener('hn-save-availability', async () => {
+    const availSection = document.querySelectorAll('.settings-section')[3];
+    const selected = getSelectedTiles(availSection);
+    try {
+      await updateDoc(doc(db, "members", currentUser.uid), { availability: selected });
+      showAlert('availAlert', '✅ Availability updated!', 'success');
+    } catch (err) {
+      showAlert('availAlert', 'Could not save. Please try again.', 'error');
+    }
+  });
+
+  // Save hobbies
+  document.addEventListener('hn-save-hobbies', async () => {
+    const hobbiesSection = document.querySelectorAll('.settings-section')[4];
+    const selected = getSelectedTiles(hobbiesSection);
+    try {
+      await updateDoc(doc(db, "members", currentUser.uid), { hobbies: selected });
+      showAlert('hobbiesAlert', '✅ Hobbies updated!', 'success');
+    } catch (err) {
+      showAlert('hobbiesAlert', 'Could not save. Please try again.', 'error');
+    }
+  });
+
+  // Change password
+  document.addEventListener('hn-change-password', async () => {
+    const current = document.getElementById('currentPassword').value;
+    const newPass = document.getElementById('newPassword').value;
+    const confirm = document.getElementById('confirmPassword').value;
+
+    if (!current || !newPass || !confirm) {
+      showAlert('passwordAlert', 'Please fill in all password fields.', 'error');
+      return;
+    }
+
+    if (newPass.length < 6) {
+      showAlert('passwordAlert', 'New password must be at least 6 characters.', 'error');
+      return;
+    }
+
+    if (newPass !== confirm) {
+      showAlert('passwordAlert', 'New passwords do not match.', 'error');
+      return;
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(currentUser.email, current);
+      await reauthenticateWithCredential(currentUser, credential);
+      await updatePassword(currentUser, newPass);
+      showAlert('passwordAlert', '✅ Password updated successfully!', 'success');
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+    } catch (err) {
+      console.error(err);
+      if (err.code === 'auth/wrong-password') {
+        showAlert('passwordAlert', 'Current password is incorrect.', 'error');
+      } else {
+        showAlert('passwordAlert', 'Could not update password. Please try again.', 'error');
+      }
+    }
+  });
+
+  // Cancel membership
+  window.confirmCancelMembership = function() {
+    if (confirm('Are you sure you want to cancel your Premium membership? You will be downgraded to Basic.')) {
+      updateDoc(doc(db, "members", currentUser.uid), {
+        membershipChoice: 'nonmember'
+      }).then(() => {
+        showAlert('membershipAlert', '✅ Membership cancelled. You are now a Basic member.', 'success');
+        setTimeout(() => window.location.reload(), 2000);
+      }).catch(err => {
+        showAlert('membershipAlert', 'Could not cancel membership. Please try again.', 'error');
+      });
+    }
+  };
+
+  // Delete account
+  document.addEventListener('hn-delete-account', async () => {
+    try {
+      await deleteDoc(doc(db, "members", currentUser.uid));
+      await deleteUser(currentUser);
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error(err);
+      if (err.code === 'auth/requires-recent-login') {
+        alert('For security, please log out and log back in before deleting your account.');
+      } else {
+        alert('Could not delete account. Please try again.');
+      }
+    }
+  });
+
+  // Logout
+  document.addEventListener('hn-logout', async () => {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
