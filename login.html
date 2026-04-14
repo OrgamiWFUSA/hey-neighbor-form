@@ -426,8 +426,8 @@
 
     try {
       await sendPasswordResetEmail(auth, email, {
-        url: 'https://orgamiwfusa.github.io/hey-neighbor-form/login.html',
-        handleCodeInApp: false
+        url: 'https://orgamiwfusa.github.io/hey-neighbor-form/reset-password.html',
+        handleCodeInApp: true
       });
       showSuccess('✅ Password reset email sent! Check your inbox (and spam folder). Click the link in the email to set a new password, then come back here to log in.');
     } catch (err) {
