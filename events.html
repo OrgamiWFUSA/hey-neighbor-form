@@ -424,7 +424,6 @@
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      currentUser = user;
       try {
         const docSnap = await getDoc(doc(db, "members", user.uid));
         if (docSnap.exists()) {
@@ -450,25 +449,22 @@
           }
 
           userStatus = isPremium ? 'premium' : 'basic';
-        }
-      } catch (err) {
-        console.error(err);
-      }
 
-      // Update nav
-      const navLinks = document.querySelector('.hn-nav-links');
-      if (navLinks) {
-        navLinks.innerHTML = `
-          <a class="hn-navl" href="events.html">Events</a>
-          <a class="hn-navl" href="community.html">Community</a>
-          <a class="hn-navl" href="about.html">About</a>
-          <a class="hn-navl" href="dashboard.html">Dashboard</a>
-          <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
-        `;
-      }
+// Update nav for logged in users
+const navLinks = document.querySelector('.hn-nav-links');
+if (navLinks) {
+  navLinks.innerHTML = `
+    <a class="hn-navl" href="events.html">Events</a>
+    <a class="hn-navl" href="community.html">Community</a>
+    <a class="hn-navl" href="about.html">About</a>
+    <a class="hn-navl" href="dashboard.html">Dashboard</a>
+    <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+  `;
+}
 
-      // Re-render with correct pricing
-      renderEvents();
+// Re-render events with correct pricing
+renderEvents();
+
     }
   });
 </script>
