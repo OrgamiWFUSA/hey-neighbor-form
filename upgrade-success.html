@@ -221,10 +221,16 @@
 
     try {
       // Update their membership in Firebase
-      await updateDoc(doc(db, "members", user.uid), {
-        membershipChoice: 'member',
-        membershipUpgradeDate: new Date().toISOString()
-      });
+      const upgradeDate = new Date();
+const expiryDate = new Date();
+expiryDate.setDate(expiryDate.getDate() + 365);
+
+await updateDoc(doc(db, "members", user.uid), {
+  membershipChoice: 'member',
+  membershipUpgradeDate: upgradeDate.toISOString(),
+  membershipExpiryDate: expiryDate.toISOString()
+});
+
 
       // Verify it saved correctly
       const docSnap = await getDoc(doc(db, "members", user.uid));
