@@ -32,8 +32,6 @@
   .hn-filter-pill.on { background: #6B8F5E; border-color: #6B8F5E; color: #fff; }
 
   .hn-events-wrap { padding: 32px 28px; }
-
-  /* Skeleton loader shown while auth + CSV both load */
   .hn-loading { padding: 40px 20px; text-align: center; color: #A8BFA0; font-size: 14px; }
 
   .hn-event-row { background: #fff; border: 1px solid #C8D4C0; border-radius: 10px; margin-bottom: 16px; overflow: hidden; transition: box-shadow .15s; }
@@ -68,14 +66,16 @@
   .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
   .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
   .hn-footer-text { font-size: 12px; color: #7A9270; }
-  .hn-footer-links { display: flex; gap: 16px; }
+  .hn-footer-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
   .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
   .hn-footer-link:hover { color: #E8EFE4; }
+  .hn-footer-newsletter { font-size: 12px; color: #6B8F5E; text-decoration: none; font-weight: 500; border: 1px solid #3D5C34; padding: 4px 12px; border-radius: 20px; }
+  .hn-footer-newsletter:hover { background: #2D3B2A; color: #A8C89E; }
 
-  /* Free RSVP modal */
+  /* Modal */
   .hn-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
   .hn-modal-overlay.show { display: flex; }
-  .hn-modal { background: #fff; border-radius: 12px; padding: 36px; max-width: 460px; width: 90%; }
+  .hn-modal { background: #fff; border-radius: 12px; padding: 36px; max-width: 480px; width: 90%; max-height: 90vh; overflow-y: auto; }
   .hn-modal-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 8px; }
   .hn-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #1E2D1B; margin-bottom: 6px; }
   .hn-modal-price { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #3A5E30; margin-bottom: 20px; }
@@ -84,8 +84,16 @@
   .hn-modal-input { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid #C8D4C0; font-family: 'Jost', sans-serif; font-size: 15px; color: #2D3B2A; padding: 8px 0; outline: none; transition: border-color .2s; }
   .hn-modal-input:focus { border-bottom-color: #6B8F5E; }
   .hn-modal-input::placeholder { color: #BCC8B8; }
+  .hn-modal-select { width: 100%; background: #F8F6F1; border: 1.5px solid #C8D4C0; border-radius: 6px; font-family: 'Jost', sans-serif; font-size: 14px; color: #2D3B2A; padding: 10px 12px; outline: none; transition: border-color .2s; cursor: pointer; }
+  .hn-modal-select:focus { border-color: #6B8F5E; }
+  .hn-qty-row { display: flex; align-items: center; gap: 12px; }
+  .hn-qty-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #C8D4C0; background: #fff; font-size: 18px; color: #2D3B2A; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 500; transition: background .15s; flex-shrink: 0; }
+  .hn-qty-btn:hover { background: #E4EDE0; border-color: #6B8F5E; }
+  .hn-qty-display { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: #1E2D1B; min-width: 32px; text-align: center; }
+  .hn-qty-label { font-size: 13px; color: #7A9270; }
   .hn-modal-submit { width: 100%; background: #6B8F5E; color: #fff; border: none; padding: 14px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background .15s; }
   .hn-modal-submit:hover { background: #527047; }
+  .hn-modal-submit:disabled { background: #A8BFA0; cursor: default; }
   .hn-modal-close { display: block; text-align: center; font-size: 13px; color: #A8BFA0; cursor: pointer; margin-top: 12px; text-decoration: underline; }
   .hn-success { display: none; text-align: center; padding: 20px 0; }
   .hn-success.show { display: block; }
@@ -109,7 +117,6 @@
     <a class="hn-logo" href="index.html">
       <div class="hn-logo-leaf"></div>Hey Neighbor
     </a>
-    <!-- Nav starts as guest. Firebase auth updates it once resolved. -->
     <div class="hn-nav-links" id="navLinks">
       <a class="hn-navl" href="events.html">Events</a>
       <a class="hn-navl" href="community.html">Community</a>
@@ -134,7 +141,6 @@
     <div class="hn-filter-pill" onclick="filterEvents(this,'Moms only')">Moms only</div>
   </div>
 
-  <!-- Events container — shows loading until BOTH auth + CSV are ready -->
   <div class="hn-events-wrap" id="eventsContainer">
     <div class="hn-loading">Loading events...</div>
   </div>
@@ -154,18 +160,20 @@
       <a class="hn-footer-link" href="events.html">Events</a>
       <a class="hn-footer-link" href="about.html">About</a>
       <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+      <a class="hn-footer-newsletter" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">📬 Newsletter</a>
     </div>
   </div>
 
 </div>
 
-<!-- Free RSVP modal -->
+<!-- Free RSVP Modal -->
 <div class="hn-modal-overlay" id="freeModalOverlay" onclick="closeFreeModalOutside(event)">
   <div class="hn-modal">
     <div id="freeForm">
       <div class="hn-modal-eyebrow">Reserve your spot</div>
       <div class="hn-modal-title" id="freeEventName">Saturday Park Club</div>
-      <div class="hn-modal-price">Free</div>
+      <div class="hn-modal-price">Free 🌿</div>
+
       <div class="hn-modal-field">
         <label class="hn-modal-label">First Name *</label>
         <input class="hn-modal-input" id="freeFirstName" type="text" placeholder="Jane" />
@@ -178,56 +186,71 @@
         <label class="hn-modal-label">Email *</label>
         <input class="hn-modal-input" id="freeEmail" type="email" placeholder="jane@example.com" />
       </div>
-      <button class="hn-modal-submit" onclick="submitFreeBooking()">Reserve my spot →</button>
+
+      <!-- Date selector — populated dynamically per event -->
+      <div class="hn-modal-field" id="dateFieldWrap">
+        <label class="hn-modal-label">Select a Date *</label>
+        <select class="hn-modal-select" id="freeDateSelect">
+          <option value="">Choose a date...</option>
+        </select>
+      </div>
+
+      <!-- Ticket quantity -->
+      <div class="hn-modal-field">
+        <label class="hn-modal-label">Number of Tickets (max 6)</label>
+        <div class="hn-qty-row">
+          <button class="hn-qty-btn" onclick="changeQty(-1)">−</button>
+          <div class="hn-qty-display" id="qtyDisplay">1</div>
+          <button class="hn-qty-btn" onclick="changeQty(1)">+</button>
+          <span class="hn-qty-label">ticket(s)</span>
+        </div>
+      </div>
+
+      <button class="hn-modal-submit" id="rsvpSubmitBtn" onclick="submitFreeBooking()">Reserve my spot →</button>
       <span class="hn-modal-close" onclick="closeFreeModal()">Cancel</span>
     </div>
+
     <div class="hn-success" id="freeSuccess">
       <div class="hn-success-icon">🌿</div>
       <div class="hn-success-title">You're in!</div>
-      <div class="hn-success-text">We'll send you the details by email. See you there!</div>
+      <div class="hn-success-text">Your RSVP has been saved. See you there!</div>
       <button class="hn-modal-submit" style="margin-top:24px;" onclick="closeFreeModal()">Done</button>
     </div>
   </div>
 </div>
 
-<!-- ── Plain script: event rendering + modal ──────────────── -->
+<!-- ── Plain script: events + modal ──────────────────────── -->
 <script>
   const EVENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
   const RSVP_WEBHOOK   = 'https://hook.us2.make.com/p5sslp4cqf1uyexezgw37b1i4leylkmn';
 
   let allEvents      = [];
   let activeFilter   = 'all';
-  let currentEvent   = '';
-  // userStatus starts as null = "not yet known — do not render"
-  // Once Firebase resolves it becomes 'guest', 'basic', or 'premium'
+  let currentEvent   = {};   // full event object, not just name
+  let rsvpQty        = 1;
   let userStatus     = null;
   let eventsLoaded   = false;
   let authResolved   = false;
+  // Firebase auth user (set by module script)
+  let firebaseUser   = null;
 
-  // ── CSV parser ────────────────────────────────────────────
   function parseCSVRow(row) {
     const result = [];
     let current  = '';
     let inQuotes = false;
     for (let i = 0; i < row.length; i++) {
       const char = row[i];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
+      if (char === '"') { inQuotes = !inQuotes; }
+      else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+      else { current += char; }
     }
     result.push(current.trim());
     return result;
   }
 
-  // Stripe / Make sends amounts as cents — 1000 = $10.00
   function formatCents(val) {
     const num = parseFloat(val);
-    if (isNaN(num)) return val; // if it's already formatted like "$45", return as-is
+    if (isNaN(num)) return val;
     return '$' + (num / 100).toFixed(2);
   }
 
@@ -240,7 +263,6 @@
     return 'b-adult';
   }
 
-  // ── Only render once BOTH auth AND csv are ready ──────────
   function tryRender() {
     if (!authResolved || !eventsLoaded) return;
     renderEvents();
@@ -248,7 +270,6 @@
 
   function renderEvents() {
     const container = document.getElementById('eventsContainer');
-
     const filtered = allEvents.filter(e => {
       if (activeFilter === 'all') return true;
       return e.category.includes(activeFilter);
@@ -262,7 +283,6 @@
     container.innerHTML = filtered.map(event => {
       const badgeClass = getBadgeClass(event.category);
 
-      // ── FREE EVENT ────────────────────────────────────────
       if (event.type === 'free') {
         return `
           <div class="hn-event-row">
@@ -278,13 +298,12 @@
                 <div class="hn-event-price">Free</div>
                 <div class="hn-event-price-sub">always free</div>
                 <div class="hn-event-price-member">Open to everyone</div>
-                <button class="hn-book-btn alt" onclick="openFreeModal('${event.name.replace(/'/g,"\\'")}')">Reserve my spot</button>
+                <button class="hn-book-btn alt" onclick='openFreeModal(${JSON.stringify(event).replace(/'/g,"&#39;")})'>Reserve my spot</button>
               </div>
             </div>
           </div>`;
       }
 
-      // ── PREMIUM MEMBER ────────────────────────────────────
       if (userStatus === 'premium') {
         return `
           <div class="hn-event-row">
@@ -306,7 +325,6 @@
           </div>`;
       }
 
-      // ── BASIC MEMBER ──────────────────────────────────────
       if (userStatus === 'basic') {
         return `
           <div class="hn-event-row">
@@ -330,7 +348,7 @@
           </div>`;
       }
 
-      // ── GUEST (not logged in) ─────────────────────────────
+      // Guest
       return `
         <div class="hn-event-row">
           <div class="hn-event-main">
@@ -350,17 +368,14 @@
             </div>
           </div>
         </div>`;
-
     }).join('');
   }
 
-  // ── Load CSV ──────────────────────────────────────────────
   async function loadEvents() {
     try {
       const res  = await fetch(EVENTS_CSV_URL);
       const text = await res.text();
       const rows = text.trim().split('\n').slice(1);
-
       allEvents = rows.filter(r => r.trim()).map(row => {
         const cols = parseCSVRow(row);
         return {
@@ -373,13 +388,13 @@
           priceNonMember:  cols[6] || '',
           stripeMember:    cols[7] || '',
           stripeNonMember: cols[8] || '',
-          type:            (cols[9] || 'paid').trim().toLowerCase()
+          type:            (cols[9] || 'paid').trim().toLowerCase(),
+          // col[10] = extra dates (comma-separated) e.g. "Jan 18, Jan 25, Feb 1"
+          extraDates:      cols[10] || ''
         };
       });
-
       eventsLoaded = true;
       tryRender();
-
     } catch (e) {
       console.error('CSV fetch error:', e);
       document.getElementById('eventsContainer').innerHTML =
@@ -387,19 +402,62 @@
     }
   }
 
-  // ── Filter pills ──────────────────────────────────────────
   function filterEvents(el, filter) {
     document.querySelectorAll('.hn-filter-pill').forEach(p => p.classList.remove('on'));
     el.classList.add('on');
     activeFilter = filter;
-    // Only re-render if we're already showing events
     if (authResolved && eventsLoaded) renderEvents();
   }
 
   // ── Free RSVP modal ───────────────────────────────────────
-  function openFreeModal(eventName) {
-    currentEvent = eventName;
-    document.getElementById('freeEventName').textContent = eventName;
+  function openFreeModal(event) {
+    currentEvent = event;
+    rsvpQty = 1;
+    document.getElementById('qtyDisplay').textContent = '1';
+    document.getElementById('freeEventName').textContent = event.name;
+    document.getElementById('freeFirstName').value = '';
+    document.getElementById('freeLastName').value  = '';
+    document.getElementById('freeEmail').value     = '';
+
+    // Pre-fill email if logged in
+    if (firebaseUser && firebaseUser.email) {
+      document.getElementById('freeEmail').value = firebaseUser.email;
+    }
+
+    // Build date options from datetime + extraDates
+    const select = document.getElementById('freeDateSelect');
+    select.innerHTML = '<option value="">Choose a date...</option>';
+
+    // Primary date always first
+    if (event.datetime) {
+      const opt = document.createElement('option');
+      opt.value = event.datetime;
+      opt.textContent = event.datetime;
+      select.appendChild(opt);
+    }
+
+    // Extra dates from col[10] — comma-separated
+    if (event.extraDates && event.extraDates.trim()) {
+      event.extraDates.split(',').forEach(d => {
+        const trimmed = d.trim();
+        if (trimmed) {
+          const opt = document.createElement('option');
+          opt.value = trimmed;
+          opt.textContent = trimmed;
+          select.appendChild(opt);
+        }
+      });
+    }
+
+    // If only one date option, auto-select it and hide the dropdown
+    const realOptions = select.options.length - 1; // minus the placeholder
+    if (realOptions === 1) {
+      select.value = select.options[1].value;
+      document.getElementById('dateFieldWrap').style.display = 'none';
+    } else {
+      document.getElementById('dateFieldWrap').style.display = 'block';
+    }
+
     document.getElementById('freeForm').style.display = 'block';
     document.getElementById('freeSuccess').classList.remove('show');
     document.getElementById('freeModalOverlay').classList.add('show');
@@ -413,56 +471,90 @@
     if (e.target === document.getElementById('freeModalOverlay')) closeFreeModal();
   }
 
+  function changeQty(delta) {
+    rsvpQty = Math.min(6, Math.max(1, rsvpQty + delta));
+    document.getElementById('qtyDisplay').textContent = rsvpQty;
+  }
+
   async function submitFreeBooking() {
-    const firstName = document.getElementById('freeFirstName').value.trim();
-    const lastName  = document.getElementById('freeLastName').value.trim();
-    const email     = document.getElementById('freeEmail').value.trim();
+    const firstName  = document.getElementById('freeFirstName').value.trim();
+    const lastName   = document.getElementById('freeLastName').value.trim();
+    const email      = document.getElementById('freeEmail').value.trim();
+    const chosenDate = document.getElementById('freeDateSelect').value;
 
     if (!firstName || !lastName || !email) {
-      alert('Please fill in all required fields.');
+      alert('Please fill in your name and email.');
+      return;
+    }
+    if (!chosenDate) {
+      alert('Please select a date.');
       return;
     }
 
+    const btn = document.getElementById('rsvpSubmitBtn');
+    btn.disabled    = true;
+    btn.textContent = 'Reserving...';
+
+    const bookingDate = new Date().toLocaleDateString('en-US');
+
+    // Payload formatted to match bookings sheet columns exactly:
+    // Email | Event Name | Date | Amount Paid | Booking Date | # of Tickets Purchased
+    const payload = {
+      email:        email,
+      eventName:    currentEvent.name,
+      eventDate:    chosenDate,
+      amountPaid:   0,          // free = 0 cents
+      bookingDate:  bookingDate,
+      ticketQty:    rsvpQty,
+      // Extra fields for Make.com / your records
+      firstName:    firstName,
+      lastName:     lastName,
+      type:         'free_rsvp'
+    };
+
+    // ── 1. Save to Firestore (instant dashboard update) ──
+    // Dispatched to module script which has Firebase access
+    document.dispatchEvent(new CustomEvent('hn-save-rsvp', { detail: payload }));
+
+    // ── 2. Send to Make.com → Google Sheets ──────────────
     try {
       await fetch(RSVP_WEBHOOK, {
-        method: 'POST',
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName, lastName, email,
-          eventName: currentEvent,
-          date: new Date().toLocaleDateString()
-        })
+        body:    JSON.stringify(payload)
       });
-      document.getElementById('freeForm').style.display = 'none';
-      document.getElementById('freeSuccess').classList.add('show');
-      document.getElementById('freeFirstName').value = '';
-      document.getElementById('freeLastName').value  = '';
-      document.getElementById('freeEmail').value     = '';
     } catch (e) {
-      alert('Something went wrong. Please try again.');
+      console.warn('Make.com webhook failed (non-fatal):', e);
+      // Don't block success — Firestore save already happened
     }
+
+    btn.disabled    = false;
+    btn.textContent = 'Reserve my spot →';
+    document.getElementById('freeForm').style.display = 'none';
+    document.getElementById('freeSuccess').classList.add('show');
   }
 
-  // Start loading CSV immediately — don't wait for auth
   loadEvents();
 </script>
 
-<!-- ── Module script: Firebase auth ──────────────────────── -->
+<!-- ── Module script: Firebase auth + Firestore RSVP save ── -->
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import {
+    doc, getDoc, updateDoc, collection, addDoc
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   onAuthStateChanged(auth, async (user) => {
-
     if (user) {
+      // Expose user to plain script for email pre-fill
+      window.firebaseUser = user;
+
       try {
         const docSnap = await getDoc(doc(db, "members", user.uid));
         if (docSnap.exists()) {
           const profile  = docSnap.data();
           let isPremium  = profile.membershipChoice === 'member';
-
-          // Single expiry check
           if (isPremium && profile.membershipExpiryDate) {
             const expiry = new Date(profile.membershipExpiryDate);
             if (new Date() > expiry) {
@@ -473,15 +565,11 @@
                   membershipExpiredDate: new Date().toISOString(),
                   membershipCancelled:   false
                 });
-              } catch (err) {
-                console.error('Could not downgrade expired membership:', err);
-              }
+              } catch (err) { console.error(err); }
             }
           }
-
           userStatus = isPremium ? 'premium' : 'basic';
         } else {
-          // Logged in but no Firestore doc (e.g. Google signup edge case)
           userStatus = 'basic';
         }
       } catch (err) {
@@ -489,7 +577,6 @@
         userStatus = 'guest';
       }
 
-      // Update nav for logged-in users
       document.getElementById('navLinks').innerHTML = `
         <a class="hn-navl" href="events.html">Events</a>
         <a class="hn-navl" href="community.html">Community</a>
@@ -497,15 +584,36 @@
         <a class="hn-navl" href="dashboard.html">Dashboard</a>
         <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
       `;
-
     } else {
-      // Not logged in
       userStatus = 'guest';
     }
 
-    // Mark auth as resolved and attempt render
     authResolved = true;
     tryRender();
+  });
+
+  // ── Save RSVP to Firestore ────────────────────────────────
+  // Stores under /bookings/{auto-id} so dashboard can read it
+  document.addEventListener('hn-save-rsvp', async (e) => {
+    const payload = e.detail;
+    try {
+      await addDoc(collection(db, "bookings"), {
+        email:       payload.email,
+        eventName:   payload.eventName,
+        eventDate:   payload.eventDate,
+        amountPaid:  0,
+        bookingDate: payload.bookingDate,
+        ticketQty:   payload.ticketQty,
+        firstName:   payload.firstName,
+        lastName:    payload.lastName,
+        type:        'free_rsvp',
+        createdAt:   new Date().toISOString()
+      });
+      console.log('RSVP saved to Firestore ✓');
+    } catch (err) {
+      console.warn('Firestore RSVP save failed:', err);
+      // Make.com webhook is the backup — not fatal
+    }
   });
 </script>
 
