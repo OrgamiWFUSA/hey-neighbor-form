@@ -76,6 +76,19 @@
   .hn-partner-name { font-size: 13px; font-weight: 500; color: #2D3B2A; }
   .hn-partner-type { font-size: 11px; color: #7A9270; margin-top: 3px; }
 
+  /* NEWSLETTER */
+  .hn-newsletter { background: #2D3B2A; padding: 48px 36px; border-bottom: 1px solid #1E2D1B; }
+  .hn-newsletter-inner { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+  .hn-newsletter-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #7A9270; margin-bottom: 10px; }
+  .hn-newsletter-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 600; color: #E8EFE4; line-height: 1.2; margin-bottom: 10px; }
+  .hn-newsletter-title em { font-style: italic; color: #A8C89E; }
+  .hn-newsletter-text { font-size: 14px; color: #7A9270; line-height: 1.7; margin-bottom: 20px; }
+  .hn-newsletter-btn { display: inline-block; background: #6B8F5E; color: #fff; border: none; padding: 12px 28px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .15s; text-decoration: none; }
+  .hn-newsletter-btn:hover { background: #527047; }
+  .hn-newsletter-qr { text-align: center; flex-shrink: 0; }
+  .hn-newsletter-qr img { width: 120px; height: 120px; border-radius: 8px; border: 3px solid #3D5C34; display: block; margin: 0 auto 8px; }
+  .hn-newsletter-qr-label { font-size: 11px; color: #7A9270; line-height: 1.5; }
+
   /* CTA */
   .hn-cta { background: #1E2D1B; padding: 64px 36px; text-align: center; }
   .hn-cta-h2 { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 600; color: #E8EFE4; margin-bottom: 16px; line-height: 1.2; }
@@ -92,9 +105,11 @@
   .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
   .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
   .hn-footer-text { font-size: 12px; color: #7A9270; }
-  .hn-footer-links { display: flex; gap: 16px; }
+  .hn-footer-links { display: flex; gap: 16px; align-items: center; }
   .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
   .hn-footer-link:hover { color: #E8EFE4; }
+  .hn-footer-newsletter { font-size: 12px; color: #6B8F5E; text-decoration: none; font-weight: 500; border: 1px solid #3D5C34; padding: 4px 12px; border-radius: 20px; transition: background .15s, color .15s; }
+  .hn-footer-newsletter:hover { background: #6B8F5E; color: #fff; }
 
   @media (max-width: 600px) {
     .hn-hero { padding: 40px 20px; }
@@ -104,6 +119,8 @@
     .hn-values-grid { grid-template-columns: 1fr; }
     .hn-team-grid { grid-template-columns: 1fr; }
     .hn-partners-grid { grid-template-columns: 1fr; }
+    .hn-newsletter-inner { grid-template-columns: 1fr; }
+    .hn-newsletter-qr { display: none; }
     .hn-cta { padding: 40px 20px; }
     .hn-cta-h2 { font-size: 30px; }
   }
@@ -117,7 +134,7 @@
     <a class="hn-logo" href="index.html">
       <div class="hn-logo-leaf"></div>Hey Neighbor
     </a>
-    <div class="hn-nav-links">
+    <div class="hn-nav-links" id="navLinks">
       <a class="hn-navl" href="events.html">Events</a>
       <a class="hn-navl" href="community.html">Community</a>
       <a class="hn-navl" href="about.html">About</a>
@@ -251,6 +268,22 @@
     <button class="hn-btn-sage" onclick="window.location.href='heyneighbor-join.html'">Get in touch →</button>
   </div>
 
+  <!-- NEWSLETTER -->
+  <div class="hn-newsletter">
+    <div class="hn-newsletter-inner">
+      <div>
+        <div class="hn-newsletter-eyebrow">📬 Stay in the loop</div>
+        <div class="hn-newsletter-title">The Hey Neighbor<br><em>newsletter.</em></div>
+        <div class="hn-newsletter-text">Real events, neighborhood news, and parent stories — straight to your inbox. No noise, just the good stuff.</div>
+        <a class="hn-newsletter-btn" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">Subscribe free →</a>
+      </div>
+      <div class="hn-newsletter-qr">
+        <img src="qr-newsletter.png" alt="Scan to subscribe to the Hey Neighbor newsletter" />
+        <div class="hn-newsletter-qr-label">Scan to subscribe<br>on your phone</div>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="hn-cta">
     <h2 class="hn-cta-h2">Ready to find<br>your <em>village?</em></h2>
@@ -269,11 +302,13 @@
       <a class="hn-footer-link" href="events.html">Events</a>
       <a class="hn-footer-link" href="about.html">About</a>
       <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+      <a class="hn-footer-newsletter" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">📬 Newsletter</a>
     </div>
   </div>
 
 </div>
- <script type="module">
+
+<script type="module">
   import { auth } from './firebase-init.js';
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
