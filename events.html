@@ -450,21 +450,24 @@
 
           userStatus = isPremium ? 'premium' : 'basic';
 
-// Update nav for logged in users
-const navLinks = document.querySelector('.hn-nav-links');
-if (navLinks) {
-  navLinks.innerHTML = `
-    <a class="hn-navl" href="events.html">Events</a>
-    <a class="hn-navl" href="community.html">Community</a>
-    <a class="hn-navl" href="about.html">About</a>
-    <a class="hn-navl" href="dashboard.html">Dashboard</a>
-    <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
-  `;
-}
+          // Update nav for logged in users
+          const navLinks = document.querySelector('.hn-nav-links');
+          if (navLinks) {
+            navLinks.innerHTML = `
+              <a class="hn-navl" href="events.html">Events</a>
+              <a class="hn-navl" href="community.html">Community</a>
+              <a class="hn-navl" href="about.html">About</a>
+              <a class="hn-navl" href="dashboard.html">Dashboard</a>
+              <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+            `;
+          }
 
-// Re-render events with correct pricing
-renderEvents();
-
+          // Re-render events with correct pricing
+          renderEvents();
+        }
+      } catch (err) {
+        console.error(err);
+      }
     }
   });
 </script>
