@@ -420,15 +420,36 @@
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      currentUser = user;
       try {
         const docSnap = await getDoc(doc(db, "members", user.uid));
         if (docSnap.exists()) {
           const profile = docSnap.data();
-          userStatus = profile.membershipChoice === 'member' ? 'premium' : 'basic';
+          let isPremium = profile.membershipChoice === 'member';
+
+          // Check if membership has expired
+          if (isPremium && profile.membershipExpiryDate) {
+            const expiry = new Date(profile.membershipExpiryDate);
+            const today = new Date();
+            if (today > expiry) {
+              isPremium = false;
+              try {
+                await updateDoc(doc(db, "members", user.uid), {
+                  membershipChoice: 'nonmember',
+                  membershipExpiredDate: new Date().toISOString(),
+                  membershipCancelled: false
+                });
+              } catch(err) {
+                console.error('Could not downgrade expired membership:', err);
+              }
+            }
+          }
+
+          userStatus = isPremium ? 'premium' : 'basic';
         }
       } catch (err) {
         console.error(err);
