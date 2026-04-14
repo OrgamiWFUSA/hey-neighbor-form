@@ -469,19 +469,19 @@
       if (docSnap.exists()) currentProfile = docSnap.data();
     } catch (err) { console.error(err); }
 
-    let isPremium = profile.membershipChoice === 'member';
+    let isPremium = currentProfile && currentProfile.membershipChoice === 'member';
 
 // Check if membership has expired
-if (isPremium && profile.membershipExpiryDate) {
-  const expiry = new Date(profile.membershipExpiryDate);
+if (isPremium && currentProfile.membershipExpiryDate) {
+  const expiry = new Date(currentProfile.membershipExpiryDate);
   const today = new Date();
   if (today > expiry) {
-    // Membership expired — downgrade them
     isPremium = false;
     try {
-      await updateDoc(doc(db, "members", user.uid), {
+      await updateDoc(doc(db, "members", currentUser.uid), {
         membershipChoice: 'nonmember',
-        membershipExpiredDate: new Date().toISOString()
+        membershipExpiredDate: new Date().toISOString(),
+        membershipCancelled: false
       });
     } catch(err) {
       console.error('Could not downgrade expired membership:', err);
