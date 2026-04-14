@@ -315,6 +315,21 @@
   .btn-community.locked { background: #CCC; cursor: default; }
   .btn-community.locked:hover { background: #CCC; }
 
+  /* BOOKING TYPE PILL */
+  .booking-type-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 3px;
+  }
+  .pill-free   { background: #E4EDE0; color: #3A5E30; }
+  .pill-paid   { background: #E0EAF5; color: #1E4A7A; }
+  .pill-rsvp   { background: #F0EBF8; color: #5B3E8A; }
+
   @media (max-width: 600px) {
     .dash-grid { grid-template-columns: 1fr; }
     .welcome-banner { grid-template-columns: 1fr; }
@@ -439,10 +454,9 @@
   }
 
   // Format cents → "$10.00"
-  // Stripe / Make sends amounts as cents (1000 = $10.00)
   function formatCents(val) {
     const num = parseFloat(val);
-    if (isNaN(num)) return '—';
+    if (isNaN(num) || num === 0) return null; // null means free/no charge
     return '$' + (num / 100).toFixed(2);
   }
 
@@ -452,7 +466,7 @@
     try {
       const res  = await fetch(EVENTS_CSV_URL);
       const text = await res.text();
-      const rows = text.trim().split('\n').slice(1); // skip header row
+      const rows = text.trim().split('\n').slice(1);
 
       const events = rows
         .filter(r => r.trim())
@@ -464,8 +478,8 @@
             datetime:        cols[2] || '',
             location:        cols[3] || '',
             description:     cols[4] || '',
-            priceMember:     cols[5] || '',   // stored as cents e.g. 1000
-            priceNonMember:  cols[6] || '',   // stored as cents e.g. 1500
+            priceMember:     cols[5] || '',
+            priceNonMember:  cols[6] || '',
             stripeMember:    cols[7] || '',
             stripeNonMember: cols[8] || '',
             type:            (cols[9] || 'paid').trim().toLowerCase()
@@ -478,14 +492,9 @@
       }
 
       list.innerHTML = events.slice(0, 4).map(event => {
-        // Pick the right price and Stripe link based on membership
-        const priceRaw  = event.type === 'free'
-          ? null
-          : isPremium ? event.priceMember : event.priceNonMember;
-
         const priceDisplay = event.type === 'free'
           ? 'Free'
-          : formatCents(priceRaw);
+          : (formatCents(isPremium ? event.priceMember : event.priceNonMember) || '—');
 
         const stripeLink = event.type === 'free'
           ? null
@@ -501,7 +510,7 @@
               <div class="event-item-price">${priceDisplay}</div>
               ${stripeLink
                 ? `<a href="${stripeLink}" target="_blank" style="font-size:11px;color:var(--sage);text-decoration:none;font-weight:500;">Book →</a>`
-                : `<span style="font-size:11px;color:var(--sage);">Free — RSVP on events page</span>`
+                : `<span style="font-size:11px;color:var(--sage);">RSVP on events page</span>`
               }
             </div>
           </div>`;
@@ -513,43 +522,88 @@
     }
   }
 
-  // ── Load bookings for this member ─────────────────────────
-  // Sheet columns: [0] email  [1] eventName  [2] eventDate  [3] amountPaid (cents)  [4] bookingDate  [5] ticketQty
+  // ── Load ALL bookings for this member ──────────────────────
+  // Reads the bookings sheet and matches on email (case-insensitive).
+  //
+  // Sheet columns:
+  //   [0] Email
+  //   [1] Event Name
+  //   [2] Date  (event date OR selected RSVP date)
+  //   [3] Amount Paid  (cents for paid; "0" or blank for free RSVPs)
+  //   [4] Booking Date
+  //   [5] # of Tickets Purchased
+  //   [6] Type  (optional: "paid" | "free" — added by Make.com scenario)
+  //
+  // Both paid Stripe bookings AND free RSVPs are written to this same
+  // sheet by Make.com, so one fetch covers everything.
+
   async function loadMemberBookings(email) {
     const list = document.getElementById('attendingList');
     try {
       const res  = await fetch(BOOKINGS_CSV_URL);
       const text = await res.text();
-      const rows = text.trim().split('\n').slice(1);
+      const rows = text.trim().split('\n').slice(1); // skip header
 
       const myBookings = rows
         .filter(r => r.trim())
         .map(row => parseCSVRow(row))
-        .filter(cols => (cols[0] || '').toLowerCase() === email.toLowerCase());
+        .filter(cols => (cols[0] || '').toLowerCase().trim() === email.toLowerCase().trim());
 
       if (myBookings.length === 0) {
         list.innerHTML = `
           <div style="color:var(--text-muted);font-size:13px;">
-            No upcoming bookings yet.
-            <a href="events.html" style="color:var(--sage);">Browse events →</a>
+            No bookings yet.
+            <a href="events.html" style="color:var(--sage);margin-left:4px;">Browse events →</a>
           </div>`;
         return;
       }
 
       list.innerHTML = myBookings.map(cols => {
-        const qty = parseInt(cols[5]) || 1;
+        const eventName   = cols[1] || '—';
+        const eventDate   = cols[2] || '—';
+        const amountRaw   = cols[3] || '0';
+        const bookingDate = cols[4] || '';
+        const qty         = parseInt(cols[5]) || 1;
+        const typeHint    = (cols[6] || '').toLowerCase().trim();
+
+        // Determine if this is a free RSVP or a paid booking
+        const amountFormatted = formatCents(amountRaw);
+        const isFree = !amountFormatted || typeHint === 'free';
+
+        const priceDisplay  = isFree ? 'Free' : amountFormatted;
+        const pillClass     = isFree ? 'pill-rsvp' : 'pill-paid';
+        const pillLabel     = isFree ? 'RSVP' : 'Booked';
+
+        // Format booking date nicely if present
+        let bookingDateDisplay = '';
+        if (bookingDate) {
+          try {
+            bookingDateDisplay = new Date(bookingDate).toLocaleDateString('en-US', {
+              month: 'short', day: 'numeric', year: 'numeric'
+            });
+          } catch (e) {
+            bookingDateDisplay = bookingDate;
+          }
+        }
+
         return `
           <div class="event-item">
             <div>
-              <div class="event-item-name">${cols[1] || '—'}</div>
-              <div class="event-item-date">${cols[2] || '—'}</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">
-                ${qty} ticket${qty !== 1 ? 's' : ''}
+              <div class="event-item-name">${eventName}</div>
+              <div class="event-item-date">${eventDate}</div>
+              <div>
+                <span class="booking-type-pill ${pillClass}">${pillLabel}</span>
+                ${qty > 1
+                  ? `<span style="font-size:11px;color:var(--text-muted);margin-left:6px;">${qty} tickets</span>`
+                  : ''}
               </div>
             </div>
             <div style="text-align:right;">
-              <div class="event-item-price">${formatCents(cols[3])}</div>
-              <div style="font-size:11px;color:var(--sage);font-weight:500;">Booked ✓</div>
+              <div class="event-item-price">${priceDisplay}</div>
+              ${bookingDateDisplay
+                ? `<div style="font-size:11px;color:var(--text-muted);">Booked ${bookingDateDisplay}</div>`
+                : `<div style="font-size:11px;color:var(--sage);font-weight:500;">Confirmed ✓</div>`
+              }
             </div>
           </div>`;
       }).join('');
@@ -586,7 +640,7 @@
       console.error('Profile load error:', err);
     }
 
-    // ── Single expiry check (not duplicated) ────────────────
+    // ── Expiry check ────────────────────────────────────────
     let isPremium = profile.membershipChoice === 'member';
 
     if (isPremium && profile.membershipExpiryDate) {
@@ -606,7 +660,7 @@
       }
     }
 
-    // ── Kick off CSV loads now that we know membership tier ──
+    // ── Kick off CSV loads ──────────────────────────────────
     loadDashEvents(isPremium);
     loadMemberBookings(user.email);
 
@@ -634,12 +688,12 @@
     document.getElementById('badgeType').className     = 'badge-type' + (isPremium ? ' premium' : '');
     document.getElementById('badgeStatus').textContent = isPremium ? '$80/year member' : 'Free member';
 
-    // Upgrade banner — only visible to basic members
+    // Upgrade banner — only for basic members
     if (!isPremium) {
       document.getElementById('upgradeBanner').classList.remove('hidden');
     }
 
-    // Community board — locked for basic members
+    // Community board card
     if (!isPremium) {
       document.getElementById('communityCard').classList.add('locked');
       document.getElementById('communityTitle').textContent = '🔒 Community Board';
