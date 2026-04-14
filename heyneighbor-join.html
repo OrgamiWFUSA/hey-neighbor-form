@@ -61,8 +61,8 @@
   .event-card.sel { background: var(--sage-light); border: 2px solid var(--sage); }
   .event-tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
   .tag-adults { background: #E8DFF5; color: #5a3d8a; }
-  .tag-moms { background: var(--rose-light); color: var(--rose); }
-  .tag-free { background: var(--sage-light); color: var(--sage-dark); }
+  .tag-moms   { background: var(--rose-light); color: var(--rose); }
+  .tag-free   { background: var(--sage-light); color: var(--sage-dark); }
   .tag-family { background: #FDF3DE; color: #8A6020; }
   .tag-invite { background: #E0EAF5; color: #1E4A7A; }
   .event-name { font-family: var(--font-serif); font-size: 17px; font-weight: 600; color: var(--forest); margin-bottom: 6px; line-height: 1.3; }
@@ -100,6 +100,21 @@
   .btn-back { background: transparent; border: none; font-family: var(--font-sans); font-size: 14px; color: var(--text-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .btn-back:hover { color: var(--forest); }
   .press-hint { font-size: 12px; color: var(--text-muted); }
+
+  /* Error message on step 1 */
+  .step-error {
+    display: none;
+    background: #FEE2E2;
+    border: 1px solid #FCA5A5;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #B91C1C;
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+  .step-error.show { display: block; }
+
   .completion { text-align: center; padding: 20px 0 40px; }
   .completion-leaf { width: 52px; height: 52px; background: var(--sage-light); border-radius: 50% 0 50% 0; transform: rotate(45deg); margin: 0 auto 28px; display: flex; align-items: center; justify-content: center; }
   .completion-leaf-inner { width: 26px; height: 26px; background: var(--sage); border-radius: 50% 0 50% 0; }
@@ -113,15 +128,18 @@
   .founding-price span { font-size: 16px; color: var(--text-muted); font-family: var(--font-sans); font-weight: 400; }
   .btn-founding { display: block; width: 100%; background: var(--sage); color: #fff; border: none; border-radius: 50px; padding: 16px; font-family: var(--font-sans); font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background 0.15s; letter-spacing: 0.03em; text-align: center; text-decoration: none; }
   .btn-founding:hover { background: var(--sage-dark); }
+  .btn-founding:disabled { background: var(--sage-mid); cursor: default; }
   .btn-not-ready { display: block; background: transparent; border: 1.5px solid var(--border); border-radius: 50px; padding: 14px; font-family: var(--font-sans); font-size: 14px; color: var(--text-muted); cursor: pointer; max-width: 480px; margin: 0 auto; transition: border-color 0.15s, color 0.15s; width: 100%; }
   .btn-not-ready:hover { border-color: var(--sage-mid); color: var(--forest); }
+  .btn-not-ready:disabled { opacity: 0.5; cursor: default; }
   .not-ready-note { font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 10px; max-width: 480px; margin-left: auto; margin-right: auto; }
   .confirmation-msg { display: none; background: var(--warm-white); border: 1.5px solid var(--sage-mid); border-radius: 16px; padding: 28px 32px; max-width: 480px; margin: 24px auto 0; text-align: center; }
   .confirmation-msg.show { display: block; animation: fadeUp 0.4s ease; }
   .confirmation-msg p { font-family: var(--font-serif); font-size: 20px; font-style: italic; color: var(--forest); line-height: 1.5; }
+
   @media (max-width: 600px) {
     .field-grid { grid-template-columns: 1fr; }
-    .time-grid { grid-template-columns: 1fr; }
+    .time-grid  { grid-template-columns: 1fr; }
     .step-question { font-size: 28px; }
     .form-shell { padding: 32px 20px 60px; }
     nav { padding: 14px 20px; }
@@ -142,7 +160,6 @@
   </div>
 </nav>
 
-
 <div class="progress-wrap">
   <div class="progress-bar" id="progressBar"></div>
 </div>
@@ -153,7 +170,7 @@
   <div class="step active" id="step-1">
     <p class="step-eyebrow">Step 1 of 9</p>
     <h1 class="step-question">First, let's get your details.</h1>
-    <p class="step-hint">We'll use this to send you event details and match you with parents nearby. We promise not to spam you — ever.</p>
+    <p class="step-hint">We'll use this to send you event details and match you with parents nearby.</p>
     <div class="field-grid">
       <div class="field-group">
         <label>First Name *</label>
@@ -180,8 +197,10 @@
         <input type="password" id="passwordConfirm" placeholder="••••••••" />
       </div>
     </div>
+    <!-- Error shown here if email already exists or passwords don't match -->
+    <div class="step-error" id="step1Error"></div>
     <div class="nav-row">
-      <button class="btn-next" onclick="goTo(1,2)">Next</button>
+      <button class="btn-next" id="step1Next" onclick="goTo(1,2)">Next</button>
       <span class="press-hint">press Enter ↵</span>
     </div>
   </div>
@@ -414,23 +433,28 @@
     </div>
   </div>
 
-  <!-- COMPLETION SCREEN -->
+  <!-- STEP 10: COMPLETION -->
   <div class="step" id="step-10">
     <div class="completion">
       <div class="completion-leaf"><div class="completion-leaf-inner"></div></div>
       <h1 class="completion-title">Your village is awaiting you.</h1>
       <p class="completion-sub">You're one step away from becoming part of something really special. Lock in your membership below.</p>
+
       <div class="founding-card">
         <span class="founding-badge">Premium Member</span>
         <div class="founding-title">Join Hey Neighbor Premium</div>
         <div class="founding-desc">Get matched with parents in your neighborhood, access to all events including invite-only experiences, and priority booking.</div>
         <div class="founding-price">$80 <span>/ year</span></div>
-        <button class="btn-founding" onclick="window._showConfirm('member')">Join as a Premium Member →</button>
+        <button class="btn-founding" id="premiumBtn" onclick="handleMembershipChoice('member')">
+          Join as a Premium Member →
+        </button>
       </div>
-      <button class="btn-not-ready" onclick="window._showConfirm('nonmember')">
+
+      <button class="btn-not-ready" id="basicBtn" onclick="handleMembershipChoice('nonmember')">
         Join as a Basic Member — Free
       </button>
       <p class="not-ready-note">Basic membership is free. Access the community board and join Saturday Park Club. Upgrade anytime.</p>
+
       <div class="confirmation-msg" id="confirmMsg">
         <p>"Welcome to Hey Neighbor. We'll be in touch soon to match you with parents in your neighborhood. See you at the next event!"</p>
       </div>
@@ -439,20 +463,22 @@
 
 </div>
 
+<!-- ── Plain script: form navigation + tile helpers ──────── -->
 <script>
   const TOTAL = 9;
 
+  // ── Data collectors ───────────────────────────────────────
   function collectFormData() {
     return {
-      firstName:    document.getElementById('firstName').value,
-      lastName:     document.getElementById('lastName').value,
-      email:        document.getElementById('email').value,
-      phone:        document.getElementById('phone').value,
+      firstName:    document.getElementById('firstName').value.trim(),
+      lastName:     document.getElementById('lastName').value.trim(),
+      email:        document.getElementById('email').value.trim(),
+      phone:        document.getElementById('phone').value.trim(),
       kidsAges:     getSelectedTiles('step-2'),
       neighborhood: getSelectedTile('step-3'),
-      outsideCity:  document.getElementById('outsideCity').value,
+      outsideCity:  document.getElementById('outsideCity').value.trim(),
       howHeard:     getSelectedTile('step-4'),
-      referralName: document.getElementById('referralName').value,
+      referralName: document.getElementById('referralName').value.trim(),
       events:       getSelectedTiles('step-5'),
       attendance:   getSelectedTiles('step-6'),
       availability: getSelectedTiles('step-7'),
@@ -462,39 +488,69 @@
   }
 
   function getSelectedTiles(stepId) {
-    const step = document.getElementById(stepId);
+    const step     = document.getElementById(stepId);
     const selected = step.querySelectorAll('.sel');
     return Array.from(selected).map(el => el.innerText.trim()).join(', ');
   }
 
   function getSelectedTile(stepId) {
     const step = document.getElementById(stepId);
-    const sel = step.querySelector('.sel');
+    const sel  = step.querySelector('.sel');
     return sel ? sel.innerText.trim() : '';
   }
 
+  // ── Show / hide step 1 error ──────────────────────────────
+  function showStep1Error(msg) {
+    const el = document.getElementById('step1Error');
+    el.innerHTML = msg;
+    el.classList.add('show');
+  }
+
+  function hideStep1Error() {
+    document.getElementById('step1Error').classList.remove('show');
+  }
+
+  // ── Step navigation ───────────────────────────────────────
   function goTo(from, to) {
-    // Password validation on step 1
+    // Step 1 → 2: validate passwords only (email checked on submit)
     if (from === 1 && to === 2) {
-      const password = document.getElementById('password').value;
-      const confirm  = document.getElementById('passwordConfirm').value;
+      hideStep1Error();
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const phone     = document.getElementById('phone').value.trim();
+      const password  = document.getElementById('password').value;
+      const confirm   = document.getElementById('passwordConfirm').value;
+
+      if (!firstName || !lastName || !email || !phone) {
+        showStep1Error('Please fill in all required fields.');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showStep1Error('Please enter a valid email address.');
+        return;
+      }
       if (!password || password.length < 6) {
-        alert('Please create a password with at least 6 characters.');
+        showStep1Error('Please create a password with at least 6 characters.');
         return;
       }
       if (password !== confirm) {
-        alert('Passwords do not match. Please try again.');
+        showStep1Error('Passwords do not match. Please try again.');
         return;
       }
     }
+
     const fromEl = document.getElementById('step-' + from);
     const toEl   = document.getElementById('step-' + to);
     if (!fromEl || !toEl) return;
+
     fromEl.classList.remove('active');
     toEl.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const pct = Math.min((to - 1) / TOTAL * 100, 100);
     document.getElementById('progressBar').style.width = pct + '%';
+
     if (to <= TOTAL) {
       document.getElementById('stepLabel').textContent = 'Step ' + to + ' of ' + TOTAL;
     } else {
@@ -502,7 +558,7 @@
     }
   }
 
-  function toggleTile(el) { el.classList.toggle('sel'); }
+  function toggleTile(el)  { el.classList.toggle('sel'); }
 
   function selectHood(el) {
     document.querySelectorAll('.hood-tile').forEach(t => t.classList.remove('sel'));
@@ -528,64 +584,149 @@
     document.getElementById('heardNext').disabled = false;
   }
 
+  // Enter key advances current step
   document.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
-    const active = document.querySelector('.step.active');
+    const active  = document.querySelector('.step.active');
     if (!active) return;
     const nextBtn = active.querySelector('.btn-next:not(:disabled)');
     if (nextBtn) nextBtn.click();
   });
+
+  // handleMembershipChoice is set by the module script below
+  // Defined as a placeholder here so onclick doesn't throw if module is slow
+  window.handleMembershipChoice = function() {
+    console.warn('Firebase module not yet loaded.');
+  };
 </script>
 
+<!-- ── Module script: Firebase account creation ───────────── -->
 <script type="module">
   import { auth, db } from './firebase-init.js';
-  import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import {
+    createUserWithEmailAndPassword,
+    fetchSignInMethodsForEmail
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  console.log("Firebase is ready!");
+  // Redirect to dashboard if already logged in
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  onAuthStateChanged(auth, (user) => {
+    if (user) window.location.href = 'dashboard.html';
+  });
 
-  window._showConfirm = async function(type) {
-    const data = collectFormData();
+  // ── Membership choice handler ─────────────────────────────
+  // Called when user clicks "Premium" or "Basic" on step 10
+  window.handleMembershipChoice = async function(type) {
+    const data     = collectFormData();
     const password = document.getElementById('password').value;
+    const email    = data.email;
 
-    if (!password || password.length < 6) {
-      alert('Please create a password with at least 6 characters.');
-      return;
+    // Disable both buttons to prevent double-submit
+    const premiumBtn = document.getElementById('premiumBtn');
+    const basicBtn   = document.getElementById('basicBtn');
+    premiumBtn.disabled = true;
+    basicBtn.disabled   = true;
+    premiumBtn.textContent = 'Creating your account...';
+
+    // ── Check if email already exists ────────────────────────
+    // This gives a clear message instead of a cryptic Firebase error
+    try {
+      const methods = await fetchSignInMethodsForEmail(auth, email);
+      if (methods.length > 0) {
+        // Account already exists — send them to login
+        showStep1Error(
+          'An account with this email already exists. ' +
+          '<a href="login.html" style="color:#6B8F5E;font-weight:500;">Log in instead →</a>'
+        );
+        // Go back to step 1 so they can see the error
+        document.getElementById('step-10').classList.remove('active');
+        document.getElementById('step-1').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        premiumBtn.disabled    = false;
+        basicBtn.disabled      = false;
+        premiumBtn.textContent = 'Join as a Premium Member →';
+        return;
+      }
+    } catch (err) {
+      // fetchSignInMethodsForEmail can fail on some Firebase configs —
+      // just proceed and let createUserWithEmailAndPassword handle it
+      console.warn('Could not pre-check email:', err);
     }
 
-    data.membershipChoice = type;
-
+    // ── Create Firebase account ───────────────────────────────
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, password);
-      await setDoc(doc(db, "members", userCredential.user.uid), {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+
+      // ── Save profile to Firestore ─────────────────────────
+      await setDoc(doc(db, "members", uid), {
         ...data,
-        dateJoined: new Date().toISOString()
+        membershipChoice: type,
+        dateJoined:       new Date().toISOString()
       });
-      await fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
-        method: 'POST',
+
+      // ── Notify Make.com ───────────────────────────────────
+      // Fire and forget — don't block the user on this
+      fetch('https://hook.us2.make.com/e4cfjb8z5eb0wt07vdhjfqvxja9us731', {
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+        body:    JSON.stringify({ ...data, membershipChoice: type })
+      }).catch(err => console.warn('Make.com webhook failed:', err));
+
+      // ── Redirect based on choice ──────────────────────────
+      if (type === 'member') {
+        // Premium: go to Stripe
+        // Account is already created so upgrade-success.html
+        // will find the user logged in and update their membership
+        window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
+      } else {
+        // Basic: show confirmation then redirect to dashboard
+        document.getElementById('confirmMsg').classList.add('show');
+        premiumBtn.style.display      = 'none';
+        basicBtn.style.display        = 'none';
+        document.querySelector('.not-ready-note').style.display = 'none';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 3000);
+      }
+
     } catch (err) {
       console.error('Signup error:', err);
-      alert('Oops! ' + err.message);
-      return;
-    }
 
-    if (type === 'member') {
-  window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
-} else {
-  // Basic member — redirect to dashboard after short delay
-  document.getElementById('confirmMsg').classList.add('show');
-  const basicBtn = document.querySelector('.btn-not-ready');
-  const notReadyNote = document.querySelector('.not-ready-note');
-  if (basicBtn) basicBtn.style.display = 'none';
-  if (notReadyNote) notReadyNote.style.display = 'none';
-  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  setTimeout(() => {
-    window.location.href = 'dashboard.html';
-  }, 3000);
-}
+      premiumBtn.disabled    = false;
+      basicBtn.disabled      = false;
+      premiumBtn.textContent = 'Join as a Premium Member →';
+
+      // ── Friendly error messages ───────────────────────────
+      switch (err.code) {
+        case 'auth/email-already-in-use':
+          showStep1Error(
+            'An account with this email already exists. ' +
+            '<a href="login.html" style="color:#6B8F5E;font-weight:500;">Log in instead →</a>'
+          );
+          // Go back to step 1
+          document.getElementById('step-10').classList.remove('active');
+          document.getElementById('step-1').classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          break;
+        case 'auth/invalid-email':
+          showStep1Error('Please enter a valid email address.');
+          document.getElementById('step-10').classList.remove('active');
+          document.getElementById('step-1').classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          break;
+        case 'auth/weak-password':
+          showStep1Error('Password is too weak. Please choose a stronger password (at least 6 characters).');
+          document.getElementById('step-10').classList.remove('active');
+          document.getElementById('step-1').classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          break;
+        default:
+          alert('Something went wrong creating your account. Please try again.\n\nError: ' + err.message);
+      }
+    }
   };
 </script>
 
