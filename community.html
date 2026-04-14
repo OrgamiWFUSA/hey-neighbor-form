@@ -70,7 +70,7 @@
   .cat-item:hover { background: var(--sage-light); color: var(--forest); }
   .cat-item.active { background: var(--sage-light); color: var(--sage-dark); font-weight: 500; }
 
-  .feed { display: flex; flex-direction: column; gap: 0; }
+  .feed { display: flex; flex-direction: column; }
   .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
   .feed-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--forest); }
   .feed-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
@@ -88,6 +88,7 @@
   .btn-post:hover { background: var(--sage-dark); }
   .btn-post:disabled { background: var(--sage-mid); cursor: default; }
 
+  /* POSTS */
   .posts-list { display: flex; flex-direction: column; gap: 14px; }
   .post-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: box-shadow 0.15s; }
   .post-card:hover { box-shadow: 0 2px 12px rgba(45,59,42,0.07); }
@@ -97,44 +98,44 @@
   .post-hood { font-size: 11px; color: var(--text-muted); }
   .post-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
   .post-category { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: var(--sage-light); color: var(--sage-dark); margin-bottom: 8px; }
-  .post-text { font-size: 14px; color: var(--forest); line-height: 1.65; }
-  .post-footer { display: flex; align-items: center; gap: 16px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #EAF0E6; }
-  .post-reply-btn { font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 0; }
-  .post-reply-btn:hover { color: var(--sage); }
-  .reply-count { font-size: 12px; color: var(--text-muted); }
+  .post-text { font-size: 14px; color: var(--forest); line-height: 1.65; margin-bottom: 14px; }
 
-  .reply-composer { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EAF0E6; }
-  .reply-composer.show { display: flex; gap: 10px; }
-  .reply-input { flex: 1; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; transition: border-color 0.2s; }
+  /* POST ACTIONS */
+  .post-actions { display: flex; align-items: center; gap: 16px; padding-top: 12px; border-top: 1px solid #EAF0E6; }
+  .action-btn { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 8px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+  .action-btn:hover { background: var(--sage-light); color: var(--sage-dark); }
+  .action-btn.liked { color: var(--sage-dark); font-weight: 500; }
+  .action-btn.delete-btn:hover { background: #FEE2E2; color: #DC2626; }
+
+  /* COMMENTS */
+  .comments-section { margin-top: 14px; }
+  .comment-thread { position: relative; }
+  .comment { display: flex; gap: 10px; margin-bottom: 10px; }
+  .comment-indent { width: 2px; background: var(--sage-light); border-radius: 2px; margin-left: 15px; margin-right: 8px; cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
+  .comment-indent:hover { background: var(--sage-mid); }
+  .comment-body { flex: 1; }
+  .comment-card { background: var(--cream); border-radius: 8px; padding: 12px 16px; }
+  .comment-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .comment-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
+  .comment-author { font-size: 12px; font-weight: 500; color: var(--forest); }
+  .comment-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
+  .comment-text { font-size: 13px; color: var(--forest); line-height: 1.6; margin-bottom: 8px; }
+  .comment-actions { display: flex; align-items: center; gap: 12px; }
+  .comment-action-btn { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 3px 6px; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+  .comment-action-btn:hover { background: var(--sage-light); color: var(--sage-dark); }
+  .comment-action-btn.liked { color: var(--sage-dark); font-weight: 500; }
+  .comment-action-btn.delete-btn:hover { background: #FEE2E2; color: #DC2626; }
+
+  /* REPLY COMPOSER */
+  .reply-composer { display: none; margin-top: 8px; }
+  .reply-composer.show { display: flex; gap: 8px; }
+  .reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--forest); padding: 10px 14px; outline: none; resize: none; min-height: 60px; transition: border-color 0.2s; }
   .reply-input:focus { border-color: var(--sage); }
   .reply-input::placeholder { color: #BCC8B8; }
-  .btn-reply-submit { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-  .btn-reply-submit:hover { background: var(--sage-dark); }
+  .reply-submit-btn { background: var(--sage); color: #fff; border: none; border-radius: 8px; padding: 10px 16px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; align-self: flex-start; }
+  .reply-submit-btn:hover { background: var(--sage-dark); }
 
-  .replies-list { margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--sage-light); display: flex; flex-direction: column; gap: 10px; }
-  .reply-item { background: var(--cream); border-radius: 8px; padding: 12px 16px; }
-  .reply-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .reply-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--sage-light); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: var(--sage-dark); flex-shrink: 0; }
-  .reply-author { font-size: 12px; font-weight: 500; color: var(--forest); }
-  .reply-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
-  .reply-text { font-size: 13px; color: var(--forest); line-height: 1.6; }
-
-  .reply-reply-btn { font-size: 11px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: var(--font-sans); padding: 4px 0 0 0; display: block; }
-  .reply-reply-btn:hover { color: var(--sage); }
-  .nested-reply-composer { display: none; margin-top: 8px; gap: 8px; align-items: flex-start; }
-  .nested-reply-composer.show { display: flex; }
-  .nested-reply-input { flex: 1; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-sans); font-size: 12px; color: var(--forest); padding: 8px 12px; outline: none; resize: none; }
-  .nested-reply-input:focus { border-color: var(--sage); }
-  .nested-reply-input::placeholder { color: #BCC8B8; }
-  .btn-nested-submit { background: var(--sage); color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-family: var(--font-sans); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-  .btn-nested-submit:hover { background: var(--sage-dark); }
-
-  .nested-replies-list { margin-top: 8px; padding-left: 12px; border-left: 2px solid var(--sage-mid); display: flex; flex-direction: column; gap: 8px; }
-  .nested-reply-item { background: var(--warm-white); border-radius: 6px; padding: 10px 12px; }
-  .nested-reply-author { font-size: 11px; font-weight: 500; color: var(--forest); margin-bottom: 4px; }
-  .nested-reply-time { font-size: 10px; color: var(--text-muted); margin-left: 6px; }
-  .nested-reply-text { font-size: 12px; color: var(--forest); line-height: 1.55; }
-
+  .collapsed { display: none; }
   .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px; }
   .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
 
@@ -190,7 +191,6 @@
 </div>
 
 <div class="board-layout" id="boardLayout">
-
   <div class="sidebar">
     <div class="sidebar-card">
       <div class="member-profile">
@@ -204,25 +204,25 @@
     <div class="sidebar-card">
       <div class="sidebar-title">📍 Neighborhood</div>
       <div class="neighborhood-list">
-        <div class="hood-item active" onclick="filterByHood(this, 'all')"><span>All NYC</span><span class="hood-count" id="countAll">0</span></div>
-        <div class="hood-item" onclick="filterByHood(this, 'Upper East Side')"><span>Upper East Side</span><span class="hood-count" id="countUES">0</span></div>
-        <div class="hood-item" onclick="filterByHood(this, 'Upper West Side')"><span>Upper West Side</span><span class="hood-count" id="countUWS">0</span></div>
-        <div class="hood-item" onclick="filterByHood(this, 'Williamsburg')"><span>Williamsburg</span><span class="hood-count" id="countWilliamsburg">0</span></div>
-        <div class="hood-item" onclick="filterByHood(this, 'Astoria')"><span>Astoria</span><span class="hood-count" id="countAstoria">0</span></div>
-        <div class="hood-item" onclick="filterByHood(this, 'Forest Hills')"><span>Forest Hills</span><span class="hood-count" id="countForestHills">0</span></div>
+        <div class="hood-item active" onclick="filterByHood(this,'all')"><span>All NYC</span><span class="hood-count" id="countAll">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this,'Upper East Side')"><span>Upper East Side</span><span class="hood-count" id="countUES">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this,'Upper West Side')"><span>Upper West Side</span><span class="hood-count" id="countUWS">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this,'Williamsburg')"><span>Williamsburg</span><span class="hood-count" id="countWilliamsburg">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this,'Astoria')"><span>Astoria</span><span class="hood-count" id="countAstoria">0</span></div>
+        <div class="hood-item" onclick="filterByHood(this,'Forest Hills')"><span>Forest Hills</span><span class="hood-count" id="countForestHills">0</span></div>
       </div>
     </div>
 
     <div class="sidebar-card">
       <div class="sidebar-title">💬 Categories</div>
       <div class="category-list">
-        <div class="cat-item active" onclick="filterByCat(this, 'all')">🌿 All posts</div>
-        <div class="cat-item" onclick="filterByCat(this, 'General')">💬 General</div>
-        <div class="cat-item" onclick="filterByCat(this, 'Recommendations')">⭐ Recommendations</div>
-        <div class="cat-item" onclick="filterByCat(this, 'Events')">📅 Events</div>
-        <div class="cat-item" onclick="filterByCat(this, 'Parenting')">👶 Parenting</div>
-        <div class="cat-item" onclick="filterByCat(this, 'Resources')">📚 Resources</div>
-        <div class="cat-item" onclick="filterByCat(this, 'Introductions')">👋 Introductions</div>
+        <div class="cat-item active" onclick="filterByCat(this,'all')">🌿 All posts</div>
+        <div class="cat-item" onclick="filterByCat(this,'General')">💬 General</div>
+        <div class="cat-item" onclick="filterByCat(this,'Recommendations')">⭐ Recommendations</div>
+        <div class="cat-item" onclick="filterByCat(this,'Events')">📅 Events</div>
+        <div class="cat-item" onclick="filterByCat(this,'Parenting')">👶 Parenting</div>
+        <div class="cat-item" onclick="filterByCat(this,'Resources')">📚 Resources</div>
+        <div class="cat-item" onclick="filterByCat(this,'Introductions')">👋 Introductions</div>
       </div>
     </div>
   </div>
@@ -250,7 +250,7 @@
           <option value="Resources">📚 Resources</option>
           <option value="Introductions">👋 Introductions</option>
         </select>
-        <button class="btn-post" id="postBtn" onclick="handlePost()">Post</button>
+        <button class="btn-post" id="postBtn" onclick="submitPost()">Post</button>
       </div>
     </div>
 
@@ -264,51 +264,25 @@
 </div>
 
 <script>
-  let currentUser = null;
-  let currentProfile = null;
+  let currentUserUid = null;
+  let currentFirstName = '';
+  let currentLastName = '';
+  let currentNeighborhood = '';
   let allPosts = [];
   let currentHoodFilter = 'all';
   let currentCatFilter = 'all';
 
-  function handlePost() {
-    const text = document.getElementById('postInput').value.trim();
-    const category = document.getElementById('postCategory').value;
-    if (!text) return;
-    document.dispatchEvent(new CustomEvent('hn-post', { detail: { text, category } }));
+  function getInitials(first, last) {
+    return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
   }
 
-  function handleReply(postId) {
-    const input = document.getElementById('reply-input-' + postId);
-    const text = input ? input.value.trim() : '';
-    if (!text) return;
-    document.dispatchEvent(new CustomEvent('hn-reply', { detail: { postId, text } }));
-  }
-
-  function toggleReply(postId) {
-    const box = document.getElementById('reply-composer-' + postId);
-    if (box) box.classList.toggle('show');
-  }
-
-  function toggleNestedReply(postId, replyIndex) {
-    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (box) {
-      box.classList.toggle('show');
-      if (box.classList.contains('show')) {
-        const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-        if (input) input.focus();
-      }
-    }
-  }
-
-  function submitNestedReply(postId, replyIndex) {
-    const input = document.getElementById('nested-reply-input-' + postId + '-' + replyIndex);
-    if (!input || !input.value.trim()) return;
-    document.dispatchEvent(new CustomEvent('hn-nested-reply', {
-      detail: { postId, replyIndex, text: input.value.trim() }
-    }));
-    input.value = '';
-    const box = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (box) box.classList.remove('show');
+  function timeAgo(dateStr) {
+    if (!dateStr) return '';
+    const seconds = Math.floor((new Date() - new Date(dateStr)) / 1000);
+    if (seconds < 60) return 'just now';
+    if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+    if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+    return Math.floor(seconds / 86400) + 'd ago';
   }
 
   function filterByHood(el, hood) {
@@ -325,23 +299,6 @@
     renderPosts();
   }
 
-  function handleLogout() {
-    document.dispatchEvent(new CustomEvent('hn-logout'));
-  }
-
-  function getInitials(first, last) {
-    return ((first?.[0] || '') + (last?.[0] || '')).toUpperCase() || '?';
-  }
-
-  function timeAgo(dateStr) {
-    if (!dateStr) return '';
-    const seconds = Math.floor((new Date() - new Date(dateStr)) / 1000);
-    if (seconds < 60) return 'just now';
-    if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
-    if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
-    return Math.floor(seconds / 86400) + 'd ago';
-  }
-
   function updateCounts() {
     const idMap = {
       'Upper East Side': 'countUES',
@@ -352,16 +309,108 @@
     };
     document.getElementById('countAll').textContent = allPosts.length;
     Object.keys(idMap).forEach(hood => {
-      const count = allPosts.filter(p => p.neighborhood === hood).length;
       const el = document.getElementById(idMap[hood]);
-      if (el) el.textContent = count;
+      if (el) el.textContent = allPosts.filter(p => p.neighborhood === hood).length;
     });
+  }
+
+  function toggleReplyComposer(id) {
+    const box = document.getElementById('reply-composer-' + id);
+    if (box) box.classList.toggle('show');
+  }
+
+  function collapseThread(id) {
+    const thread = document.getElementById('thread-' + id);
+    if (thread) thread.classList.toggle('collapsed');
+  }
+
+  function submitPost() {
+    const text = document.getElementById('postInput').value.trim();
+    const category = document.getElementById('postCategory').value;
+    if (!text) return;
+    document.dispatchEvent(new CustomEvent('hn-post', { detail: { text, category } }));
+  }
+
+  function submitComment(postId, parentId) {
+    const inputId = 'reply-input-' + (parentId || postId);
+    const input = document.getElementById(inputId);
+    if (!input || !input.value.trim()) return;
+    document.dispatchEvent(new CustomEvent('hn-comment', {
+      detail: { postId, parentId: parentId || null, text: input.value.trim() }
+    }));
+    input.value = '';
+    const box = document.getElementById('reply-composer-' + (parentId || postId));
+    if (box) box.classList.remove('show');
+  }
+
+  function likePost(postId) {
+    document.dispatchEvent(new CustomEvent('hn-like-post', { detail: { postId } }));
+  }
+
+  function likeComment(postId, commentId) {
+    document.dispatchEvent(new CustomEvent('hn-like-comment', { detail: { postId, commentId } }));
+  }
+
+  function deletePost(postId) {
+    if (confirm('Delete this post? This cannot be undone.')) {
+      document.dispatchEvent(new CustomEvent('hn-delete-post', { detail: { postId } }));
+    }
+  }
+
+  function deleteComment(postId, commentId) {
+    if (confirm('Delete this comment?')) {
+      document.dispatchEvent(new CustomEvent('hn-delete-comment', { detail: { postId, commentId } }));
+    }
+  }
+
+  function renderComments(comments, postId, parentId, depth) {
+    if (!comments || comments.length === 0) return '';
+    depth = depth || 0;
+    const maxIndent = 6;
+    const indent = Math.min(depth, maxIndent);
+
+    return comments
+      .filter(c => (c.parentId || null) === (parentId || null))
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      .map(comment => {
+        const isAuthor = comment.authorUid === currentUserUid;
+        const likes = comment.likes || [];
+        const hasLiked = likes.includes(currentUserUid);
+        const children = renderComments(comments, postId, comment.id, depth + 1);
+
+        return `
+          <div class="comment" id="comment-${comment.id}">
+            ${indent > 0 ? `<div class="comment-indent" onclick="collapseThread('${comment.id}')" title="Collapse"></div>` : ''}
+            <div class="comment-body">
+              <div class="comment-card">
+                <div class="comment-header">
+                  <div class="comment-avatar">${getInitials(comment.authorFirstName, comment.authorLastName)}</div>
+                  <div class="comment-author">${comment.authorFirstName || 'Member'} ${comment.authorLastName?.[0] || ''}.</div>
+                  <div class="comment-time">${timeAgo(comment.createdAt)}</div>
+                </div>
+                <div class="comment-text">${comment.text}</div>
+                <div class="comment-actions">
+                  <button class="comment-action-btn ${hasLiked ? 'liked' : ''}" onclick="likeComment('${postId}', '${comment.id}')">
+                    ♥ ${likes.length > 0 ? likes.length : ''}
+                  </button>
+                  <button class="comment-action-btn" onclick="toggleReplyComposer('${comment.id}')">↩ Reply</button>
+                  ${isAuthor ? `<button class="comment-action-btn delete-btn" onclick="deleteComment('${postId}', '${comment.id}')">🗑 Delete</button>` : ''}
+                </div>
+              </div>
+              <div class="reply-composer" id="reply-composer-${comment.id}">
+                <textarea class="reply-input" id="reply-input-${comment.id}" placeholder="Reply to ${comment.authorFirstName || 'this comment'}..." rows="2"></textarea>
+                <button class="reply-submit-btn" onclick="submitComment('${postId}', '${comment.id}')">Reply</button>
+              </div>
+              ${children ? `<div id="thread-${comment.id}">${children}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
   }
 
   function renderPosts() {
     const list = document.getElementById('postsList');
     let filtered = allPosts;
-
     if (currentHoodFilter !== 'all') filtered = filtered.filter(p => p.neighborhood === currentHoodFilter);
     if (currentCatFilter !== 'all') filtered = filtered.filter(p => p.category === currentCatFilter);
 
@@ -371,45 +420,11 @@
     }
 
     list.innerHTML = filtered.map(post => {
-      const replies = post.replies || [];
-
-      const repliesHTML = replies.length > 0 ? `
-        <div class="replies-list">
-          ${replies.map((r, rIndex) => {
-            const nestedReplies = r.nestedReplies || [];
-            const nestedHTML = nestedReplies.length > 0 ? `
-              <div class="nested-replies-list">
-                ${nestedReplies.map(nr => `
-                  <div class="nested-reply-item">
-                    <div class="nested-reply-author">
-                      ${nr.authorFirstName || 'Member'} ${nr.authorLastName?.[0] || ''}.
-                      <span class="nested-reply-time">${timeAgo(nr.createdAt)}</span>
-                    </div>
-                    <div class="nested-reply-text">${nr.text}</div>
-                  </div>
-                `).join('')}
-              </div>
-            ` : '';
-
-            return `
-              <div class="reply-item">
-                <div class="reply-header">
-                  <div class="reply-avatar">${getInitials(r.authorFirstName, r.authorLastName)}</div>
-                  <div class="reply-author">${r.authorFirstName || 'Member'} ${r.authorLastName?.[0] || ''}.</div>
-                  <div class="reply-time">${timeAgo(r.createdAt)}</div>
-                </div>
-                <div class="reply-text">${r.text}</div>
-                ${nestedHTML}
-                <button class="reply-reply-btn" onclick="toggleNestedReply('${post.id}', ${rIndex})">↩ Reply to ${r.authorFirstName || 'this'}</button>
-                <div class="nested-reply-composer" id="nested-reply-composer-${post.id}-${rIndex}">
-                  <textarea class="nested-reply-input" id="nested-reply-input-${post.id}-${rIndex}" placeholder="Reply to ${r.authorFirstName || 'this comment'}..." rows="2"></textarea>
-                  <button class="btn-nested-submit" onclick="submitNestedReply('${post.id}', ${rIndex})">Reply</button>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      ` : '';
+      const isAuthor = post.authorUid === currentUserUid;
+      const likes = post.likes || [];
+      const hasLiked = likes.includes(currentUserUid);
+      const comments = post.comments || [];
+      const topLevelCount = comments.filter(c => !c.parentId).length;
 
       return `
         <div class="post-card" id="post-${post.id}">
@@ -423,15 +438,24 @@
           </div>
           <div class="post-category">${post.category || 'General'}</div>
           <div class="post-text">${post.text}</div>
-          ${repliesHTML}
-          <div class="post-footer">
-            <button class="post-reply-btn" onclick="toggleReply('${post.id}')">💬 Reply</button>
-            <span class="reply-count">${replies.length} ${replies.length === 1 ? 'reply' : 'replies'}</span>
+          <div class="post-actions">
+            <button class="action-btn ${hasLiked ? 'liked' : ''}" onclick="likePost('${post.id}')">
+              ♥ ${likes.length > 0 ? likes.length : 'Like'}
+            </button>
+            <button class="action-btn" onclick="toggleReplyComposer('${post.id}')">
+              💬 ${topLevelCount > 0 ? topLevelCount + ' ' : ''}Reply
+            </button>
+            ${isAuthor ? `<button class="action-btn delete-btn" onclick="deletePost('${post.id}')">🗑 Delete</button>` : ''}
           </div>
           <div class="reply-composer" id="reply-composer-${post.id}">
             <textarea class="reply-input" id="reply-input-${post.id}" placeholder="Write a reply..."></textarea>
-            <button class="btn-reply-submit" onclick="handleReply('${post.id}')">Reply</button>
+            <button class="reply-submit-btn" onclick="submitComment('${post.id}', null)">Reply</button>
           </div>
+          ${comments.length > 0 ? `
+            <div class="comments-section">
+              ${renderComments(comments, post.id, null, 0)}
+            </div>
+          ` : ''}
         </div>
       `;
     }).join('');
@@ -442,17 +466,11 @@
   import { auth, db } from './firebase-init.js';
   import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import {
-    collection, addDoc, onSnapshot, orderBy,
-    query, doc, getDoc, serverTimestamp, updateDoc, arrayUnion
+    collection, addDoc, onSnapshot, orderBy, query,
+    doc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // These are module-level so all event listeners can access them
   let currentUser = null;
-  let currentProfile = null;
-  let firstName = '';
-  let lastName = '';
-  let fullName = '';
-  let neighborhood = '';
 
   onAuthStateChanged(auth, async (user) => {
     document.getElementById('loadingMsg').style.display = 'none';
@@ -463,7 +481,9 @@
     }
 
     currentUser = user;
+    currentUserUid = user.uid;
 
+    let currentProfile = null;
     try {
       const docSnap = await getDoc(doc(db, "members", user.uid));
       if (docSnap.exists()) currentProfile = docSnap.data();
@@ -471,23 +491,20 @@
 
     let isPremium = currentProfile && currentProfile.membershipChoice === 'member';
 
-// Check if membership has expired
-if (isPremium && currentProfile.membershipExpiryDate) {
-  const expiry = new Date(currentProfile.membershipExpiryDate);
-  const today = new Date();
-  if (today > expiry) {
-    isPremium = false;
-    try {
-      await updateDoc(doc(db, "members", currentUser.uid), {
-        membershipChoice: 'nonmember',
-        membershipExpiredDate: new Date().toISOString(),
-        membershipCancelled: false
-      });
-    } catch(err) {
-      console.error('Could not downgrade expired membership:', err);
+    // Check expiry
+    if (isPremium && currentProfile.membershipExpiryDate) {
+      const expiry = new Date(currentProfile.membershipExpiryDate);
+      if (new Date() > expiry) {
+        isPremium = false;
+        try {
+          await updateDoc(doc(db, "members", user.uid), {
+            membershipChoice: 'nonmember',
+            membershipExpiredDate: new Date().toISOString(),
+            membershipCancelled: false
+          });
+        } catch(err) { console.error(err); }
+      }
     }
-  }
-}
 
     if (!isPremium) {
       document.getElementById('gateBasicMember').classList.add('show');
@@ -498,32 +515,38 @@ if (isPremium && currentProfile.membershipExpiryDate) {
       return;
     }
 
-    // Set module-level variables so ALL event listeners can use them
-    firstName = currentProfile?.firstName || 'Member';
-    lastName = currentProfile?.lastName || '';
-    fullName = `${firstName} ${lastName}`.trim();
-    neighborhood = currentProfile?.neighborhood || 'NYC';
-    window._currentFirstName = firstName;
-    window._currentLastName = lastName;
-    window._currentUid = user.uid;
-
+    currentFirstName = currentProfile?.firstName || 'Member';
+    currentLastName = currentProfile?.lastName || '';
+    currentNeighborhood = currentProfile?.neighborhood || 'NYC';
 
     document.getElementById('navRight').innerHTML = `
-      <span style="font-size:13px;color:var(--text-muted)">Hi, ${firstName} 👋</span>
+      <span style="font-size:13px;color:var(--text-muted)">Hi, ${currentFirstName} 👋</span>
       <a href="dashboard.html" class="nav-link">Dashboard</a>
-      <button class="btn-logout" onclick="handleLogout()">Log out</button>
+      <a href="settings.html" class="nav-link">My Account</a>
+      <button class="btn-logout" onclick="document.dispatchEvent(new CustomEvent('hn-logout'))">Log out</button>
     `;
 
-    document.getElementById('sidebarAvatar').textContent = getInitials(firstName, lastName);
-    document.getElementById('sidebarName').textContent = fullName;
-    document.getElementById('sidebarHood').textContent = neighborhood;
-    document.getElementById('composerAvatar').textContent = getInitials(firstName, lastName);
-    document.getElementById('feedSubtitle').textContent = `Welcome back, ${firstName}! What's happening in ${neighborhood}?`;
+    document.getElementById('sidebarAvatar').textContent = getInitials(currentFirstName, currentLastName);
+    document.getElementById('sidebarName').textContent = `${currentFirstName} ${currentLastName}`.trim();
+    document.getElementById('sidebarHood').textContent = currentNeighborhood;
+    document.getElementById('composerAvatar').textContent = getInitials(currentFirstName, currentLastName);
+    document.getElementById('feedSubtitle').textContent = `Welcome back, ${currentFirstName}! What's happening in ${currentNeighborhood}?`;
     document.getElementById('boardLayout').classList.add('show');
 
+    // Listen for posts in real time
     const postsQuery = query(collection(db, "community_posts"), orderBy("createdAt", "desc"));
-    onSnapshot(postsQuery, (snapshot) => {
-      allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    onSnapshot(postsQuery, async (snapshot) => {
+      // For each post, also get its comments subcollection
+      const posts = [];
+      for (const d of snapshot.docs) {
+        const postData = { id: d.id, ...d.data() };
+        try {
+          const commentsSnap = await getDoc(doc(db, "community_posts", d.id));
+          postData.comments = postData.comments || [];
+        } catch(e) {}
+        posts.push(postData);
+      }
+      allPosts = posts;
       updateCounts();
       renderPosts();
     });
@@ -538,17 +561,13 @@ if (isPremium && currentProfile.membershipExpiryDate) {
     try {
       await addDoc(collection(db, "community_posts"), {
         text, category,
-        authorFirstName: firstName,
-        authorLastName: lastName,
-        neighborhood,
+        authorFirstName: currentFirstName,
+        authorLastName: currentLastName,
+        neighborhood: currentNeighborhood,
         authorUid: currentUser.uid,
         createdAt: new Date().toISOString(),
-        replies: []
-      });
-      fetch('https://hook.us2.make.com/wdee77ri1yf6qu7w65i2yugxwcfwxrux', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: fullName, neighborhood, category, message: text, date: new Date().toISOString() })
+        likes: [],
+        comments: []
       });
       document.getElementById('postInput').value = '';
     } catch (err) {
@@ -559,91 +578,107 @@ if (isPremium && currentProfile.membershipExpiryDate) {
     btn.textContent = 'Post';
   });
 
-  // Reply to a post
-  document.addEventListener('hn-reply', async (e) => {
-    const { postId, text } = e.detail;
-    try {
-      await updateDoc(doc(db, "community_posts", postId), {
-        replies: arrayUnion({
-          text,
-          authorFirstName: firstName,
-          authorLastName: lastName,
-          authorUid: currentUser.uid,
-          createdAt: new Date().toISOString(),
-          nestedReplies: []
-        })
-      });
-      document.addEventListener('hn-nested-reply', async (e) => {
-  const { postId, replyIndex, text } = e.detail;
-  try {
-    const postRef = doc(db, "community_posts", postId);
-    const postSnap = await getDoc(postRef);
-    if (!postSnap.exists()) return;
-
-    const postData = postSnap.data();
-    const replies = postData.replies ? [...postData.replies] : [];
-
-    if (!replies[replyIndex]) return;
-
-    if (!replies[replyIndex].nestedReplies) {
-      replies[replyIndex].nestedReplies = [];
-    }
-
-    replies[replyIndex].nestedReplies.push({
-      text,
-      authorFirstName: firstName,
-      authorLastName: lastName,
-      authorUid: currentUser.uid,
-      createdAt: new Date().toISOString()
-    });
-
-    await updateDoc(postRef, { replies });
-
-    const composer = document.getElementById('nested-reply-composer-' + postId + '-' + replyIndex);
-    if (composer) composer.classList.remove('show');
-
-  } catch (err) {
-    console.error('Nested reply error:', err);
-    alert('Could not post reply. Please try again.');
-  }
-});
-
-      const input = document.getElementById('reply-input-' + postId);
-      if (input) input.value = '';
-      const box = document.getElementById('reply-composer-' + postId);
-      if (box) box.classList.remove('show');
-    } catch (err) {
-      console.error(err);
-      alert('Could not post reply. Please try again.');
-    }
-  });
-
-  // Reply to a reply (nested)
-  document.addEventListener('hn-nested-reply', async (e) => {
-    const { postId, replyIndex, text } = e.detail;
+  // New comment (works for all depths)
+  document.addEventListener('hn-comment', async (e) => {
+    const { postId, parentId, text } = e.detail;
     try {
       const postRef = doc(db, "community_posts", postId);
       const postSnap = await getDoc(postRef);
       if (!postSnap.exists()) return;
 
-      const postData = postSnap.data();
-      const replies = JSON.parse(JSON.stringify(postData.replies || []));
-
-      if (!replies[replyIndex]) return;
-      if (!replies[replyIndex].nestedReplies) replies[replyIndex].nestedReplies = [];
-
-      replies[replyIndex].nestedReplies.push({
+      const comments = postSnap.data().comments || [];
+      const newComment = {
+        id: Date.now().toString(),
         text,
-        authorFirstName: firstName,
-        authorLastName: lastName,
+        parentId: parentId || null,
+        authorFirstName: currentFirstName,
+        authorLastName: currentLastName,
         authorUid: currentUser.uid,
-        createdAt: new Date().toISOString()
-      });
+        createdAt: new Date().toISOString(),
+        likes: []
+      };
 
-      await updateDoc(postRef, { replies });
+      await updateDoc(postRef, {
+        comments: arrayUnion(newComment)
+      });
     } catch (err) {
-      console.error('Nested reply error:', err);
-      alert('Could not post reply. Please try again.');
+      console.error(err);
+      alert('Could not post comment. Please try again.');
+    }
+  });
+
+  // Like a post
+  document.addEventListener('hn-like-post', async (e) => {
+    const { postId } = e.detail;
+    try {
+      const postRef = doc(db, "community_posts", postId);
+      const postSnap = await getDoc(postRef);
+      if (!postSnap.exists()) return;
+      const likes = postSnap.data().likes || [];
+      if (likes.includes(currentUser.uid)) {
+        await updateDoc(postRef, { likes: arrayRemove(currentUser.uid) });
+      } else {
+        await updateDoc(postRef, { likes: arrayUnion(currentUser.uid) });
+      }
+    } catch (err) { console.error(err); }
+  });
+
+  // Like a comment
+  document.addEventListener('hn-like-comment', async (e) => {
+    const { postId, commentId } = e.detail;
+    try {
+      const postRef = doc(db, "community_posts", postId);
+      const postSnap = await getDoc(postRef);
+      if (!postSnap.exists()) return;
+
+      const comments = JSON.parse(JSON.stringify(postSnap.data().comments || []));
+      const comment = comments.find(c => c.id === commentId);
+      if (!comment) return;
+
+      if (!comment.likes) comment.likes = [];
+      if (comment.likes.includes(currentUser.uid)) {
+        comment.likes = comment.likes.filter(uid => uid !== currentUser.uid);
+      } else {
+        comment.likes.push(currentUser.uid);
+      }
+
+      await updateDoc(postRef, { comments });
+    } catch (err) { console.error(err); }
+  });
+
+  // Delete a post
+  document.addEventListener('hn-delete-post', async (e) => {
+    const { postId } = e.detail;
+    try {
+      await deleteDoc(doc(db, "community_posts", postId));
+    } catch (err) {
+      console.error(err);
+      alert('Could not delete post.');
+    }
+  });
+
+  // Delete a comment
+  document.addEventListener('hn-delete-comment', async (e) => {
+    const { postId, commentId } = e.detail;
+    try {
+      const postRef = doc(db, "community_posts", postId);
+      const postSnap = await getDoc(postRef);
+      if (!postSnap.exists()) return;
+
+      // Remove comment and all its children
+      const allComments = postSnap.data().comments || [];
+      function getDescendants(id) {
+        const children = allComments.filter(c => c.parentId === id);
+        return children.reduce((acc, child) => {
+          return acc.concat([child], getDescendants(child.id));
+        }, []);
+      }
+      const toDelete = [commentId, ...getDescendants(commentId).map(c => c.id)];
+      const remaining = allComments.filter(c => !toDelete.includes(c.id));
+      await updateDoc(postRef, { comments: remaining });
+    } catch (err) {
+      console.error(err);
+      alert('Could not delete comment.');
     }
   });
 
