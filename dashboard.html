@@ -62,10 +62,14 @@
     gap: 16px;
   }
 
-  .nav-name {
+  .nav-name { font-size: 13px; color: var(--text-muted); }
+
+  .nav-link {
     font-size: 13px;
     color: var(--text-muted);
+    text-decoration: none;
   }
+  .nav-link:hover { color: var(--forest); }
 
   .btn-logout {
     background: transparent;
@@ -78,7 +82,6 @@
     cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
   }
-
   .btn-logout:hover { border-color: var(--sage-mid); color: var(--forest); }
 
   .dashboard-wrap {
@@ -161,15 +164,10 @@
   }
 
   .badge-type.premium { color: #8B6914; }
-
-  .badge-status {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
+  .badge-status { font-size: 11px; color: var(--text-muted); }
 
   /* UPGRADE BANNER */
   .upgrade-banner {
-    display: none;
     background: linear-gradient(135deg, #2D3B2A 0%, #3D5C34 100%);
     border-radius: 16px;
     padding: 28px 36px;
@@ -180,7 +178,7 @@
     gap: 24px;
   }
 
-  .upgrade-banner.hidden { display: none !important; }
+  .upgrade-banner.hidden { display: none; }
 
   .upgrade-title {
     font-family: var(--font-serif);
@@ -190,11 +188,7 @@
     margin-bottom: 6px;
   }
 
-  .upgrade-text {
-    font-size: 13px;
-    color: #A8BFA0;
-    line-height: 1.6;
-  }
+  .upgrade-text { font-size: 13px; color: #A8BFA0; line-height: 1.6; }
 
   .btn-upgrade {
     background: var(--sage);
@@ -211,7 +205,6 @@
     text-decoration: none;
     display: inline-block;
   }
-
   .btn-upgrade:hover { background: #527047; }
 
   /* GRID */
@@ -247,7 +240,6 @@
     border-bottom: 1px solid #EAF0E6;
     font-size: 14px;
   }
-
   .profile-row:last-child { border-bottom: none; }
   .profile-key { color: var(--text-muted); font-size: 12px; }
   .profile-val { color: var(--forest); font-weight: 500; text-align: right; max-width: 60%; }
@@ -260,12 +252,15 @@
     padding: 12px 0;
     border-bottom: 1px solid #EAF0E6;
   }
-
   .event-item:last-child { border-bottom: none; }
   .event-item-name { font-size: 14px; font-weight: 500; color: var(--forest); }
   .event-item-date { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-  .event-item-price { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--sage-dark); }
-  .event-item-price .was { font-size: 12px; color: var(--text-muted); text-decoration: line-through; font-family: var(--font-sans); font-weight: 400; margin-right: 4px; }
+  .event-item-price {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--sage-dark);
+  }
 
   /* COMMUNITY BOARD CARD */
   .community-card {
@@ -316,20 +311,9 @@
     text-decoration: none;
     display: inline-block;
   }
-
   .btn-community:hover { background: var(--sage-dark); }
-
-  .btn-community.locked {
-    background: #CCC;
-    cursor: default;
-  }
-
+  .btn-community.locked { background: #CCC; cursor: default; }
   .btn-community.locked:hover { background: #CCC; }
-
-  .lock-icon {
-    font-size: 18px;
-    margin-right: 6px;
-  }
 
   @media (max-width: 600px) {
     .dash-grid { grid-template-columns: 1fr; }
@@ -349,11 +333,10 @@
     Hey Neighbor
   </a>
   <div class="nav-right">
-  <span class="nav-name" id="navName"></span>
-  <a class="nav-link" href="settings.html">My Account</a>
-  <button class="btn-logout" onclick="handleLogout()">Log out</button>
-</div>
-
+    <span class="nav-name" id="navName"></span>
+    <a class="nav-link" href="settings.html">My Account</a>
+    <button class="btn-logout" onclick="handleLogout()">Log out</button>
+  </div>
 </nav>
 
 <div class="dashboard-wrap">
@@ -376,7 +359,7 @@
       </div>
     </div>
 
-    <!-- UPGRADE BANNER (only shown for basic members) -->
+    <!-- UPGRADE BANNER — hidden by default, shown for basic members -->
     <div class="upgrade-banner hidden" id="upgradeBanner">
       <div>
         <div class="upgrade-title">Unlock the full village. 🌿</div>
@@ -393,14 +376,14 @@
       </div>
       <a class="btn-community" id="communityBtn" href="community.html">Go to board →</a>
     </div>
-    
-<!-- ATTENDING CARD -->
-<div class="dash-card" id="attendingCard" style="margin-bottom:20px;">
-  <div class="dash-card-label">🎟️ You're attending</div>
-  <div id="attendingList">
-    <div style="color:var(--text-muted); font-size:13px;">Loading your bookings...</div>
-  </div>
-</div>
+
+    <!-- YOU'RE ATTENDING CARD -->
+    <div class="dash-card" style="margin-bottom:20px;">
+      <div class="dash-card-label">🎟️ You're attending</div>
+      <div id="attendingList">
+        <div style="color:var(--text-muted); font-size:13px;">Loading your bookings...</div>
+      </div>
+    </div>
 
     <!-- PROFILE + EVENTS GRID -->
     <div class="dash-grid">
@@ -408,41 +391,37 @@
       <!-- PROFILE CARD -->
       <div class="dash-card">
         <div class="dash-card-label">Your profile</div>
-        <div id="profileRows">
-          <div class="profile-row"><span class="profile-key">Name</span><span class="profile-val" id="profileName">—</span></div>
-          <div class="profile-row"><span class="profile-key">Email</span><span class="profile-val" id="profileEmail">—</span></div>
-          <div class="profile-row"><span class="profile-key">Neighborhood</span><span class="profile-val" id="profileHood">—</span></div>
-          <div class="profile-row"><span class="profile-key">Kids ages</span><span class="profile-val" id="profileKids">—</span></div>
-          <div class="profile-row"><span class="profile-key">Availability</span><span class="profile-val" id="profileAvail">—</span></div>
-          <div class="profile-row"><span class="profile-key">Member since</span><span class="profile-val" id="profileDate">—</span></div>
-        </div>
+        <div class="profile-row"><span class="profile-key">Name</span><span class="profile-val" id="profileName">—</span></div>
+        <div class="profile-row"><span class="profile-key">Email</span><span class="profile-val" id="profileEmail">—</span></div>
+        <div class="profile-row"><span class="profile-key">Neighborhood</span><span class="profile-val" id="profileHood">—</span></div>
+        <div class="profile-row"><span class="profile-key">Kids ages</span><span class="profile-val" id="profileKids">—</span></div>
+        <div class="profile-row"><span class="profile-key">Availability</span><span class="profile-val" id="profileAvail">—</span></div>
+        <div class="profile-row"><span class="profile-key">Member since</span><span class="profile-val" id="profileDate">—</span></div>
       </div>
 
       <!-- EVENTS CARD -->
       <div class="dash-card">
-  <div class="dash-card-label">Upcoming events — your prices</div>
-  <div id="eventsList">
-    <div style="color:var(--text-muted); font-size:13px;">Loading events...</div>
-  </div>
-  <a href="events.html" style="display:block; margin-top:16px; font-size:13px; color:var(--sage); text-decoration:none; font-weight:500;">Browse all events →</a>
-</div>
+        <div class="dash-card-label">Upcoming events — your prices</div>
+        <div id="eventsList">
+          <div style="color:var(--text-muted); font-size:13px;">Loading events...</div>
+        </div>
+        <a href="events.html" style="display:block; margin-top:16px; font-size:13px; color:var(--sage); text-decoration:none; font-weight:500;">Browse all events →</a>
+      </div>
 
     </div>
 
   </div>
 </div>
 
+<!-- ── Plain script: CSV helpers only ─────────────────────── -->
 <script>
-  const DASH_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
-        const BOOKINGS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=754080668&single=true&output=csv';
+  const EVENTS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
+  const BOOKINGS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=754080668&single=true&output=csv';
 
-  function handleLogout() {
-    document.dispatchEvent(new CustomEvent('hn-logout'));
-  }
-
+  // Proper CSV parser — handles quoted fields with commas inside
   function parseCSVRow(row) {
     const result = [];
-    let current = '';
+    let current  = '';
     let inQuotes = false;
     for (let i = 0; i < row.length; i++) {
       const char = row[i];
@@ -459,26 +438,39 @@
     return result;
   }
 
-  async function loadDashEvents(isPremium) {
-    try {
-      const res = await fetch(DASH_CSV_URL);
-      const text = await res.text();
-      const rows = text.trim().split('\n').slice(1);
-      const events = rows.filter(r => r.trim()).map(row => {
-        const cols = parseCSVRow(row);
-        return {
-          name:            cols[0] || '',
-          datetime:        cols[2] || '',
-          location:        cols[3] || '',
-          priceMember:     cols[5] || '',
-          priceNonMember:  cols[6] || '',
-          stripeMember:    cols[7] || '',
-          stripeNonMember: cols[8] || '',
-          type:            (cols[9] || 'paid').trim().toLowerCase()
-        };
-      });
+  // Format cents → "$10.00"
+  // Stripe / Make sends amounts as cents (1000 = $10.00)
+  function formatCents(val) {
+    const num = parseFloat(val);
+    if (isNaN(num)) return '—';
+    return '$' + (num / 100).toFixed(2);
+  }
 
-      const list = document.getElementById('eventsList');
+  // ── Load upcoming events with correct member/non-member price ──
+  async function loadDashEvents(isPremium) {
+    const list = document.getElementById('eventsList');
+    try {
+      const res  = await fetch(EVENTS_CSV_URL);
+      const text = await res.text();
+      const rows = text.trim().split('\n').slice(1); // skip header row
+
+      const events = rows
+        .filter(r => r.trim())
+        .map(row => {
+          const cols = parseCSVRow(row);
+          return {
+            name:            cols[0] || '',
+            category:        cols[1] || '',
+            datetime:        cols[2] || '',
+            location:        cols[3] || '',
+            description:     cols[4] || '',
+            priceMember:     cols[5] || '',   // stored as cents e.g. 1000
+            priceNonMember:  cols[6] || '',   // stored as cents e.g. 1500
+            stripeMember:    cols[7] || '',
+            stripeNonMember: cols[8] || '',
+            type:            (cols[9] || 'paid').trim().toLowerCase()
+          };
+        });
 
       if (events.length === 0) {
         list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">No upcoming events.</div>';
@@ -486,61 +478,57 @@
       }
 
       list.innerHTML = events.slice(0, 4).map(event => {
-        const price = event.type === 'free'
+        // Pick the right price and Stripe link based on membership
+        const priceRaw  = event.type === 'free'
+          ? null
+          : isPremium ? event.priceMember : event.priceNonMember;
+
+        const priceDisplay = event.type === 'free'
           ? 'Free'
-          : isPremium
-            ? event.priceMember
-            : event.priceNonMember;
+          : formatCents(priceRaw);
 
         const stripeLink = event.type === 'free'
           ? null
-          : isPremium
-            ? event.stripeMember
-            : event.stripeNonMember;
+          : isPremium ? event.stripeMember : event.stripeNonMember;
 
         return `
-          <div class="event-item" style="padding:12px 0;">
+          <div class="event-item">
             <div>
               <div class="event-item-name">${event.name}</div>
-              <div class="event-item-date" style="margin-top:3px;">${event.datetime}</div>
+              <div class="event-item-date">${event.datetime}</div>
             </div>
             <div style="text-align:right;">
-              <div class="event-item-price" style="color:var(--sage-dark);">
-     ${cols[3] ? '$' + (parseFloat(cols[3]) / 100).toFixed(2) : '—'}
-
-            </div>
-
+              <div class="event-item-price">${priceDisplay}</div>
               ${stripeLink
-                ? `<a href="${stripeLink}" target="_blank" style="font-size:11px; color:var(--sage); text-decoration:none; font-weight:500;">Book →</a>`
-                : `<span style="font-size:11px; color:var(--sage);">Free RSVP on events page</span>`
+                ? `<a href="${stripeLink}" target="_blank" style="font-size:11px;color:var(--sage);text-decoration:none;font-weight:500;">Book →</a>`
+                : `<span style="font-size:11px;color:var(--sage);">Free — RSVP on events page</span>`
               }
             </div>
-          </div>
-        `;
+          </div>`;
       }).join('');
 
-    } catch(e) {
+    } catch (e) {
       console.error('Dashboard events error:', e);
-      document.getElementById('eventsList').innerHTML =
-        '<div style="color:var(--text-muted);font-size:13px;">Unable to load events.</div>';
+      list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Unable to load events.</div>';
     }
   }
 
+  // ── Load bookings for this member ─────────────────────────
+  // Sheet columns: [0] email  [1] eventName  [2] eventDate  [3] amountPaid (cents)  [4] bookingDate  [5] ticketQty
   async function loadMemberBookings(email) {
-    const attendingList = document.getElementById('attendingList');
-
+    const list = document.getElementById('attendingList');
     try {
-      const res = await fetch(BOOKINGS_URL);
+      const res  = await fetch(BOOKINGS_CSV_URL);
       const text = await res.text();
       const rows = text.trim().split('\n').slice(1);
 
       const myBookings = rows
         .filter(r => r.trim())
         .map(row => parseCSVRow(row))
-        .filter(cols => cols[0].toLowerCase() === email.toLowerCase());
+        .filter(cols => (cols[0] || '').toLowerCase() === email.toLowerCase());
 
       if (myBookings.length === 0) {
-        attendingList.innerHTML = `
+        list.innerHTML = `
           <div style="color:var(--text-muted);font-size:13px;">
             No upcoming bookings yet.
             <a href="events.html" style="color:var(--sage);">Browse events →</a>
@@ -548,149 +536,129 @@
         return;
       }
 
-            attendingList.innerHTML = myBookings.map(cols => `
-        <div class="event-item" style="padding:12px 0;">
-          <div>
-            <div class="event-item-name">${cols[1] || '—'}</div>
-            <div class="event-item-date" style="margin-top:3px;">${cols[2] || '—'}</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">
-              ${cols[5] ? `${cols[5]} ticket${cols[5] > 1 ? 's' : ''}` : '1 ticket'}
+      list.innerHTML = myBookings.map(cols => {
+        const qty = parseInt(cols[5]) || 1;
+        return `
+          <div class="event-item">
+            <div>
+              <div class="event-item-name">${cols[1] || '—'}</div>
+              <div class="event-item-date">${cols[2] || '—'}</div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">
+                ${qty} ticket${qty !== 1 ? 's' : ''}
+              </div>
             </div>
-          </div>
-          <div style="text-align:right;">
-            <div class="event-item-price" style="color:var(--sage-dark);">${cols[3] ? '$' + (parseFloat(cols[3]) / 100).toFixed(2) : '—'}</div>
-            <div style="font-size:11px;color:var(--sage); font-weight:500;">Booked ✓</div>
-          </div>
-        </div>
-      `).join('');
+            <div style="text-align:right;">
+              <div class="event-item-price">${formatCents(cols[3])}</div>
+              <div style="font-size:11px;color:var(--sage);font-weight:500;">Booked ✓</div>
+            </div>
+          </div>`;
+      }).join('');
 
-    } catch(e) {
+    } catch (e) {
       console.error('Bookings error:', e);
-      attendingList.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Unable to load bookings.</div>';
+      list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Unable to load bookings.</div>';
     }
+  }
+
+  function handleLogout() {
+    document.dispatchEvent(new CustomEvent('hn-logout'));
   }
 </script>
 
-
+<!-- ── Module script: Firebase auth + Firestore ───────────── -->
 <script type="module">
   import { auth, db } from './firebase-init.js';
-  import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-
-  // Check if user is logged in
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // Not logged in — redirect to login
       window.location.href = 'login.html';
       return;
     }
 
-    // Get their profile from Firestore
+    // ── Load Firestore profile ──────────────────────────────
     let profile = {};
     try {
       const docSnap = await getDoc(doc(db, "members", user.uid));
-      if (docSnap.exists()) {
-        profile = docSnap.data();
-      }
+      if (docSnap.exists()) profile = docSnap.data();
     } catch (err) {
-      console.error("Error loading profile:", err);
+      console.error('Profile load error:', err);
     }
 
+    // ── Single expiry check (not duplicated) ────────────────
     let isPremium = profile.membershipChoice === 'member';
 
-// Check if membership has expired
-if (isPremium && profile.membershipExpiryDate) {
-  const expiry = new Date(profile.membershipExpiryDate);
-  const today = new Date();
-  if (today > expiry) {
-    // Membership expired — downgrade them
-    isPremium = false;
-    try {
-      await updateDoc(doc(db, "members", user.uid), {
-        membershipChoice: 'nonmember',
-        membershipExpiredDate: new Date().toISOString()
-      });
-    } catch(err) {
-      console.error('Could not downgrade expired membership:', err);
+    if (isPremium && profile.membershipExpiryDate) {
+      const expiry = new Date(profile.membershipExpiryDate);
+      if (new Date() > expiry) {
+        isPremium = false;
+        try {
+          await updateDoc(doc(db, "members", user.uid), {
+            membershipChoice:      'nonmember',
+            membershipExpiredDate: new Date().toISOString(),
+            membershipCancelled:   false
+          });
+          profile.membershipChoice = 'nonmember';
+        } catch (err) {
+          console.error('Could not downgrade expired membership:', err);
+        }
+      }
     }
-  }
-}
 
-// Check if membership has expired
-if (isPremium && profile.membershipExpiryDate) {
-  const expiry = new Date(profile.membershipExpiryDate);
-  const today = new Date();
-  if (today > expiry) {
-    isPremium = false;
-    try {
-      await updateDoc(doc(db, "members", user.uid), {
-        membershipChoice: 'nonmember',
-        membershipExpiredDate: new Date().toISOString(),
-        membershipCancelled: false
-      });
-    } catch(err) {
-      console.error('Could not downgrade expired membership:', err);
-    }
-  }
-}
-
+    // ── Kick off CSV loads now that we know membership tier ──
     loadDashEvents(isPremium);
     loadMemberBookings(user.email);
 
-    const firstName = profile.firstName || user.displayName || 'there';
-    const fullName = profile.firstName && profile.lastName
+    // ── Names ────────────────────────────────────────────────
+    const firstName = profile.firstName || user.displayName?.split(' ')[0] || 'there';
+    const fullName  = (profile.firstName && profile.lastName)
       ? profile.firstName + ' ' + profile.lastName
       : user.displayName || '—';
 
-    // Show dashboard
+    // ── Show dashboard ────────────────────────────────────────
     document.getElementById('loadingMsg').style.display = 'none';
     document.getElementById('dashboardContent').classList.add('show');
 
-    // Nav name
+    // Nav
     document.getElementById('navName').textContent = 'Hi, ' + firstName + ' 👋';
 
-    // Welcome
+    // Welcome banner
     document.getElementById('welcomeTitle').textContent = 'Welcome back, ' + firstName + '.';
-    document.getElementById('welcomeSub').textContent = isPremium
+    document.getElementById('welcomeSub').textContent   = isPremium
       ? 'You have full Premium access. Enjoy the village!'
       : 'You are a Basic member. Upgrade to Premium to unlock everything.';
 
-    // Badge
-    document.getElementById('badgeType').textContent = isPremium ? 'Premium' : 'Basic';
-    document.getElementById('badgeType').className = 'badge-type' + (isPremium ? ' premium' : '');
+    // Membership badge
+    document.getElementById('badgeType').textContent   = isPremium ? 'Premium' : 'Basic';
+    document.getElementById('badgeType').className     = 'badge-type' + (isPremium ? ' premium' : '');
     document.getElementById('badgeStatus').textContent = isPremium ? '$80/year member' : 'Free member';
 
-    // Upgrade banner
+    // Upgrade banner — only visible to basic members
     if (!isPremium) {
       document.getElementById('upgradeBanner').classList.remove('hidden');
     }
 
-    // Community board
+    // Community board — locked for basic members
     if (!isPremium) {
       document.getElementById('communityCard').classList.add('locked');
       document.getElementById('communityTitle').textContent = '🔒 Community Board';
-      document.getElementById('communityText').textContent = 'The community board is for Premium members only. Upgrade to join the conversation.';
+      document.getElementById('communityText').textContent  = 'The community board is for Premium members only. Upgrade to join the conversation.';
       const btn = document.getElementById('communityBtn');
       btn.textContent = 'Premium only';
       btn.classList.add('locked');
       btn.removeAttribute('href');
     }
 
-    // Profile
-    document.getElementById('profileName').textContent = fullName;
+    // Profile card
+    document.getElementById('profileName').textContent  = fullName;
     document.getElementById('profileEmail').textContent = user.email || '—';
-    document.getElementById('profileHood').textContent = profile.neighborhood || '—';
-    document.getElementById('profileKids').textContent = profile.kidsAges || '—';
-    document.getElementById('profileAvail').textContent = profile.availability || '—';
-    document.getElementById('profileDate').textContent = profile.dateJoined
+    document.getElementById('profileHood').textContent  = profile.neighborhood || '—';
+    document.getElementById('profileKids').textContent  = profile.kidsAges     || '—';
+    document.getElementById('profileAvail').textContent = profile.availability  || '—';
+    document.getElementById('profileDate').textContent  = profile.dateJoined
       ? new Date(profile.dateJoined).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
       : '—';
-
-    // Event prices
-    document.querySelectorAll('.member-price').forEach(el => {
-      el.textContent = isPremium ? el.dataset.premium : el.dataset.basic;
-    });
   });
 
   // Logout
@@ -698,90 +666,6 @@ if (isPremium && profile.membershipExpiryDate) {
     await signOut(auth);
     window.location.href = 'index.html';
   });
-</script>
-<script>
-
-  function parseCSVRow(row) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-    for (let i = 0; i < row.length; i++) {
-      const char = row[i];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    result.push(current.trim());
-    return result;
-  }
-
-  async function loadDashEvents(isPremium) {
-    try {
-      const res = await fetch(DASH_CSV_URL);
-      const text = await res.text();
-      const rows = text.trim().split('\n').slice(1);
-      const events = rows.filter(r => r.trim()).map(row => {
-        const cols = parseCSVRow(row);
-        return {
-          name:           cols[0] || '',
-          datetime:       cols[2] || '',
-          location:       cols[3] || '',
-          priceMember:    cols[5] || '',
-          priceNonMember: cols[6] || '',
-          stripeMember:   cols[7] || '',
-          stripeNonMember:cols[8] || '',
-          type:           (cols[9] || 'paid').trim().toLowerCase()
-        };
-      });
-
-      const list = document.getElementById('eventsList');
-
-      if (events.length === 0) {
-        list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">No upcoming events.</div>';
-        return;
-      }
-
-      list.innerHTML = events.slice(0, 4).map(event => {
-        const price = event.type === 'free' 
-          ? 'Free' 
-          : isPremium 
-            ? event.priceMember 
-            : event.priceNonMember;
-
-        const stripeLink = event.type === 'free'
-          ? null
-          : isPremium
-            ? event.stripeMember
-            : event.stripeNonMember;
-
-        return `
-          <div class="event-item" style="padding:12px 0;">
-            <div>
-              <div class="event-item-name">${event.name}</div>
-              <div class="event-item-date" style="margin-top:3px;">${event.datetime}</div>
-            </div>
-            <div style="text-align:right;">
-              <div class="event-item-price">${price}</div>
-              ${stripeLink 
-                ? `<a href="${stripeLink}" target="_blank" style="font-size:11px; color:var(--sage); text-decoration:none; font-weight:500;">Book →</a>`
-                : `<span style="font-size:11px; color:var(--sage);">Free RSVP on events page</span>`
-              }
-            </div>
-          </div>
-        `;
-      }).join('');
-
-    } catch(e) {
-      console.error('Dashboard events error:', e);
-      document.getElementById('eventsList').innerHTML = 
-        '<div style="color:var(--text-muted);font-size:13px;">Unable to load events.</div>';
-    }
-  }
 </script>
 
 </body>
