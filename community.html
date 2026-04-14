@@ -469,7 +469,25 @@
       if (docSnap.exists()) currentProfile = docSnap.data();
     } catch (err) { console.error(err); }
 
-    const isPremium = currentProfile && currentProfile.membershipChoice === 'member';
+    let isPremium = profile.membershipChoice === 'member';
+
+// Check if membership has expired
+if (isPremium && profile.membershipExpiryDate) {
+  const expiry = new Date(profile.membershipExpiryDate);
+  const today = new Date();
+  if (today > expiry) {
+    // Membership expired — downgrade them
+    isPremium = false;
+    try {
+      await updateDoc(doc(db, "members", user.uid), {
+        membershipChoice: 'nonmember',
+        membershipExpiredDate: new Date().toISOString()
+      });
+    } catch(err) {
+      console.error('Could not downgrade expired membership:', err);
+    }
+  }
+}
 
     if (!isPremium) {
       document.getElementById('gateBasicMember').classList.add('show');
