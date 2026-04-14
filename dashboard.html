@@ -594,7 +594,26 @@
       console.error("Error loading profile:", err);
     }
 
-    const isPremium = profile.membershipChoice === 'member';
+    let isPremium = profile.membershipChoice === 'member';
+
+// Check if membership has expired
+if (isPremium && profile.membershipExpiryDate) {
+  const expiry = new Date(profile.membershipExpiryDate);
+  const today = new Date();
+  if (today > expiry) {
+    // Membership expired — downgrade them
+    isPremium = false;
+    try {
+      await updateDoc(doc(db, "members", user.uid), {
+        membershipChoice: 'nonmember',
+        membershipExpiredDate: new Date().toISOString()
+      });
+    } catch(err) {
+      console.error('Could not downgrade expired membership:', err);
+    }
+  }
+}
+
     loadDashEvents(isPremium);
     loadMemberBookings(user.email);
 
