@@ -573,15 +573,19 @@
     }
 
     if (type === 'member') {
-      window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
-    } else {
-      document.getElementById('confirmMsg').classList.add('show');
-      const basicBtn = document.querySelector('.btn-not-ready');
-      const notReadyNote = document.querySelector('.not-ready-note');
-      if (basicBtn) basicBtn.style.display = 'none';
-      if (notReadyNote) notReadyNote.style.display = 'none';
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
+  window.location.href = 'https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06';
+} else {
+  // Basic member — redirect to dashboard after short delay
+  document.getElementById('confirmMsg').classList.add('show');
+  const basicBtn = document.querySelector('.btn-not-ready');
+  const notReadyNote = document.querySelector('.not-ready-note');
+  if (basicBtn) basicBtn.style.display = 'none';
+  if (notReadyNote) notReadyNote.style.display = 'none';
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  setTimeout(() => {
+    window.location.href = 'dashboard.html';
+  }, 3000);
+}
   };
 </script>
 
