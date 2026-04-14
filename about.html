@@ -273,5 +273,24 @@
   </div>
 
 </div>
+ <script type="module">
+  import { auth } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const navLinks = document.querySelector('.hn-nav-links');
+      if (navLinks) {
+        navLinks.innerHTML = `
+          <a class="hn-navl" href="events.html">Events</a>
+          <a class="hn-navl" href="community.html">Community</a>
+          <a class="hn-navl" href="about.html">About</a>
+          <a class="hn-navl" href="dashboard.html">Dashboard</a>
+          <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+        `;
+      }
+    }
+  });
+</script>
 </body>
 </html>
