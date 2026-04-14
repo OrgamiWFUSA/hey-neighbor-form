@@ -431,10 +431,140 @@
 </div>
 
 <script>
+  const DASH_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
+        const BOOKINGS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=754080668&single=true&output=csv';
+
   function handleLogout() {
     document.dispatchEvent(new CustomEvent('hn-logout'));
   }
+
+  function parseCSVRow(row) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < row.length; i++) {
+      const char = row[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  async function loadDashEvents(isPremium) {
+    try {
+      const res = await fetch(DASH_CSV_URL);
+      const text = await res.text();
+      const rows = text.trim().split('\n').slice(1);
+      const events = rows.filter(r => r.trim()).map(row => {
+        const cols = parseCSVRow(row);
+        return {
+          name:            cols[0] || '',
+          datetime:        cols[2] || '',
+          location:        cols[3] || '',
+          priceMember:     cols[5] || '',
+          priceNonMember:  cols[6] || '',
+          stripeMember:    cols[7] || '',
+          stripeNonMember: cols[8] || '',
+          type:            (cols[9] || 'paid').trim().toLowerCase()
+        };
+      });
+
+      const list = document.getElementById('eventsList');
+
+      if (events.length === 0) {
+        list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">No upcoming events.</div>';
+        return;
+      }
+
+      list.innerHTML = events.slice(0, 4).map(event => {
+        const price = event.type === 'free'
+          ? 'Free'
+          : isPremium
+            ? event.priceMember
+            : event.priceNonMember;
+
+        const stripeLink = event.type === 'free'
+          ? null
+          : isPremium
+            ? event.stripeMember
+            : event.stripeNonMember;
+
+        return `
+          <div class="event-item" style="padding:12px 0;">
+            <div>
+              <div class="event-item-name">${event.name}</div>
+              <div class="event-item-date" style="margin-top:3px;">${event.datetime}</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="event-item-price">${price}</div>
+              ${stripeLink
+                ? `<a href="${stripeLink}" target="_blank" style="font-size:11px; color:var(--sage); text-decoration:none; font-weight:500;">Book →</a>`
+                : `<span style="font-size:11px; color:var(--sage);">Free RSVP on events page</span>`
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    } catch(e) {
+      console.error('Dashboard events error:', e);
+      document.getElementById('eventsList').innerHTML =
+        '<div style="color:var(--text-muted);font-size:13px;">Unable to load events.</div>';
+    }
+  }
+
+  async function loadMemberBookings(email) {
+    const attendingList = document.getElementById('attendingList');
+
+    try {
+      const res = await fetch(BOOKINGS_URL);
+      const text = await res.text();
+      const rows = text.trim().split('\n').slice(1);
+
+      const myBookings = rows
+        .filter(r => r.trim())
+        .map(row => parseCSVRow(row))
+        .filter(cols => cols[0].toLowerCase() === email.toLowerCase());
+
+      if (myBookings.length === 0) {
+        attendingList.innerHTML = `
+          <div style="color:var(--text-muted);font-size:13px;">
+            No upcoming bookings yet.
+            <a href="events.html" style="color:var(--sage);">Browse events →</a>
+          </div>`;
+        return;
+      }
+
+            attendingList.innerHTML = myBookings.map(cols => `
+        <div class="event-item" style="padding:12px 0;">
+          <div>
+            <div class="event-item-name">${cols[1] || '—'}</div>
+            <div class="event-item-date" style="margin-top:3px;">${cols[2] || '—'}</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">
+              ${cols[4] ? `${cols[4]} ticket${cols[4] > 1 ? 's' : ''}` : '1 ticket'}
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div class="event-item-price" style="color:var(--sage-dark);">${cols[3] || '—'}</div>
+            <div style="font-size:11px;color:var(--sage); font-weight:500;">Booked ✓</div>
+          </div>
+        </div>
+      `).join('');
+
+    } catch(e) {
+      console.error('Bookings error:', e);
+      attendingList.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Unable to load bookings.</div>';
+    }
+  }
 </script>
+
 
 <script type="module">
   import { auth, db } from './firebase-init.js';
@@ -461,6 +591,9 @@
     }
 
     const isPremium = profile.membershipChoice === 'member';
+    loadDashEvents(isPremium);
+    loadMemberBookings(user.email);
+
     const firstName = profile.firstName || user.displayName || 'there';
     const fullName = profile.firstName && profile.lastName
       ? profile.firstName + ' ' + profile.lastName
