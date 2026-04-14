@@ -593,7 +593,7 @@ if (isPremium && currentProfile.membershipExpiryDate) {
       text,
       authorFirstName: firstName,
       authorLastName: lastName,
-      authorUid: user.uid,
+      authorUid: currentUser.uid,
       createdAt: new Date().toISOString()
     });
 
