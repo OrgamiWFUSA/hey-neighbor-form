@@ -32,14 +32,18 @@
   .hn-filter-pill.on { background: #6B8F5E; border-color: #6B8F5E; color: #fff; }
 
   .hn-events-wrap { padding: 32px 28px; }
+
+  /* Skeleton loader shown while auth + CSV both load */
+  .hn-loading { padding: 40px 20px; text-align: center; color: #A8BFA0; font-size: 14px; }
+
   .hn-event-row { background: #fff; border: 1px solid #C8D4C0; border-radius: 10px; margin-bottom: 16px; overflow: hidden; transition: box-shadow .15s; }
   .hn-event-row:hover { box-shadow: 0 4px 16px rgba(45,59,42,0.08); }
   .hn-event-main { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 20px 24px; align-items: center; }
   .hn-event-badge { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; display: inline-block; margin-bottom: 8px; }
-  .b-adult { background: #F0EBF8; color: #5B3E8A; }
-  .b-family { background: #E8F4E8; color: #2A6B2A; }
-  .b-free { background: #E4EDE0; color: #3A5E30; }
-  .b-moms { background: #FAEEF4; color: #8A3E5E; }
+  .b-adult   { background: #F0EBF8; color: #5B3E8A; }
+  .b-family  { background: #E8F4E8; color: #2A6B2A; }
+  .b-free    { background: #E4EDE0; color: #3A5E30; }
+  .b-moms    { background: #FAEEF4; color: #8A3E5E; }
   .b-premium { background: #E0EAF5; color: #1E4A7A; }
   .hn-event-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #1E2D1B; margin-bottom: 6px; }
   .hn-event-meta { font-size: 13px; color: #7A9270; margin-bottom: 4px; }
@@ -50,10 +54,8 @@
   .hn-event-price-member { font-size: 12px; color: #6B8F5E; font-weight: 500; margin-bottom: 12px; }
   .hn-book-btn { display: block; background: #6B8F5E; color: #fff; border: none; padding: 10px 22px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; width: 100%; text-align: center; text-decoration: none; margin-bottom: 6px; }
   .hn-book-btn:hover { background: #527047; }
-  .hn-book-btn.member { background: #E4EDE0; color: #3A5E30; }
-  .hn-book-btn.member:hover { background: #D0DEC9; }
-  .hn-book-btn.free { background: #E4EDE0; color: #3A5E30; }
-  .hn-book-btn.free:hover { background: #D0DEC9; }
+  .hn-book-btn.alt { background: #E4EDE0; color: #3A5E30; }
+  .hn-book-btn.alt:hover { background: #D0DEC9; }
   .hn-member-note { font-size: 11px; color: #7A9270; text-align: center; }
 
   .hn-member-banner { background: #2D3B2A; padding: 32px 36px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
@@ -70,6 +72,7 @@
   .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
   .hn-footer-link:hover { color: #E8EFE4; }
 
+  /* Free RSVP modal */
   .hn-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
   .hn-modal-overlay.show { display: flex; }
   .hn-modal { background: #fff; border-radius: 12px; padding: 36px; max-width: 460px; width: 90%; }
@@ -89,7 +92,6 @@
   .hn-success-icon { font-size: 48px; margin-bottom: 16px; }
   .hn-success-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #1E2D1B; margin-bottom: 10px; }
   .hn-success-text { font-size: 14px; color: #4A5E42; line-height: 1.7; }
-  .hn-loading { padding: 40px 20px; text-align: center; color: #A8BFA0; font-size: 14px; }
 
   @media (max-width: 600px) {
     .hn-event-main { grid-template-columns: 1fr; }
@@ -107,7 +109,8 @@
     <a class="hn-logo" href="index.html">
       <div class="hn-logo-leaf"></div>Hey Neighbor
     </a>
-    <div class="hn-nav-links">
+    <!-- Nav starts as guest. Firebase auth updates it once resolved. -->
+    <div class="hn-nav-links" id="navLinks">
       <a class="hn-navl" href="events.html">Events</a>
       <a class="hn-navl" href="community.html">Community</a>
       <a class="hn-navl" href="about.html">About</a>
@@ -124,13 +127,14 @@
 
   <div class="hn-filter-bar">
     <span class="hn-filter-label">Filter</span>
-    <div class="hn-filter-pill on" onclick="filterEvents(this,'all')">All events</div>
+    <div class="hn-filter-pill on"  onclick="filterEvents(this,'all')">All events</div>
     <div class="hn-filter-pill" onclick="filterEvents(this,'Adults only')">Adults only</div>
     <div class="hn-filter-pill" onclick="filterEvents(this,'Family')">Family</div>
     <div class="hn-filter-pill" onclick="filterEvents(this,'Free')">Free</div>
     <div class="hn-filter-pill" onclick="filterEvents(this,'Moms only')">Moms only</div>
   </div>
 
+  <!-- Events container — shows loading until BOTH auth + CSV are ready -->
   <div class="hn-events-wrap" id="eventsContainer">
     <div class="hn-loading">Loading events...</div>
   </div>
@@ -155,6 +159,7 @@
 
 </div>
 
+<!-- Free RSVP modal -->
 <div class="hn-modal-overlay" id="freeModalOverlay" onclick="closeFreeModalOutside(event)">
   <div class="hn-modal">
     <div id="freeForm">
@@ -185,18 +190,24 @@
   </div>
 </div>
 
+<!-- ── Plain script: event rendering + modal ──────────────── -->
 <script>
   const EVENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTCDlvUtdy79vCUSdj48Cb8ylf_teXZGpkPiQRqGphMUSjd64fCw4kr7lzC3HDWudh4wonv6VkyrwN5/pub?gid=1643957239&single=true&output=csv';
-  const RSVP_WEBHOOK = 'https://hook.us2.make.com/p5sslp4cqf1uyexezgw37b1i4leylkmn';
+  const RSVP_WEBHOOK   = 'https://hook.us2.make.com/p5sslp4cqf1uyexezgw37b1i4leylkmn';
 
-  let allEvents = [];
-  let activeFilter = 'all';
-  let currentEventName = '';
-  let userStatus = 'guest';
+  let allEvents      = [];
+  let activeFilter   = 'all';
+  let currentEvent   = '';
+  // userStatus starts as null = "not yet known — do not render"
+  // Once Firebase resolves it becomes 'guest', 'basic', or 'premium'
+  let userStatus     = null;
+  let eventsLoaded   = false;
+  let authResolved   = false;
 
+  // ── CSV parser ────────────────────────────────────────────
   function parseCSVRow(row) {
     const result = [];
-    let current = '';
+    let current  = '';
     let inQuotes = false;
     for (let i = 0; i < row.length; i++) {
       const char = row[i];
@@ -213,6 +224,13 @@
     return result;
   }
 
+  // Stripe / Make sends amounts as cents — 1000 = $10.00
+  function formatCents(val) {
+    const num = parseFloat(val);
+    if (isNaN(num)) return val; // if it's already formatted like "$45", return as-is
+    return '$' + (num / 100).toFixed(2);
+  }
+
   function getBadgeClass(category) {
     if (category.includes('Adults')) return 'b-adult';
     if (category.includes('Moms'))   return 'b-moms';
@@ -222,8 +240,15 @@
     return 'b-adult';
   }
 
+  // ── Only render once BOTH auth AND csv are ready ──────────
+  function tryRender() {
+    if (!authResolved || !eventsLoaded) return;
+    renderEvents();
+  }
+
   function renderEvents() {
     const container = document.getElementById('eventsContainer');
+
     const filtered = allEvents.filter(e => {
       if (activeFilter === 'all') return true;
       return e.category.includes(activeFilter);
@@ -237,7 +262,7 @@
     container.innerHTML = filtered.map(event => {
       const badgeClass = getBadgeClass(event.category);
 
-      // FREE EVENTS
+      // ── FREE EVENT ────────────────────────────────────────
       if (event.type === 'free') {
         return `
           <div class="hn-event-row">
@@ -253,13 +278,13 @@
                 <div class="hn-event-price">Free</div>
                 <div class="hn-event-price-sub">always free</div>
                 <div class="hn-event-price-member">Open to everyone</div>
-                <button class="hn-book-btn free" onclick="openFreeModal('${event.name}')">Reserve my spot</button>
+                <button class="hn-book-btn alt" onclick="openFreeModal('${event.name.replace(/'/g,"\\'")}')">Reserve my spot</button>
               </div>
             </div>
           </div>`;
       }
 
-      // PREMIUM MEMBER
+      // ── PREMIUM MEMBER ────────────────────────────────────
       if (userStatus === 'premium') {
         return `
           <div class="hn-event-row">
@@ -272,16 +297,16 @@
                 <div class="hn-event-desc">${event.description}</div>
               </div>
               <div class="hn-event-right">
-                <div class="hn-event-price">${event.priceMember}</div>
+                <div class="hn-event-price">${formatCents(event.priceMember)}</div>
                 <div class="hn-event-price-sub">your member price ✦</div>
-                <div class="hn-event-price-member" style="text-decoration:line-through; color:#999;">${event.priceNonMember} non-member</div>
-                <a class="hn-book-btn" href="${event.stripeMember}" target="_blank">Book my spot — ${event.priceMember}</a>
+                <div class="hn-event-price-member" style="text-decoration:line-through;color:#999;">${formatCents(event.priceNonMember)} non-member</div>
+                <a class="hn-book-btn" href="${event.stripeMember}" target="_blank">Book my spot →</a>
               </div>
             </div>
           </div>`;
       }
 
-      // BASIC MEMBER
+      // ── BASIC MEMBER ──────────────────────────────────────
       if (userStatus === 'basic') {
         return `
           <div class="hn-event-row">
@@ -294,18 +319,18 @@
                 <div class="hn-event-desc">${event.description}</div>
               </div>
               <div class="hn-event-right">
-                <div class="hn-event-price">${event.priceNonMember}</div>
-                <div class="hn-event-price-sub">member price</div>
+                <div class="hn-event-price">${formatCents(event.priceNonMember)}</div>
+                <div class="hn-event-price-sub">standard price</div>
                 <div class="hn-event-price-member">
-                  <a href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank" style="color:var(--sage);">Upgrade to Premium</a> for ${event.priceMember}
+                  <a href="https://buy.stripe.com/9B6aEX0Qk0If3KLcIy7bW06" target="_blank" style="color:#6B8F5E;">Upgrade to Premium</a> for ${formatCents(event.priceMember)}
                 </div>
-                <a class="hn-book-btn" href="${event.stripeNonMember}" target="_blank">Book my spot — ${event.priceNonMember}</a>
+                <a class="hn-book-btn" href="${event.stripeNonMember}" target="_blank">Book my spot →</a>
               </div>
             </div>
           </div>`;
       }
 
-      // GUEST
+      // ── GUEST (not logged in) ─────────────────────────────
       return `
         <div class="hn-event-row">
           <div class="hn-event-main">
@@ -317,11 +342,10 @@
               <div class="hn-event-desc">${event.description}</div>
             </div>
             <div class="hn-event-right">
-              <div class="hn-event-price">Members only</div>
-              <div class="hn-event-price-sub">login to see pricing</div>
-              <div class="hn-event-price-member">${event.priceMember} for premium members</div>
-              <a class="hn-book-btn" href="heyneighbor-join.html">Join for non-member pricing →</a>
-              <a class="hn-book-btn member" href="heyneighbor-join.html">Join for premium member pricing →</a>
+              <div class="hn-event-price" style="font-size:18px;">Join to see pricing</div>
+              <div class="hn-event-price-sub">members from ${formatCents(event.priceMember)}</div>
+              <div class="hn-event-price-member">free to join</div>
+              <a class="hn-book-btn" href="heyneighbor-join.html">Join free to book →</a>
               <div class="hn-member-note">Already a member? <a href="login.html" style="color:#6B8F5E;">Log in →</a></div>
             </div>
           </div>
@@ -330,13 +354,13 @@
     }).join('');
   }
 
+  // ── Load CSV ──────────────────────────────────────────────
   async function loadEvents() {
     try {
-      const res = await fetch(EVENTS_CSV_URL);
+      const res  = await fetch(EVENTS_CSV_URL);
       const text = await res.text();
-      console.log('CSV loaded, first 200 chars:', text.substring(0, 200));
       const rows = text.trim().split('\n').slice(1);
-      console.log('Number of event rows:', rows.length);
+
       allEvents = rows.filter(r => r.trim()).map(row => {
         const cols = parseCSVRow(row);
         return {
@@ -352,23 +376,29 @@
           type:            (cols[9] || 'paid').trim().toLowerCase()
         };
       });
-      renderEvents();
-    } catch(e) {
+
+      eventsLoaded = true;
+      tryRender();
+
+    } catch (e) {
       console.error('CSV fetch error:', e);
-      document.getElementById('eventsContainer').innerHTML = 
+      document.getElementById('eventsContainer').innerHTML =
         '<div class="hn-loading">Unable to load events. Please refresh.</div>';
     }
   }
 
+  // ── Filter pills ──────────────────────────────────────────
   function filterEvents(el, filter) {
     document.querySelectorAll('.hn-filter-pill').forEach(p => p.classList.remove('on'));
     el.classList.add('on');
     activeFilter = filter;
-    renderEvents();
+    // Only re-render if we're already showing events
+    if (authResolved && eventsLoaded) renderEvents();
   }
 
+  // ── Free RSVP modal ───────────────────────────────────────
   function openFreeModal(eventName) {
-    currentEventName = eventName;
+    currentEvent = eventName;
     document.getElementById('freeEventName').textContent = eventName;
     document.getElementById('freeForm').style.display = 'block';
     document.getElementById('freeSuccess').classList.remove('show');
@@ -399,7 +429,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName, lastName, email,
-          eventName: currentEventName,
+          eventName: currentEvent,
           date: new Date().toLocaleDateString()
         })
       });
@@ -408,67 +438,74 @@
       document.getElementById('freeFirstName').value = '';
       document.getElementById('freeLastName').value  = '';
       document.getElementById('freeEmail').value     = '';
-    } catch(e) {
+    } catch (e) {
       alert('Something went wrong. Please try again.');
     }
   }
 
-  // Load events immediately on page load
+  // Start loading CSV immediately — don't wait for auth
   loadEvents();
 </script>
 
+<!-- ── Module script: Firebase auth ──────────────────────── -->
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   onAuthStateChanged(auth, async (user) => {
+
     if (user) {
       try {
         const docSnap = await getDoc(doc(db, "members", user.uid));
         if (docSnap.exists()) {
-          const profile = docSnap.data();
-          let isPremium = profile.membershipChoice === 'member';
+          const profile  = docSnap.data();
+          let isPremium  = profile.membershipChoice === 'member';
 
-          // Check if membership has expired
+          // Single expiry check
           if (isPremium && profile.membershipExpiryDate) {
             const expiry = new Date(profile.membershipExpiryDate);
-            const today = new Date();
-            if (today > expiry) {
+            if (new Date() > expiry) {
               isPremium = false;
               try {
                 await updateDoc(doc(db, "members", user.uid), {
-                  membershipChoice: 'nonmember',
+                  membershipChoice:      'nonmember',
                   membershipExpiredDate: new Date().toISOString(),
-                  membershipCancelled: false
+                  membershipCancelled:   false
                 });
-              } catch(err) {
+              } catch (err) {
                 console.error('Could not downgrade expired membership:', err);
               }
             }
           }
 
           userStatus = isPremium ? 'premium' : 'basic';
-
-          // Update nav for logged in users
-          const navLinks = document.querySelector('.hn-nav-links');
-          if (navLinks) {
-            navLinks.innerHTML = `
-              <a class="hn-navl" href="events.html">Events</a>
-              <a class="hn-navl" href="community.html">Community</a>
-              <a class="hn-navl" href="about.html">About</a>
-              <a class="hn-navl" href="dashboard.html">Dashboard</a>
-              <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
-            `;
-          }
-
-          // Re-render events with correct pricing
-          renderEvents();
+        } else {
+          // Logged in but no Firestore doc (e.g. Google signup edge case)
+          userStatus = 'basic';
         }
       } catch (err) {
-        console.error(err);
+        console.error('Auth profile error:', err);
+        userStatus = 'guest';
       }
+
+      // Update nav for logged-in users
+      document.getElementById('navLinks').innerHTML = `
+        <a class="hn-navl" href="events.html">Events</a>
+        <a class="hn-navl" href="community.html">Community</a>
+        <a class="hn-navl" href="about.html">About</a>
+        <a class="hn-navl" href="dashboard.html">Dashboard</a>
+        <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+      `;
+
+    } else {
+      // Not logged in
+      userStatus = 'guest';
     }
+
+    // Mark auth as resolved and attempt render
+    authResolved = true;
+    tryRender();
   });
 </script>
 
