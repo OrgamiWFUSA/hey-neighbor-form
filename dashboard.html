@@ -503,7 +503,10 @@
               <div class="event-item-date" style="margin-top:3px;">${event.datetime}</div>
             </div>
             <div style="text-align:right;">
-              <div class="event-item-price">${price}</div>
+              <div class="event-item-price" style="color:var(--sage-dark);">
+             ${cols[3] ? '$' + parseFloat(cols[3]).toFixed(2) : '—'}
+            </div>
+
               ${stripeLink
                 ? `<a href="${stripeLink}" target="_blank" style="font-size:11px; color:var(--sage); text-decoration:none; font-weight:500;">Book →</a>`
                 : `<span style="font-size:11px; color:var(--sage);">Free RSVP on events page</span>`
