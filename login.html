@@ -203,7 +203,6 @@
   }
 
   .btn-google:hover { background: var(--sage-light); border-color: var(--sage-mid); }
-
   .google-icon { width: 18px; height: 18px; }
 
   .error-msg {
@@ -216,6 +215,7 @@
     color: #B91C1C;
     margin-top: 16px;
     text-align: center;
+    line-height: 1.5;
   }
 
   .error-msg.show { display: block; }
@@ -314,17 +314,18 @@
   </div>
 </div>
 
+<!-- ── Plain script: UI helpers only ─────────────────────── -->
 <script>
   function showError(msg) {
     const el = document.getElementById('errorMsg');
-    el.textContent = msg;
+    el.innerHTML = msg;
     el.classList.add('show');
     document.getElementById('successMsg').classList.remove('show');
   }
 
   function showSuccess(msg) {
     const el = document.getElementById('successMsg');
-    el.textContent = msg;
+    el.innerHTML = msg;
     el.classList.add('show');
     document.getElementById('errorMsg').classList.remove('show');
   }
@@ -337,7 +338,7 @@
   function handleLogin() {
     document.dispatchEvent(new CustomEvent('hn-login', {
       detail: {
-        email: document.getElementById('loginEmail').value.trim(),
+        email:    document.getElementById('loginEmail').value.trim(),
         password: document.getElementById('loginPassword').value
       }
     }));
@@ -353,11 +354,13 @@
     document.dispatchEvent(new CustomEvent('hn-google-login'));
   }
 
+  // Allow Enter key to submit
   document.addEventListener('keydown', e => {
     if (e.key === 'Enter') handleLogin();
   });
 </script>
 
+<!-- ── Module script: Firebase auth ──────────────────────── -->
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import {
@@ -369,16 +372,12 @@
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  console.log("Firebase login ready!");
-
   // If already logged in, skip straight to dashboard
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      window.location.href = 'dashboard.html';
-    }
+    if (user) window.location.href = 'dashboard.html';
   });
 
-  // ── Email / Password Login ──────────────────────────────
+  // ── Email / Password login ────────────────────────────────
   document.addEventListener('hn-login', async (e) => {
     const { email, password } = e.detail;
 
@@ -389,7 +388,7 @@
 
     hideMessages();
     const btn = document.getElementById('loginBtn');
-    btn.disabled = true;
+    btn.disabled    = true;
     btn.textContent = 'Logging in...';
 
     try {
@@ -397,25 +396,28 @@
       window.location.href = 'dashboard.html';
     } catch (err) {
       console.error(err);
-      btn.disabled = false;
+      btn.disabled    = false;
       btn.textContent = 'Log in →';
 
-      const code = err.code;
-      if (code === 'auth/user-not-found' || code === 'auth/invalid-credential') {
-        showError('No account found with that email and password.');
-      } else if (code === 'auth/wrong-password') {
-        showError('Incorrect password. Please try again.');
-      } else if (code === 'auth/invalid-email') {
-        showError('Please enter a valid email address.');
-      } else if (code === 'auth/too-many-requests') {
-        showError('Too many attempts. Please wait a moment and try again.');
-      } else {
-        showError('Something went wrong. Please try again.');
+      switch (err.code) {
+        case 'auth/user-not-found':
+        case 'auth/invalid-credential':
+        case 'auth/invalid-email':
+          showError('No account found with that email and password. <br><a href="heyneighbor-join.html" style="color:#6B8F5E;">Join Hey Neighbor free →</a>');
+          break;
+        case 'auth/wrong-password':
+          showError('Incorrect password. Please try again, or use <button onclick="handleForgotPassword()" style="background:none;border:none;color:#6B8F5E;cursor:pointer;font-size:13px;padding:0;text-decoration:underline;">Forgot password</button>.');
+          break;
+        case 'auth/too-many-requests':
+          showError('Too many attempts. Please wait a moment and try again.');
+          break;
+        default:
+          showError('Something went wrong. Please try again.');
       }
     }
   });
 
-  // ── Forgot Password ─────────────────────────────────────
+  // ── Forgot password ───────────────────────────────────────
   document.addEventListener('hn-reset', async (e) => {
     const { email } = e.detail;
 
@@ -424,52 +426,62 @@
       return;
     }
 
+    const btn = document.getElementById('loginBtn');
+    btn.disabled    = true;
+    btn.textContent = 'Sending...';
+
     try {
       await sendPasswordResetEmail(auth, email, {
+        // ✅ Correct filename — reset-password.html
         url: 'https://orgamiwfusa.github.io/hey-neighbor-form/reset-password.html',
         handleCodeInApp: true
       });
-      showSuccess('✅ Password reset email sent! Check your inbox (and spam folder). Click the link in the email to set a new password, then come back here to log in.');
+      showSuccess('✅ Reset email sent! Check your inbox (and spam folder).<br>Click the link in the email to set a new password, then come back here to log in.');
     } catch (err) {
       console.error(err);
-      const code = err.code;
-      if (code === 'auth/user-not-found') {
-        showError('No account found with that email address.');
-      } else if (code === 'auth/invalid-email') {
-        showError('Please enter a valid email address.');
-      } else {
-        showError('Could not send reset email. Please try again.');
+      switch (err.code) {
+        case 'auth/user-not-found':
+          showError('No account found with that email address.');
+          break;
+        case 'auth/invalid-email':
+          showError('Please enter a valid email address.');
+          break;
+        default:
+          showError('Could not send reset email. Please try again.');
       }
     }
+
+    btn.disabled    = false;
+    btn.textContent = 'Log in →';
   });
 
-  // ── Google Sign In ───────────────────────────────────────
+  // ── Google sign in ────────────────────────────────────────
   document.addEventListener('hn-google-login', async () => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
 
     const btn = document.getElementById('googleBtn');
-    btn.disabled = true;
-    btn.innerHTML = `<span>Connecting to Google...</span>`;
+    btn.disabled  = true;
+    btn.innerHTML = '<span>Connecting to Google...</span>';
 
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const user   = result.user;
 
       // Check if they already have a Firestore profile
-      const docRef = doc(db, "members", user.uid);
+      const docRef  = doc(db, "members", user.uid);
       const docSnap = await getDoc(docRef);
 
-      // If new Google user, create a basic profile for them
+      // New Google user — create a basic profile
       if (!docSnap.exists()) {
         const nameParts = (user.displayName || '').split(' ');
         await setDoc(docRef, {
-          firstName: nameParts[0] || '',
-          lastName: nameParts.slice(1).join(' ') || '',
-          email: user.email,
+          firstName:       nameParts[0] || '',
+          lastName:        nameParts.slice(1).join(' ') || '',
+          email:           user.email,
           membershipChoice: 'nonmember',
-          dateJoined: new Date().toISOString(),
-          signupMethod: 'google'
+          dateJoined:      new Date().toISOString(),
+          signupMethod:    'google'
         });
       }
 
@@ -477,7 +489,9 @@
 
     } catch (err) {
       console.error(err);
-      btn.disabled = false;
+
+      // Restore Google button
+      btn.disabled  = false;
       btn.innerHTML = `
         <svg class="google-icon" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -487,14 +501,18 @@
         </svg>
         Continue with Google`;
 
-      if (err.code === 'auth/popup-blocked') {
-        showError('Popup was blocked. Please allow popups for this site and try again.');
-      } else if (err.code === 'auth/popup-closed-by-user') {
-        // User closed it — no error needed
-      } else if (err.code === 'auth/unauthorized-domain') {
-        showError('Google sign-in is not yet authorized for this domain. Please use email and password for now.');
-      } else {
-        showError('Google sign-in failed. Please try email and password instead.');
+      switch (err.code) {
+        case 'auth/popup-blocked':
+          showError('Popup was blocked. Please allow popups for this site and try again.');
+          break;
+        case 'auth/popup-closed-by-user':
+          // User closed it — no error message needed
+          break;
+        case 'auth/unauthorized-domain':
+          showError('Google sign-in is not yet authorized for this domain. Please use email and password for now.');
+          break;
+        default:
+          showError('Google sign-in failed. Please try email and password instead.');
       }
     }
   });
