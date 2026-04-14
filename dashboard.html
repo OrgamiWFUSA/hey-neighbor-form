@@ -575,7 +575,8 @@
 <script type="module">
   import { auth, db } from './firebase-init.js';
   import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 
   // Check if user is logged in
   onAuthStateChanged(auth, async (user) => {
