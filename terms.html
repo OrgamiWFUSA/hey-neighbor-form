@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor · Terms of Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: #F8F6F1; color: #2D3B2A; }
+  .hn { max-width: 920px; margin: 0 auto; }
+
+  /* NAV */
+  .hn-nav { background: #F8F6F1; border-bottom: 1px solid #C8D4C0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
+  .hn-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #2D3B2A; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-logo-leaf { width: 10px; height: 10px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-nav-links { display: flex; align-items: center; gap: 6px; }
+  .hn-navl { font-size: 13px; font-weight: 500; color: #4A5E42; padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: background .15s; text-decoration: none; }
+  .hn-navl:hover { background: #E4EDE0; }
+  .hn-join-btn { background: #6B8F5E; color: #fff; border: none; padding: 7px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .hn-join-btn:hover { background: #527047; }
+
+  /* HERO */
+  .hn-hero { background: #E8EFE4; padding: 52px 36px; border-bottom: 1px solid #C8D4C0; }
+  .hn-hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 14px; }
+  .hn-hero-h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; line-height: 1.1; font-weight: 600; color: #1E2D1B; margin-bottom: 12px; }
+  .hn-hero-meta { font-size: 13px; color: #7A9270; }
+
+  /* CONTENT */
+  .hn-content { padding: 52px 36px 80px; max-width: 720px; margin: 0 auto; }
+
+  .hn-section { margin-bottom: 40px; }
+
+  .hn-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1E2D1B;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #C8D4C0;
+  }
+
+  .hn-intro {
+    font-size: 15px;
+    color: #4A5E42;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #C8D4C0;
+    border-radius: 10px;
+  }
+
+  .hn-item {
+    margin-bottom: 16px;
+  }
+
+  .hn-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6B8F5E;
+    margin-bottom: 5px;
+  }
+
+  .hn-item-text {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.75;
+  }
+
+  .hn-item-text a {
+    color: #6B8F5E;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .hn-item-text a:hover { text-decoration: underline; }
+
+  .hn-warning {
+    background: #FEF9EC;
+    border: 1px solid #E8D89A;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .hn-warning .hn-item-label { color: #8A6A00; }
+  .hn-warning .hn-item-text { color: #5A4500; }
+
+  .hn-contact {
+    background: #E8EFE4;
+    border: 1px solid #C8D4C0;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 48px;
+  }
+
+  .hn-contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1E2D1B;
+    margin-bottom: 8px;
+  }
+
+  .hn-contact-text {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.7;
+  }
+
+  .hn-contact-text a {
+    color: #6B8F5E;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .hn-contact-text a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .hn-footer { background: #1E2D1B; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-footer-text { font-size: 12px; color: #7A9270; }
+  .hn-footer-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
+  .hn-footer-link:hover { color: #E8EFE4; }
+  .hn-footer-newsletter { font-size: 12px; color: #6B8F5E; text-decoration: none; font-weight: 500; border: 1px solid #3D5C34; padding: 4px 12px; border-radius: 20px; transition: background .15s, color .15s; }
+  .hn-footer-newsletter:hover { background: #6B8F5E; color: #fff; }
+
+  @media (max-width: 600px) {
+    .hn-hero { padding: 36px 20px; }
+    .hn-hero-h1 { font-size: 32px; }
+    .hn-content { padding: 36px 20px 60px; }
+    .hn-footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="hn">
+
+  <!-- NAV -->
+  <nav class="hn-nav">
+    <a class="hn-logo" href="index.html">
+      <div class="hn-logo-leaf"></div>Hey Neighbor
+    </a>
+    <div class="hn-nav-links" id="navLinks">
+      <a class="hn-navl" href="events.html">Events</a>
+      <a class="hn-navl" href="community.html">Community</a>
+      <a class="hn-navl" href="about.html">About</a>
+      <a class="hn-navl" href="login.html">Log in</a>
+      <button class="hn-join-btn" onclick="window.location.href='heyneighbor-join.html'">Join free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hn-hero">
+    <div class="hn-hero-eyebrow">Legal</div>
+    <h1 class="hn-hero-h1">Terms of Service</h1>
+    <div class="hn-hero-meta">Effective Date: April 16, 2026 &nbsp;·&nbsp; Orgami Workforce Group LLC</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="hn-content">
+
+    <div class="hn-intro">
+      Welcome to Hey Neighbor ("HN", "we", "our", "us"). These Terms of Service ("Terms") govern your membership and participation in all events and services (the "Services"). By purchasing a membership, you ("Member", "you") agree to be bound by these Terms.
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="hn-section">
+      <div class="hn-section-title">1. Nature of Service & Membership</div>
+      <div class="hn-item">
+        <div class="hn-item-label">Service Scope</div>
+        <div class="hn-item-text">Hey Neighbor provides curated networking experiences, including, but not limited to, dinners and group events. Your membership covers administration, group matching, and service facilitation. Food and beverage costs at events are the sole responsibility of the attendee.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Billing</div>
+        <div class="hn-item-text">Membership is billed at an annual rate of $80.00, which recurs automatically every 12 months until canceled. You authorize recurring billing by providing your payment information.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Eligibility</div>
+        <div class="hn-item-text">Membership is intended for individuals 18+ who are founders, business owners, or entrepreneurial-minded professionals. We reserve the right to approve, deny, or revoke memberships at our sole discretion.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="hn-section">
+      <div class="hn-section-title">2. Attendance & Cancellations</div>
+      <div class="hn-item">
+        <div class="hn-item-label">Attendance Responsibility</div>
+        <div class="hn-item-text">If you RSVP for an event and fail to attend, your membership fee remains non-refundable. Non-attendance does not constitute grounds for a refund or dispute.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Proof of Service</div>
+        <div class="hn-item-text">Confirmation messages, SMS reminders, RSVP records, and restaurant reservations serve as conclusive proof that the service has been rendered.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Cancellation</div>
+        <div class="hn-item-text">You may cancel your membership at any time via your account settings or by emailing <a href="mailto:michaels@orgamiworkforce.com">michaels@orgamiworkforce.com</a>. Cancellation will take effect at the end of your current billing cycle.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="hn-section">
+      <div class="hn-section-title">3. Payment & Chargebacks</div>
+      <div class="hn-item">
+        <div class="hn-item-label">No Refunds</div>
+        <div class="hn-item-text">All membership fees are non-refundable once processed. Because we reserve your place in events and incur upfront costs, no refunds will be issued for any reason.</div>
+      </div>
+      <div class="hn-warning">
+        <div class="hn-item-label">No Chargeback Clause</div>
+        <div class="hn-item-text">You agree not to initiate chargebacks or payment disputes through your bank or credit card issuer. Any service quality concerns must be addressed directly with HN support.</div>
+      </div>
+      <div class="hn-warning">
+        <div class="hn-item-label">Chargeback Penalty</div>
+        <div class="hn-item-text">If you initiate a chargeback in violation of these Terms, you agree to pay a $75.00 administrative processing fee to Orgami Workforce Group LLC, regardless of the dispute outcome, to cover our costs of representation.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="hn-section">
+      <div class="hn-section-title">4. Risk, Liability & Indemnification</div>
+      <div class="hn-item">
+        <div class="hn-item-label">No Guarantees</div>
+        <div class="hn-item-text">We provide access to networking environments but offer no guarantees regarding business outcomes, partnerships, or specific professional results.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Assumption of Risk</div>
+        <div class="hn-item-text">You acknowledge that in-person events carry inherent risks (e.g., illness, injury). You voluntarily assume all such risks.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Indemnification</div>
+        <div class="hn-item-text">You agree to indemnify, defend, and hold harmless Orgami Workforce Group LLC, its officers, and agents from any claims, damages, liabilities, or legal fees arising out of your participation in our events or your breach of these Terms.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Limitation of Liability</div>
+        <div class="hn-item-text">In no event shall Orgami Workforce Group LLC be liable for any indirect, incidental, or consequential damages resulting from your participation.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="hn-section">
+      <div class="hn-section-title">5. SMS & Communications</div>
+      <div class="hn-item">
+        <div class="hn-item-text">By providing your contact information, you consent to receive recurring SMS messages related to membership, event updates, and community alerts. Message and data rates may apply. Reply STOP to unsubscribe.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="hn-section">
+      <div class="hn-section-title">6. Photography & Content</div>
+      <div class="hn-item">
+        <div class="hn-item-text">Events may be documented via photography or video. By attending, you grant HN permission to use your likeness in promotional materials. To opt out, you must provide written notice to us prior to the event.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="hn-section">
+      <div class="hn-section-title">7. Force Majeure</div>
+      <div class="hn-item">
+        <div class="hn-item-text">HN is not liable for failures to perform due to causes beyond our reasonable control, including but not limited to: acts of God, government-mandated lockdowns, public health emergencies, or widespread supply chain failures.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="hn-section">
+      <div class="hn-section-title">8. Governing Law & Dispute Resolution</div>
+      <div class="hn-item">
+        <div class="hn-item-label">Governing Law</div>
+        <div class="hn-item-text">These Terms are governed by the laws of the State of New York.</div>
+      </div>
+      <div class="hn-item">
+        <div class="hn-item-label">Binding Arbitration</div>
+        <div class="hn-item-text">Any dispute arising out of these Terms shall be settled by binding arbitration in Westchester County, New York, in accordance with the rules of the American Arbitration Association. You waive the right to participate in a class-action lawsuit.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 9 -->
+    <div class="hn-section">
+      <div class="hn-section-title">9. Modifications</div>
+      <div class="hn-item">
+        <div class="hn-item-text">We reserve the right to modify these Terms. Continued use of the Services after updates are posted constitutes your acceptance of the revised Terms.</div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="hn-contact">
+      <div class="hn-contact-title">Questions?</div>
+      <div class="hn-contact-text">
+        For any questions about these Terms, contact us at
+        <a href="mailto:michaels@orgamiworkforce.com">michaels@orgamiworkforce.com</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="hn-footer">
+    <a class="hn-footer-logo" href="index.html"><div class="hn-footer-leaf"></div>Hey Neighbor</a>
+    <div class="hn-footer-text">© 2026 Orgami Workforce Group LLC</div>
+    <div class="hn-footer-links">
+      <a class="hn-footer-link" href="events.html">Events</a>
+      <a class="hn-footer-link" href="about.html">About</a>
+      <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+      <a class="hn-footer-link" href="terms.html">Terms</a>
+      <a class="hn-footer-link" href="privacy.html">Privacy</a>
+      <a class="hn-footer-link" href="refund.html">Refund Policy</a>
+      <a class="hn-footer-newsletter" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">📬 Newsletter</a>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { auth } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('navLinks').innerHTML = `
+        <a class="hn-navl" href="events.html">Events</a>
+        <a class="hn-navl" href="community.html">Community</a>
+        <a class="hn-navl" href="about.html">About</a>
+        <a class="hn-navl" href="dashboard.html">Dashboard</a>
+        <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+      `;
+    }
+  });
+</script>
+
+</body>
+</html>
