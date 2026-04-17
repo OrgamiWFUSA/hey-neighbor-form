@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor · Privacy Policy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: #F8F6F1; color: #2D3B2A; }
+  .hn { max-width: 920px; margin: 0 auto; }
+
+  /* NAV */
+  .hn-nav { background: #F8F6F1; border-bottom: 1px solid #C8D4C0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
+  .hn-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #2D3B2A; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-logo-leaf { width: 10px; height: 10px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-nav-links { display: flex; align-items: center; gap: 6px; }
+  .hn-navl { font-size: 13px; font-weight: 500; color: #4A5E42; padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: background .15s; text-decoration: none; }
+  .hn-navl:hover { background: #E4EDE0; }
+  .hn-join-btn { background: #6B8F5E; color: #fff; border: none; padding: 7px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .hn-join-btn:hover { background: #527047; }
+
+  /* HERO */
+  .hn-hero { background: #E8EFE4; padding: 52px 36px; border-bottom: 1px solid #C8D4C0; }
+  .hn-hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 14px; }
+  .hn-hero-h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; line-height: 1.1; font-weight: 600; color: #1E2D1B; margin-bottom: 12px; }
+  .hn-hero-meta { font-size: 13px; color: #7A9270; }
+
+  /* CONTENT */
+  .hn-content { padding: 52px 36px 80px; max-width: 720px; margin: 0 auto; }
+
+  .hn-intro {
+    font-size: 15px;
+    color: #4A5E42;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #C8D4C0;
+    border-radius: 10px;
+  }
+
+  .hn-section { margin-bottom: 36px; }
+
+  .hn-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1E2D1B;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #C8D4C0;
+  }
+
+  .hn-item {
+    margin-bottom: 14px;
+  }
+
+  .hn-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6B8F5E;
+    margin-bottom: 5px;
+  }
+
+  .hn-item-text {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.75;
+  }
+
+  .hn-item-text a {
+    color: #6B8F5E;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .hn-item-text a:hover { text-decoration: underline; }
+
+  /* Bullet list inside sections */
+  .hn-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hn-list li {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.75;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .hn-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: #6B8F5E;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .hn-list li strong {
+    color: #2D3B2A;
+    font-weight: 600;
+  }
+
+  .hn-warning {
+    background: #FEF9EC;
+    border: 1px solid #E8D89A;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .hn-warning .hn-item-label { color: #8A6A00; }
+  .hn-warning .hn-item-text { color: #5A4500; }
+
+  .hn-highlight {
+    background: #E8EFE4;
+    border: 1px solid #C8D4C0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+
+  .hn-highlight .hn-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #3A5E30;
+    margin-bottom: 6px;
+  }
+
+  .hn-contact {
+    background: #E8EFE4;
+    border: 1px solid #C8D4C0;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 48px;
+  }
+
+  .hn-contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1E2D1B;
+    margin-bottom: 8px;
+  }
+
+  .hn-contact-text {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.7;
+  }
+
+  .hn-contact-text a {
+    color: #6B8F5E;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .hn-contact-text a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .hn-footer { background: #1E2D1B; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-footer-text { font-size: 12px; color: #7A9270; }
+  .hn-footer-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
+  .hn-footer-link:hover { color: #E8EFE4; }
+  .hn-footer-newsletter { font-size: 12px; color: #6B8F5E; text-decoration: none; font-weight: 500; border: 1px solid #3D5C34; padding: 4px 12px; border-radius: 20px; transition: background .15s, color .15s; }
+  .hn-footer-newsletter:hover { background: #6B8F5E; color: #fff; }
+
+  @media (max-width: 600px) {
+    .hn-hero { padding: 36px 20px; }
+    .hn-hero-h1 { font-size: 32px; }
+    .hn-content { padding: 36px 20px 60px; }
+    .hn-footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="hn">
+
+  <!-- NAV -->
+  <nav class="hn-nav">
+    <a class="hn-logo" href="index.html">
+      <div class="hn-logo-leaf"></div>Hey Neighbor
+    </a>
+    <div class="hn-nav-links" id="navLinks">
+      <a class="hn-navl" href="events.html">Events</a>
+      <a class="hn-navl" href="community.html">Community</a>
+      <a class="hn-navl" href="about.html">About</a>
+      <a class="hn-navl" href="login.html">Log in</a>
+      <button class="hn-join-btn" onclick="window.location.href='heyneighbor-join.html'">Join free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hn-hero">
+    <div class="hn-hero-eyebrow">Legal</div>
+    <h1 class="hn-hero-h1">Privacy Policy</h1>
+    <div class="hn-hero-meta">Effective Date: April 17, 2026 &nbsp;·&nbsp; Orgami Workforce Group LLC</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="hn-content">
+
+    <div class="hn-intro">
+      At Hey Neighbor ("HN", "we", "our", "us"), we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and disclose data when you interact with our services, website, and in-person events.
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="hn-section">
+      <div class="hn-section-title">1. Information We Collect</div>
+      <div class="hn-item-text" style="margin-bottom:14px;">We collect information that you voluntarily provide to us, including:</div>
+      <ul class="hn-list">
+        <li><strong>Personal Identification:</strong> Your name, email address, phone number, and professional details (e.g., job title, company).</li>
+        <li><strong>Payment Information:</strong> Billing details necessary to process your membership. Note: We use third-party payment processors — your full credit card data is handled securely by them.</li>
+        <li><strong>Event Interactions:</strong> Information regarding your RSVP status, attendance history, and preferences for curated groups.</li>
+        <li><strong>Communications:</strong> Records of your correspondence with our support team.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="hn-section">
+      <div class="hn-section-title">2. How We Use Your Information</div>
+      <div class="hn-item-text" style="margin-bottom:14px;">We use the collected information for the following purposes:</div>
+      <ul class="hn-list">
+        <li><strong>Service Delivery:</strong> To curate networking groups, manage reservations, and communicate event details.</li>
+        <li><strong>Communication:</strong> To send you updates, SMS reminders, and administrative notifications regarding your membership.</li>
+        <li><strong>Improvement:</strong> To refine our curation process and enhance the overall experience for our community.</li>
+        <li><strong>Legal Compliance:</strong> To enforce our Terms of Service and comply with applicable laws.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="hn-section">
+      <div class="hn-section-title">3. Sharing of Information</div>
+      <div class="hn-item-text" style="margin-bottom:14px;">We do not sell your personal data. We may share information only in the following limited circumstances:</div>
+      <ul class="hn-list">
+        <li><strong>Service Providers:</strong> With third-party vendors who assist in operating our business (e.g., payment processors, email platforms, SMS gateway providers).</li>
+        <li><strong>Legal Requirements:</strong> If required by law, subpoena, or to protect the rights, property, or safety of Orgami Workforce Group LLC, our members, or the public.</li>
+        <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="hn-section">
+      <div class="hn-section-title">4. Data Security</div>
+      <div class="hn-item-text">We implement reasonable administrative and technical safeguards to protect your personal information from unauthorized access or disclosure. However, no method of electronic storage or transmission is 100% secure, and you provide information at your own risk.</div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="hn-section">
+      <div class="hn-section-title">5. SMS & Marketing Communications</div>
+      <div class="hn-warning">
+        <div class="hn-item-label">SMS Consent</div>
+        <div class="hn-item-text">By providing your phone number, you explicitly consent to receiving SMS messages from Hey Neighbor. You may opt out of promotional communications or SMS updates at any time by replying "STOP" to any message or by contacting us at <a href="mailto:michaels@orgamiworkforce.com">michaels@orgamiworkforce.com</a>.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="hn-section">
+      <div class="hn-section-title">6. Photography & Public Exposure</div>
+      <div class="hn-item-text">As identified in our Terms of Service, events may be photographed or recorded. By attending, you acknowledge that your likeness may appear in promotional materials. You may request to be excluded from such media by providing written notice to our team prior to the event.</div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="hn-section">
+      <div class="hn-section-title">7. Children's Privacy</div>
+      <div class="hn-item-text">Our services are directed at professionals aged 18 and older. We do not knowingly collect personal information from individuals under the age of 18.</div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="hn-section">
+      <div class="hn-section-title">8. Changes to This Policy</div>
+      <div class="hn-item-text">We reserve the right to update this Privacy Policy at any time. Any changes will be posted on our website with an updated "Effective Date." Continued use of our services constitutes your acceptance of the updated policy.</div>
+    </div>
+
+    <!-- SECTION 9 / CONTACT -->
+    <div class="hn-contact">
+      <div class="hn-contact-title">Contact Us</div>
+      <div class="hn-contact-text">
+        If you have any questions or concerns regarding this Privacy Policy or how your data is handled, please contact us at:<br><br>
+        <strong>Orgami Workforce Group LLC</strong><br>
+        <a href="mailto:michaels@orgamiworkforce.com">michaels@orgamiworkforce.com</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="hn-footer">
+    <a class="hn-footer-logo" href="index.html"><div class="hn-footer-leaf"></div>Hey Neighbor</a>
+    <div class="hn-footer-text">© 2026 Orgami Workforce Group LLC</div>
+    <div class="hn-footer-links">
+      <a class="hn-footer-link" href="events.html">Events</a>
+      <a class="hn-footer-link" href="about.html">About</a>
+      <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+      <a class="hn-footer-link" href="terms.html">Terms</a>
+      <a class="hn-footer-link" href="privacy.html">Privacy</a>
+      <a class="hn-footer-link" href="refund.html">Refund Policy</a>
+      <a class="hn-footer-newsletter" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">📬 Newsletter</a>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { auth } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('navLinks').innerHTML = `
+        <a class="hn-navl" href="events.html">Events</a>
+        <a class="hn-navl" href="community.html">Community</a>
+        <a class="hn-navl" href="about.html">About</a>
+        <a class="hn-navl" href="dashboard.html">Dashboard</a>
+        <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+      `;
+    }
+  });
+</script>
+
+</body>
+</html>
