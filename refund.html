@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Neighbor · Return & Refund Policy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: #F8F6F1; color: #2D3B2A; }
+  .hn { max-width: 920px; margin: 0 auto; }
+
+  /* NAV */
+  .hn-nav { background: #F8F6F1; border-bottom: 1px solid #C8D4C0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
+  .hn-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #2D3B2A; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-logo-leaf { width: 10px; height: 10px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-nav-links { display: flex; align-items: center; gap: 6px; }
+  .hn-navl { font-size: 13px; font-weight: 500; color: #4A5E42; padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: background .15s; text-decoration: none; }
+  .hn-navl:hover { background: #E4EDE0; }
+  .hn-join-btn { background: #6B8F5E; color: #fff; border: none; padding: 7px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .hn-join-btn:hover { background: #527047; }
+
+  /* HERO */
+  .hn-hero { background: #E8EFE4; padding: 52px 36px; border-bottom: 1px solid #C8D4C0; }
+  .hn-hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: #6B8F5E; margin-bottom: 14px; }
+  .hn-hero-h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; line-height: 1.1; font-weight: 600; color: #1E2D1B; margin-bottom: 12px; }
+  .hn-hero-meta { font-size: 13px; color: #7A9270; }
+
+  /* CONTENT */
+  .hn-content { padding: 52px 36px 80px; max-width: 720px; margin: 0 auto; }
+
+  .hn-intro {
+    font-size: 15px;
+    color: #4A5E42;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #C8D4C0;
+    border-radius: 10px;
+  }
+
+  .hn-section { margin-bottom: 36px; }
+
+  .hn-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1E2D1B;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #C8D4C0;
+  }
+
+  .hn-item-text {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.75;
+  }
+
+  .hn-item-text a {
+    color: #6B8F5E;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .hn-item-text a:hover { text-decoration: underline; }
+
+  .hn-warning {
+    background: #FEF9EC;
+    border: 1px solid #E8D89A;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .hn-warning .hn-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8A6A00;
+    margin-bottom: 6px;
+  }
+
+  .hn-warning .hn-item-text { color: #5A4500; }
+
+  .hn-highlight {
+    background: #E8EFE4;
+    border: 1px solid #C8D4C0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .hn-highlight .hn-item-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #3A5E30;
+    margin-bottom: 6px;
+  }
+
+  .hn-contact {
+    background: #E8EFE4;
+    border: 1px solid #C8D4C0;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 48px;
+  }
+
+  .hn-contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1E2D1B;
+    margin-bottom: 8px;
+  }
+
+  .hn-contact-text {
+    font-size: 14px;
+    color: #4A5E42;
+    line-height: 1.7;
+  }
+
+  .hn-contact-text a {
+    color: #6B8F5E;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .hn-contact-text a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .hn-footer { background: #1E2D1B; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .hn-footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #E8EFE4; font-weight: 600; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .hn-footer-leaf { width: 8px; height: 8px; background: #6B8F5E; border-radius: 50% 0 50% 0; transform: rotate(45deg); }
+  .hn-footer-text { font-size: 12px; color: #7A9270; }
+  .hn-footer-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .hn-footer-link { font-size: 12px; color: #A8BFA0; cursor: pointer; text-decoration: none; }
+  .hn-footer-link:hover { color: #E8EFE4; }
+  .hn-footer-newsletter { font-size: 12px; color: #6B8F5E; text-decoration: none; font-weight: 500; border: 1px solid #3D5C34; padding: 4px 12px; border-radius: 20px; transition: background .15s, color .15s; }
+  .hn-footer-newsletter:hover { background: #6B8F5E; color: #fff; }
+
+  @media (max-width: 600px) {
+    .hn-hero { padding: 36px 20px; }
+    .hn-hero-h1 { font-size: 32px; }
+    .hn-content { padding: 36px 20px 60px; }
+    .hn-footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="hn">
+
+  <!-- NAV -->
+  <nav class="hn-nav">
+    <a class="hn-logo" href="index.html">
+      <div class="hn-logo-leaf"></div>Hey Neighbor
+    </a>
+    <div class="hn-nav-links" id="navLinks">
+      <a class="hn-navl" href="events.html">Events</a>
+      <a class="hn-navl" href="community.html">Community</a>
+      <a class="hn-navl" href="about.html">About</a>
+      <a class="hn-navl" href="login.html">Log in</a>
+      <button class="hn-join-btn" onclick="window.location.href='heyneighbor-join.html'">Join free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hn-hero">
+    <div class="hn-hero-eyebrow">Legal</div>
+    <h1 class="hn-hero-h1">Return & Refund Policy</h1>
+    <div class="hn-hero-meta">Effective Date: April 17, 2026 &nbsp;·&nbsp; Orgami Workforce Group LLC</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="hn-content">
+
+    <!-- NO REFUND -->
+    <div class="hn-section">
+      <div class="hn-section-title">Clear No-Refund Policy</div>
+      <div class="hn-warning">
+        <div class="hn-item-label">Non-Refundable</div>
+        <div class="hn-item-text">Membership fees are non-refundable once processed. Because Hey Neighbor immediately reserves your place in future curated events and incurs administrative and operational costs, we cannot issue refunds for any reason, including inability to attend or participate in specific dinners or events.</div>
+      </div>
+    </div>
+
+    <!-- CANCELLATION -->
+    <div class="hn-section">
+      <div class="hn-section-title">Cancellation Policy</div>
+      <div class="hn-highlight">
+        <div class="hn-item-label">How to Cancel</div>
+        <div class="hn-item-text">You may cancel your membership at any time through your account settings or by contacting support at <a href="mailto:michaels@orgamiworkforce.com">michaels@orgamiworkforce.com</a>. Cancellation will be effective at the end of your current billing cycle. You will continue to have access to all membership benefits and events for the remainder of your current paid period.</div>
+      </div>
+    </div>
+
+    <!-- COMMITMENT -->
+    <div class="hn-section">
+      <div class="hn-section-title">Commitment</div>
+      <div class="hn-item-text">By joining, you acknowledge that Hey Neighbor organizes reservations, curates groups, and secures your spot in advance. This process requires significant upfront commitments and expenses on the part of Orgami Workforce Group LLC. Consequently, your commitment to the membership fee is essential to the sustainability of our service.</div>
+    </div>
+
+    <!-- NO CHARGEBACK -->
+    <div class="hn-section">
+      <div class="hn-section-title">No Chargeback Clause</div>
+      <div class="hn-warning">
+        <div class="hn-item-label">Important</div>
+        <div class="hn-item-text">Members agree not to initiate chargebacks or payment disputes for services received. You acknowledge that our services include the facilitation, curation, and administrative overhead associated with your membership, which are rendered upon the processing of your payment. Any dispute or dissatisfaction must be addressed directly with the Hey Neighbor support team. Any chargeback initiated in violation of this policy may be subject to administrative penalties as outlined in our <a href="terms.html">Terms of Service</a>.</div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="hn-contact">
+      <div class="hn-contact-title">Questions about billing?</div>
+      <div class="hn-contact-text">
+        For questions or support regarding your billing or membership, please reach out to
+        <a href="mailto:michaels@orgamiworkforce.com">michaels@orgamiworkforce.com</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="hn-footer">
+    <a class="hn-footer-logo" href="index.html"><div class="hn-footer-leaf"></div>Hey Neighbor</a>
+    <div class="hn-footer-text">© 2026 Orgami Workforce Group LLC</div>
+    <div class="hn-footer-links">
+      <a class="hn-footer-link" href="events.html">Events</a>
+      <a class="hn-footer-link" href="about.html">About</a>
+      <a class="hn-footer-link" href="heyneighbor-join.html">Join</a>
+      <a class="hn-footer-link" href="terms.html">Terms</a>
+      <a class="hn-footer-link" href="privacy.html">Privacy</a>
+      <a class="hn-footer-link" href="refund.html">Refund Policy</a>
+      <a class="hn-footer-newsletter" href="https://joinheyneighbor.myflodesk.com/heyneighbor" target="_blank">📬 Newsletter</a>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { auth } from './firebase-init.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('navLinks').innerHTML = `
+        <a class="hn-navl" href="events.html">Events</a>
+        <a class="hn-navl" href="community.html">Community</a>
+        <a class="hn-navl" href="about.html">About</a>
+        <a class="hn-navl" href="dashboard.html">Dashboard</a>
+        <button class="hn-join-btn" onclick="window.location.href='settings.html'">My Account</button>
+      `;
+    }
+  });
+</script>
+
+</body>
+</html>
